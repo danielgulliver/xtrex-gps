@@ -1,6 +1,9 @@
 package aprogrammerisneverlate.xtrex;
 
 import javax.swing.JButton;
+
+import java.awt.Color;
+
 import javax.swing.ImageIcon;
 
 public class PrefabButton extends JButton {
@@ -14,6 +17,16 @@ public class PrefabButton extends JButton {
         setBounds(x,y,width,height);
         displayedString = displayString;
         setText(displayedString);
+    }
+
+    public void Selected(boolean isSelected) {
+        if (isSelected) {
+            setBackground(new Color(255,153,0)); //Orange
+            setForeground(Color.white);
+        } else {
+            setBackground(Color.white);
+            setForeground(new Color(113,113,113)); //Mid-tone Gray
+        }
     }
     
 }
