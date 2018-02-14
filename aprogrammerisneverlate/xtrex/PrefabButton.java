@@ -28,5 +28,9 @@ public class PrefabButton extends JButton {
             setForeground(new Color(113,113,113)); //Mid-tone Gray
         }
     }
+
+    public void Action(){
+        
+    }
     
 }

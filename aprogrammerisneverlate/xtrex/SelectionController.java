@@ -28,4 +28,8 @@ public static class SelectionController {
         Selected(true);
     }
 
+    public void Click(){
+        UIElements.get(position-1).Action();
+    }
+
 }
