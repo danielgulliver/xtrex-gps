@@ -10,6 +10,10 @@ public class SelectionController {
         UIElements.get(position-1).Selected(isSelected);
     }
 
+    public SelectionController(){
+        
+    }
+
     public void Forward(){
         Selected(false);
         if (position == UIElements.size())
