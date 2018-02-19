@@ -19,10 +19,9 @@ public class WhereTo extends Screen {
 	protected WhereTo() {
 		super();
 		setLayout(new BorderLayout());
-		add(new XTrexButtons(this), BorderLayout.NORTH);
 		
 		destinationField = new JTextPane();
-		add(destinationField, BorderLayout.CENTER);
+		add(destinationField, BorderLayout.NORTH);
 		
 		setKeyboard(keyboard1);
 	}
