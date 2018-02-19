@@ -1,3 +1,4 @@
+package aprogrammerisneverlate.xtrex;
 
 public interface XTrexButtonsBehaviour {
 	

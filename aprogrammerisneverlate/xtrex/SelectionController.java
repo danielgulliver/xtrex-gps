@@ -2,7 +2,7 @@ package aprogrammerisneverlate.xtrex;
 
 import java.util.ArrayList;
 
-public static class SelectionController {
+public class SelectionController {
     private ArrayList<PrefabButton> UIElements;
     private int position;
     
@@ -12,7 +12,7 @@ public static class SelectionController {
 
     public void Forward(){
         Selected(false);
-        if (position = UIElements.size())
+        if (position == UIElements.size())
             position = 1;
         else
             position += 1;
@@ -21,7 +21,7 @@ public static class SelectionController {
 
     public void Back(){
         Selected(false);
-        if (position = 1)
+        if (position == 1)
             position = UIElements.size();
         else
             position -= 1;
