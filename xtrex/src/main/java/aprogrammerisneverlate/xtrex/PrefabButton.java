@@ -26,7 +26,7 @@ public class PrefabButton extends JButton {
         setForeground(new Color(113,113,113));
     }
 
-    public void Selected(boolean isSelected) {
+    public void selected(boolean isSelected) {
         if (isSelected) {
             setBackground(new Color(255,153,0)); //Orange
             setForeground(Color.white);
@@ -36,7 +36,7 @@ public class PrefabButton extends JButton {
         }
     }
 
-    public void Action(){
+    public void action() {
         
     }
     

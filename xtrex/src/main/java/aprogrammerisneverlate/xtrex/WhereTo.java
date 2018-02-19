@@ -41,12 +41,12 @@ public class WhereTo extends Screen {
 	public void setKeyboard(Keyboard kbd) {
 		if (currentKeyboard != null) {
 			remove(currentKeyboard);
-			currentKeyboard.buttons[buttonNumber].Selected(false);
+			currentKeyboard.buttons[buttonNumber].selected(false);
 		}
 		buttonNumber = 0;
 		currentKeyboard = kbd;
 		add(currentKeyboard, BorderLayout.SOUTH);
-		currentKeyboard.buttons[0].Selected(true);
+		currentKeyboard.buttons[0].selected(true);
 		revalidate();
 		repaint();
 	}
@@ -61,19 +61,19 @@ public class WhereTo extends Screen {
 
 	public void onMinusButtonPressed() {
 		if (buttonNumber > 0) {
-			currentKeyboard.buttons[buttonNumber].Selected(false); // deselect previously highlighted button
+			currentKeyboard.buttons[buttonNumber].selected(false); // deselect previously highlighted button
 			buttonNumber--;
 		}		
-		currentKeyboard.buttons[buttonNumber].Selected(true);
+		currentKeyboard.buttons[buttonNumber].selected(true);
 	}
 
 	public void onPlusButtonPressed() {
 		if (buttonNumber < currentKeyboard.buttons.length - 1) {
-			currentKeyboard.buttons[buttonNumber].Selected(false); // deselect previously highlighted button
+			currentKeyboard.buttons[buttonNumber].selected(false); // deselect previously highlighted button
 			buttonNumber++;
 		}
 		
-		currentKeyboard.buttons[buttonNumber].Selected(true);
+		currentKeyboard.buttons[buttonNumber].selected(true);
 	}
 
 	public void onSelectButtonPressed() {
@@ -182,4 +182,3 @@ public class WhereTo extends Screen {
 	}
 	
 }
-
