@@ -5,9 +5,9 @@ import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-public class InterfaceFrame extends JFrame {
-    public InterfaceFrame(){
+public class XTrexFrame extends JFrame {
+    public XTrexFrame(){
         setResizable(false);
         setContentPane(new JLabel(new ImageIcon("img/background.png")));
     }
-} 
+}
