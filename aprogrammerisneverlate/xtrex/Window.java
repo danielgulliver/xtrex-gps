@@ -4,7 +4,7 @@ import javax.swing.JFrame;
 
 public class Window extends JFrame {
 
-	Screen currentScreen;
+	private Screen currentScreen;
 	
 	private Window() {
 		this.setTitle("XTrex");
