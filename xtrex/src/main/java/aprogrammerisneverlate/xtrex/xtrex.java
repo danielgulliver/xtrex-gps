@@ -1,9 +1,12 @@
 package aprogrammerisneverlate.xtrex;
-
 /*
 * Win7 Ublox7 reader.
 */   
-public static void main( String[] argv ) {
-    listPorts();
-    reader( PORT_NAME );
+public class xtrex {
+    final static String PORT_NAME = "COM6";
+    public static void main( String[] argv ) {
+        Win7Ublox7 GPS = new Win7Ublox7();
+        //GPS.listPorts();
+        GPS.reader( PORT_NAME );
+    }
 }
