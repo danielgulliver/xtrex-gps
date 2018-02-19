@@ -16,19 +16,17 @@ public class XTrexButtons extends JPanel implements ActionListener {
 	JButton minusBtn = new JButton("-");
 	JButton plusBtn = new JButton("+");
 	JButton selectBtn = new JButton("Select");
+
+	XTrexDisplay display;
 	
-	XTrexButtonsBehaviour xtbb;
-	
-	XTrexButtons(XTrexButtonsBehaviour xtbb) {
+	XTrexButtons(XTrexDisplay display) {
 		super(new BorderLayout());
 		
-		this.xtbb = xtbb;
-		
+		this.display = display;
+
 		JToolBar xTrekButtons = new JToolBar("XTrex Buttons");
 		
 		powerBtn.setToolTipText("Turn the XTrex on or off");
-		
-		
 		menuBtn.setToolTipText("Return to the main menu");
 		
 		powerBtn.addActionListener(this);
@@ -47,17 +45,19 @@ public class XTrexButtons extends JPanel implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
+		Screen currentScreen = display.getCurrentScreen();
+
 		JButton sourceBtn = (JButton) e.getSource();
 		if (sourceBtn.equals(powerBtn)) {
-			xtbb.onPowerButtonPressed();
+			currentScreen.onPowerButtonPressed();
 		} else if (sourceBtn.equals(menuBtn)) {
-			xtbb.onMenuButtonPressed();
+			currentScreen.onMenuButtonPressed();
 		} else if (sourceBtn.equals(minusBtn)) {
-			xtbb.onMinusButtonPressed();
+			currentScreen.onMinusButtonPressed();
 		} else if (sourceBtn.equals(plusBtn)) {
-			xtbb.onPlusButtonPressed();
+			currentScreen.onPlusButtonPressed();
 		} else if (sourceBtn.equals(selectBtn)) {
-			xtbb.onSelectButtonPressed();
+			currentScreen.onSelectButtonPressed();
 		}
 	}
 }
