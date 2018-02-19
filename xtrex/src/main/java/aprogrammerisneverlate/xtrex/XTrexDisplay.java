@@ -51,6 +51,10 @@ public class XTrexDisplay extends JFrame implements ActionListener {
 		this.setVisible(true);
 	}
 
+	/**
+	 * Return the Screen currently being shown on the display.
+	 * @return the Screen 
+	 */
 	public Screen getCurrentScreen() {
 		return currentScreen;
 	}

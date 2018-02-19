@@ -6,34 +6,34 @@ public class SelectionController {
     private ArrayList<PrefabButton> UIElements;
     private int position;
     
-    private void Selected(boolean isSelected){
-        UIElements.get(position-1).Selected(isSelected);
+    private void selected(boolean isSelected) {
+        UIElements.get(position-1).selected(isSelected);
     }
 
-    public SelectionController(){
+    public SelectionController() {
         
     }
 
-    public void Forward(){
-        Selected(false);
+    public void forward() {
+        selected(false);
         if (position == UIElements.size())
             position = 1;
         else
             position += 1;
-        Selected(true);
+        selected(true);
     }
 
-    public void Back(){
-        Selected(false);
+    public void back() {
+        selected(false);
         if (position == 1)
             position = UIElements.size();
         else
             position -= 1;
-        Selected(true);
+        selected(true);
     }
 
-    public void Click(){
-        UIElements.get(position-1).Action();
+    public void click() {
+        UIElements.get(position-1).action();
     }
 
 }
