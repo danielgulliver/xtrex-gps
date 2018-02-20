@@ -1,6 +1,7 @@
 package aprogrammerisneverlate.xtrex;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -90,6 +91,24 @@ public class WhereTo extends Screen {
 				if (charToAdd == '_') charToAdd = ' ';
 				addCharToDisplay(charToAdd);
 			}
+		}
+	}
+
+	class KeyboardButton extends PrefabButton {
+		private char keyValue;
+		
+		KeyboardButton(char keyValue) {
+			this.keyValue = keyValue;
+			this.displayedString = (this.keyValue == ' ') "_" : "" + this.keyValue;
+			setText(displayedString);
+
+			setBackground(Color.white);
+        	setForeground(new Color(113,113,113));
+		}
+
+		@Override
+		public void action() {
+			WhereTo.this.addToDisplay(this.keyValue);
 		}
 	}
 
