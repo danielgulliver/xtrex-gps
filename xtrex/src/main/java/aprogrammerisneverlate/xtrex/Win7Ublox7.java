@@ -97,11 +97,11 @@ public class Win7Ublox7 implements GPSinterface {
           if ( s.contains(GLLpre) ) {
             noPre = s.substring(s.indexOf(GLLpre) + GLLpre.length());
             tokens = noPre.split(",");
-            if ( tokens[5].contains("V") ){ 
+            if ( tokens[5].contains("V") && tokens[0].length() == 0 ){ 
                 aGPS = false;
                 Logs.Logger( "--  NO GPS ACQUIRED  --" + "  at time: " + localTime );
             } 
-            else if ( tokens[5].contains("A") ){ 
+            else { 
               GPStime = Float.parseFloat(tokens[4]);
               aGPS = true;
               System.out.println("-----   GPS ACQUIRED   -----");
