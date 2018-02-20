@@ -98,12 +98,9 @@ public class WhereTo extends Screen {
 		private char keyValue;
 		
 		CharacterButton(char keyValue) {
+			super("" + keyValue);
+			if (keyValue == ' ') setText("_");
 			this.keyValue = keyValue;
-			this.displayedString = (this.keyValue == ' ') "_" : "" + this.keyValue;
-			setText(displayedString);
-
-			setBackground(Color.white);
-        	setForeground(new Color(113,113,113));
 		}
 
 		@Override
