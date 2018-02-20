@@ -13,7 +13,7 @@ import javax.swing.JPanel;
  * Components can be added to a Screen and graphics can be painted to a Screen in the same way as a JPanel. Indeed, a Screen
  * is just a generalisation of a {@link JPanel}
  */
-public abstract class Screen extends JPanel implements XTrexButtonsBehaviour {
+public abstract class Screen extends JPanel {
 	public static final int SCREEN_HEIGHT = 600;
 	public static final int SCREEN_WIDTH = (int) (SCREEN_HEIGHT * 54.0/103.0);
 	
@@ -21,4 +21,19 @@ public abstract class Screen extends JPanel implements XTrexButtonsBehaviour {
 		setSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
 		setBackground(Color.BLACK);
 	}
+
+	public void onPowerButtonPressed() {
+
+	}
+
+	public void onMenuButtonPressed() {
+
+	}
+
+	public abstract void onMinusButtonPressed();
+
+	public abstract void onPlusButtonPressed();
+
+	public abstract void onSelectButtonPressed();
+
 }
