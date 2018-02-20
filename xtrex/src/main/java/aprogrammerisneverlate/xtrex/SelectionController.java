@@ -1,6 +1,7 @@
 package aprogrammerisneverlate.xtrex;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SelectionController {
     private ArrayList<PrefabButton> UIElements;
@@ -10,8 +11,10 @@ public class SelectionController {
         UIElements.get(position-1).selected(isSelected);
     }
 
-    public SelectionController() {
-        
+    public SelectionController(List<PrefabButton> buttons) {
+        UIElements.addAll(buttons);
+        position = 1;
+        selected(true);
     }
 
     public void forward() {
