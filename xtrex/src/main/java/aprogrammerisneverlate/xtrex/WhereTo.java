@@ -120,6 +120,20 @@ public class WhereTo extends Screen {
 		}
 	}
 
+	class SwitchKeyboardButton extends PrefabButton {
+		Keyboard keyboardToSwitchTo;
+
+		SwitchKeyboardButton (String displayString, Keyboard keyboardToSwitchTo) {
+			super(displayString);
+			this.keyboardToSwitchTo = keyboardToSwitchTo;
+		}
+
+		@Override
+		public void action() {
+			WhereTo.this.setKeyboard(keyboardToSwitchTo);
+		}
+	}
+
 	class Keyboard extends JPanel {
 		public PrefabButton[] buttons;
 	}
