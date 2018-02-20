@@ -8,7 +8,7 @@ public class FileWritter {
     private static FileWriter fw = null;
     private static String LogPath;
     
-    public FileWritter () {
+    public void Logging () {
         LogPath = Paths.get(".").toAbsolutePath().normalize().toString();
         Logging(true); 
     }
@@ -33,7 +33,7 @@ public class FileWritter {
         }
     }
     
-    public static void Logger (String log) {
+    public void Logger (String log) {
         try {
             bw.write(log);
             bw.newLine();
@@ -43,7 +43,7 @@ public class FileWritter {
         }
     }
     
-    public static void Logger (byte[] dirs) {
+    public void Logger (byte[] dirs) {
         for ( int i = 0; i < dirs.length; i++ ) {
             try {
                 bw.write(dirs[i]);

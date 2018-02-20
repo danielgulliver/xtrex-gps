@@ -26,11 +26,9 @@ public class Win7Ublox7 implements GPSinterface {
   final static int    BUFF_SIZE =  1024;
   final static String GLLpre = "$GPGLL,";
   final static String GSVpre = "$GPGSV,";
-  private static BufferedWriter bw = null;
-  private static FileWriter fw = null;
-  private static String LogPath;
   private static LocalTime localTime;
-  static boolean aGPS = null;
+  static FileWritter Logs = new FileWritter();
+  static boolean aGPS = false;
   static float GPStime;
   static float latitude;
   static float longitude;
@@ -51,8 +49,8 @@ public class Win7Ublox7 implements GPSinterface {
   /*
    * Reader.
    */
-  private static void reader( String portName ) {
-    Logging(true);
+  public static void reader( String portName ) {
+    Logs.Logging(true);
     System.out.println(  "--- OPEN PORT ---" );
     try {
       CommPortIdentifier portId =
@@ -93,7 +91,7 @@ public class Win7Ublox7 implements GPSinterface {
               tokenSat = noPreSat.split(",");
               nGSV = Integer.parseInt(tokenSat[0]);
               localTime = LocalTime.now();
-              Logger("-- Number of GSV messages: " + tokenSat[0] + "  --" );
+              Logs.Logger("-- Number of GSV messages: " + tokenSat[0] + "  --" );
           }
           
           if ( s.contains(GLLpre) ) {
@@ -101,22 +99,22 @@ public class Win7Ublox7 implements GPSinterface {
             tokens = noPre.split(",");
             if ( tokens[5].contains("V") ){ 
                 aGPS = false;
-                Logger( "--  NO GPS ACQUIRED  --" + "  at time: " + localTime );
+                Logs.Logger( "--  NO GPS ACQUIRED  --" + "  at time: " + localTime );
             } 
             else if ( tokens[5].contains("A") ){ 
               GPStime = Float.parseFloat(tokens[4]);
               aGPS = true;
               System.out.println("-----   GPS ACQUIRED   -----");
-              Logger("GPS LOCATION: ");
-              Logger( "    GPS aquired at: " + tokens[4]  );
+              Logs.Logger("GPS LOCATION: ");
+              Logs.Logger( "    GPS aquired at: " + tokens[4]  );
                           
               if ( tokens[1].contains("N") || tokens[1].contains("S") ){ 
                   latitude = Float.parseFloat(tokens[0]);
-                  Logger( "    Latitude: " + tokens[0] );
+                  Logs.Logger( "    Latitude: " + tokens[0] );
               }
               if ( tokens[3].contains("E") || tokens[3].contains("W") ){ 
                   longitude = Float.parseFloat(tokens[2]);
-                  Logger( "    Longitude: " + tokens[2] );
+                  Logs.Logger( "    Longitude: " + tokens[2] );
               } 
             }
           }          
@@ -130,7 +128,7 @@ public class Win7Ublox7 implements GPSinterface {
     } catch ( Exception ex ) {
       System.out.println( ex ); System.exit( 1 );
     }
-    Logging(false);
+    Logs.Logging(false);
   }
 
   static void listPorts() {
@@ -161,11 +159,5 @@ public class Win7Ublox7 implements GPSinterface {
         }
     }
 
-  /*
-   * Win7 Ublox7 reader.
-   */   
-    public static void main( String[] argv ) {
-        listPorts();
-        reader( PORT_NAME );
-    }
+
 }
