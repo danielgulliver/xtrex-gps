@@ -94,21 +94,29 @@ public class WhereTo extends Screen {
 		}
 	}
 
-	class KeyboardButton extends PrefabButton {
+	class CharacterButton extends PrefabButton {
 		private char keyValue;
 		
-		KeyboardButton(char keyValue) {
+		CharacterButton(char keyValue) {
+			super("" + keyValue);
+			if (keyValue == ' ') setText("_");
 			this.keyValue = keyValue;
-			this.displayedString = (this.keyValue == ' ') "_" : "" + this.keyValue;
-			setText(displayedString);
-
-			setBackground(Color.white);
-        	setForeground(new Color(113,113,113));
 		}
 
 		@Override
 		public void action() {
-			WhereTo.this.addToDisplay(this.keyValue);
+			WhereTo.this.addCharToDisplay(this.keyValue);
+		}
+	}
+
+	class DeleteButton extends PrefabButton {
+		DeleteButton() {
+			super("DEL");
+		}
+
+		@Override
+		public void action() {
+			WhereTo.this.deleteCharFromDisplay();
 		}
 	}
 
