@@ -43,7 +43,7 @@ public class MainMenu extends Screen {
         SatelliteButton = new MenuButton("Trip Computer", new MainMenu());
         AboutButton = new MenuButton("Trip Computer", new MainMenu());
 
-        Selector = new SelectionController(Arrays.asList(WhereToButton, TripComputerButton, MapButton, SpeechButton, SatelliteButton, AboutButton));
+        //Selector = new SelectionController(Arrays.asList(WhereToButton, TripComputerButton, MapButton, SpeechButton, SatelliteButton, AboutButton));
 
         // WhereToButton
         // TripComputerButton
