@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JButton;
 import javax.swing.JToolBar;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -28,6 +29,7 @@ public class XTrexDisplay extends JFrame implements ActionListener {
 		this.setTitle("XTrex");
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//this.setPreferredSize(new Dimension(Screen.SCREEN_WIDTH, Screen.SCREEN_HEIGHT)); // replace in future
 		
 		powerBtn.addActionListener(this);
 		menuBtn.addActionListener(this);
@@ -66,8 +68,12 @@ public class XTrexDisplay extends JFrame implements ActionListener {
 	public void setScreen(Screen screen) {
 		if (currentScreen != null) remove(currentScreen);
 		currentScreen = screen;
-		add(currentScreen, BorderLayout.PAGE_END);
+		add(currentScreen, BorderLayout.CENTER);
 		revalidate();
+		repaint();
+	}
+	
+	public void refreshDisplay() {
 		repaint();
 	}
 

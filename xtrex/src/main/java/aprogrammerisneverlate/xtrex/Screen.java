@@ -2,6 +2,7 @@ package aprogrammerisneverlate.xtrex;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
@@ -15,10 +16,10 @@ import javax.swing.JPanel;
  */
 public abstract class Screen extends JPanel {
 	public static final int SCREEN_HEIGHT = 600;
-	public static final int SCREEN_WIDTH = (int) (SCREEN_HEIGHT * 54.0/103.0);
+	public static final int SCREEN_WIDTH = 490; //(int) (SCREEN_HEIGHT * 54.0/103.0);
 	
 	Screen() {
-		setSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
+		setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
 		setBackground(Color.BLACK);
 	}
 
@@ -35,5 +36,9 @@ public abstract class Screen extends JPanel {
 	public abstract void onPlusButtonPressed();
 
 	public abstract void onSelectButtonPressed();
+	
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+	}
 
 }

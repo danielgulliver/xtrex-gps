@@ -10,7 +10,7 @@ public class xtrex {
         //GPS.reader( PORT_NAME );
     	XTrexDisplay disp = new XTrexDisplay();
     	MapScreen map = new MapScreen();
-    	disp.setScreen(map);
     	map.drawMap();
+    	disp.setScreen(map);
     }
 }

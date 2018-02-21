@@ -3,9 +3,12 @@ package aprogrammerisneverlate.xtrex;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 
 public class MapScreen extends Screen {
 	
@@ -15,14 +18,10 @@ public class MapScreen extends Screen {
 	private final static String DEFAULT_LONG = "-3.532626";
 	private final static String IMG_SIZE = "490x600";
 	
-	private Graphics g;
-	
 	private int zoom = 10;
 	
 	public MapScreen() {
 		super();
-		g = super.getGraphics();
-		super.paintComponent(g);
 	}
 	
 	@Override
@@ -60,6 +59,7 @@ public class MapScreen extends Screen {
 	        + "&zoom=" + zoom
 	        + "&size=" + IMG_SIZE
 	        + "&key=" + API_KEY );
+	    System.out.println(url);
 	    
 	    final byte[] body = {};
 	    final String[][] headers = {};
@@ -76,8 +76,13 @@ public class MapScreen extends Screen {
 			e.printStackTrace();
 		}
 	    
-	    if (img != null)
-	    	g.drawImage(img, 0, 0, this);
+	    if (img != null) {
+	    	JLabel picLabel = new JLabel(new ImageIcon(img));
+	    	this.add(picLabel);
+	    	this.repaint();
+	    	System.out.println("added picLabel");
+	    }
+	    	
 	    
 	}
 	
