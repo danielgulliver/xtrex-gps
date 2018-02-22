@@ -10,6 +10,13 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
+/**
+ * The logic class behind turning the directions from text to speech, 
+ * and playing that generated audio file.
+ * 
+ * @author ConorSpilsbury, 2018.
+ * @version Sprint 1.
+ */
 public class SpeechLogic {
 	private final static String APIKEY = "524ef33fdf7447a2a64cb38e0d70d1f6";
 	//private final static String APIKEY2 = "7d6100f349c24081906cae7f4cb1d0d9";
@@ -61,8 +68,10 @@ public class SpeechLogic {
 	public static void parseDirections(String[] directions) {
 		final String token  = renewAccessToken(APIKEY);
 		for (int i = 0; i < directions.length; i++) {
-			byte[] speech = generateSpeech( token,  directions[i], language.getLocale(), language.getGender(), language.getArtist(), FORMAT);
-			writeData(speech, String.valueOf(i));
+			byte[] speech = generateSpeech(token, directions[i], language.getLocale(), 
+					language.getGender(), language.getArtist(), 
+					FORMAT);
+			writeData(speech, String.valueOf(i) + ".wav");
 		}
 	}
 
@@ -71,9 +80,9 @@ public class SpeechLogic {
 	 * 
 	 * @author David Wakeling, 2018.
 	 * 
-	 * @param key is the API key to renew an access token
+	 * @param key is the API key to renew an access token.
 	 * 
-	 * @return the response from microsoft cognitive services 
+	 * @return The response from microsoft cognitive services. 
 	 */
 	private static String renewAccessToken(String key) {
 		final String method = "POST";
@@ -85,7 +94,6 @@ public class SpeechLogic {
 		, { "Content-Length"           , String.valueOf( body.length ) }
 		};
 		byte[] response = HttpConnect.httpConnect(method, url, headers, body);
-		System.out.println(new String(response));
 		return new String(response); 
 	}
 
@@ -94,30 +102,30 @@ public class SpeechLogic {
 	 * 
 	 * @author David Wakeling, 2018.
 	 * 
-	 * @param token is the access token for the api
-	 * @param text is the text to generate speech for
-	 * @param locale is the locale of the language to generate the speech in
-	 * @param gener is the gender of the person speaking 
-	 * @param artist is the 'person' whose voice is being used
-	 * @param format is the format of the file the speech should be saved as
+	 * @param token is the access token for the bing speech API.
+	 * @param text is the text to generate speech for.
+	 * @param locale is the locale of the language to generate the speech in.
+	 * @param gender is the gender of the person speaking.
+	 * @param artist is the 'person' whose voice is being used.
+	 * @param format is the format of the file the speech should be saved as.
 	 * 
 	 * @return byte[] of the generated speech
 	 */
 	private static byte[] generateSpeech(String token, String text
-			, String lang, String gender
+			, String locale, String gender
 			, String artist, String format ) {
 		final String method = "POST";
 		final String url = "https://speech.platform.bing.com/synthesize";
 		final byte[] body
 		= ( "<speak version='1.0' xml:lang='en-us'>"
-				+ "<voice xml:lang='" + lang   + "' "
+				+ "<voice xml:lang='" + locale   + "' "
 				+ "xml:gender='"      + gender + "' "
 				+ "name='Microsoft Server Speech Text to Speech Voice "
 				+ artist + "'>"
 				+ text
 				+ "</voice></speak>" ).getBytes(); 
 		final String[][] headers
-		= { { "Content-Type"             , "application/ssml+xml"        }
+		= { { "Content-Type"             , "application/ssml+xml"      }
 		, { "Content-Length"           , String.valueOf( body.length ) }
 		, { "Authorization"            , "Bearer " + token             }
 		, { "X-Microsoft-OutputFormat" , format                        }
@@ -152,10 +160,7 @@ public class SpeechLogic {
 	/**
 	 * Play the audio file
 	 * 
-	 * @param fileNumber is the audio file to play
-	 * @throws IOException 
-	 * @throws UnsupportedAudioFileException 
-	 * @throws LineUnavailableException 
+	 * @param  fileNumber is the integer name of the audio file to play
 	 */
 	public static void playAudio(int fileNumber) {
 		String filename = String.valueOf(fileNumber) + ".wav";
@@ -181,7 +186,7 @@ public class SpeechLogic {
 	/**
 	 * Will make a decision on how to handle speech settings being off (thus index = 0).
 	 * Should only be used by the front end speech class which will only give values 1 through 5,
-	 * but this is sloppy and allows errors. Currently language off defaults to english.
+	 * but this is sloppy and allows errors. Currently language off defaults to English.
 	 */
 	public static void setLanguage(int index) {
 		switch(index) {
