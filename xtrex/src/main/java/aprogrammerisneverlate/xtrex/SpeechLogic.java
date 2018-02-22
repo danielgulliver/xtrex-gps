@@ -157,24 +157,31 @@ public class SpeechLogic {
 	 * @throws UnsupportedAudioFileException 
 	 * @throws LineUnavailableException 
 	 */
-	public static void playAudio(int fileNumber) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+	public static void playAudio(int fileNumber) {
 		String filename = String.valueOf(fileNumber) + ".wav";
 		File file = new File(filename);
-		AudioInputStream audioIn = AudioSystem.getAudioInputStream(file);  
-		Clip clip = AudioSystem.getClip();
-		clip.open(audioIn);
-		clip.start();
+		AudioInputStream audioIn;
 		try {
+			audioIn = AudioSystem.getAudioInputStream(file);
+			Clip clip = AudioSystem.getClip();
+			clip.open(audioIn);
+			clip.start();
 			Thread.sleep(clip.getMicrosecondLength());
+		} catch (UnsupportedAudioFileException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (LineUnavailableException e) {
+			e.printStackTrace();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 	}
 
 	/**
-	 * Will make a final decision on how to handle speech settings being off (thus index = 0).
+	 * Will make a decision on how to handle speech settings being off (thus index = 0).
 	 * Should only be used by the front end speech class which will only give values 1 through 5,
-	 * but depending on that is sloppy and allows errors. Currently language off defaults to english.
+	 * but this is sloppy and allows errors. Currently language off defaults to english.
 	 */
 	public static void setLanguage(int index) {
 		switch(index) {
