@@ -2,6 +2,7 @@ package aprogrammerisneverlate.xtrex;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
@@ -36,7 +37,8 @@ public abstract class Screen extends JPanel {
 	 * If the user is on any screen besides the main menu, they will be taken to the main menu.
 	 */
 	public void onMenuButtonPressed() {
-		// TODO: Go to the MainMenu screen when the menu button is pressed (unless the user is already on the MainMenu screen).
+		XTrexDisplay disp = XTrexDisplay.getInstance();
+		disp.setScreen(MainMenu.GetInstance());
 	}
 
 	/**
@@ -53,5 +55,9 @@ public abstract class Screen extends JPanel {
 	 * Specifies the behaviour to be performed when the select button on the XTrex device is pressed.
 	 */
 	public abstract void onSelectButtonPressed();
+	
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+	}
 
 }

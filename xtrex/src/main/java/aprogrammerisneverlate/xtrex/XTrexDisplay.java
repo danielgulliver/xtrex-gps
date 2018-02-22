@@ -82,6 +82,10 @@ public class XTrexDisplay extends JFrame implements ActionListener {
 		this.revalidate();
 		this.repaint();
 	}
+	
+	public void refreshDisplay() {
+		repaint();
+	}
 
 	public void actionPerformed(ActionEvent e) {
 		Screen currentScreen = XTrexDisplay.getInstance().getCurrentScreen();
