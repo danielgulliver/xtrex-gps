@@ -88,7 +88,7 @@ public class XTrexDisplay extends JFrame implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		Screen currentScreen = XTrexDisplay.getCurrentScreen();
+		Screen currentScreen = XTrexDisplay.getInstance().getCurrentScreen();
 
 		JButton sourceBtn = (JButton) e.getSource();
 		if (sourceBtn.equals(powerBtn)) {
