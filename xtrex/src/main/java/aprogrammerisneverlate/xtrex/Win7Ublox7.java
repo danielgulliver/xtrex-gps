@@ -25,9 +25,9 @@ public class Win7Ublox7 implements GPSinterface {
   private static LocalTime localTime;
   static FileWritter Logs = new FileWritter();
   static boolean aGPS = false;
-  static float GPStime = 0.0;
-  static float latitude = 0.0;
-  static float longitude = 0.0;
+  static float GPStime = 0.0f;
+  static float latitude = 50.737730f;
+  static float longitude = -3.532626f;
 
     public boolean GPS() {
         return aGPS;
