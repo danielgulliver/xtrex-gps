@@ -27,13 +27,16 @@ import javax.swing.text.BadLocationException;
 public class WhereTo extends Screen {
 	
 	private static final long serialVersionUID = 2063996011118360800L;
+
+	private static WhereTo whereTo = null;
+
 	private static Keyboard keyboard1;
 	private static Keyboard keyboard2;
 
 	private Keyboard currentKeyboard;
 	private JTextPane destinationField;
 	
-	protected WhereTo() {
+	private WhereTo() {
 		super();
 		setLayout(new BorderLayout());
 
@@ -75,8 +78,13 @@ public class WhereTo extends Screen {
 
 		keyboard2 = new Keyboard(keyboard2Buttons, 5, 3);
 
-		setKeyboard(keyboard1);
-			
+		setKeyboard(keyboard1);		
+	}
+
+	public static WhereTo getInstance() {
+		if (whereTo == null)
+			whereTo = new WhereTo();
+		return whereTo;
 	}
 	
 	/**
