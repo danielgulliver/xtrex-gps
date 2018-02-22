@@ -5,12 +5,12 @@ package aprogrammerisneverlate.xtrex;
 public class xtrex {
     final static String PORT_NAME = "COM6";
     public static void main( String[] argv ) {
-        Win7Ublox7 GPS = new Win7Ublox7();
-        GPS.listPorts();
-        GPS.reader( PORT_NAME );
+        //Win7Ublox7 GPS = new Win7Ublox7();
+        //GPS.listPorts();
+        //GPS.reader( PORT_NAME );
 
-        //XTrexDisplay disp = XTrexDisplay.getInstance();
-        //disp.setScreen(new WhereTo());
+        XTrexDisplay disp = XTrexDisplay.getInstance();
+        disp.setScreen(WhereTo.getInstance());
 
     	//MapScreen map = new MapScreen();
     	//disp.setScreen(map);
