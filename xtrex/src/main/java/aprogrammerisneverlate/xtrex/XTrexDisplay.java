@@ -48,8 +48,8 @@ public class XTrexDisplay extends JFrame implements ActionListener {
 
 
 		// TODO: Replace screen with MainMenu when it actually works.
-		//setScreen(new MainMenu());
-		setScreen(TripComputer.getInstance());
+		//setScreen(MainMenu.GetInstance();
+		//setScreen(TripComputer.getInstance());
 		
 		this.pack();
 		this.setVisible(true);

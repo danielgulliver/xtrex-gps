@@ -6,11 +6,13 @@ public class xtrex {
     final static String PORT_NAME = "COM6";
     public static void main( String[] argv ) {
         Win7Ublox7 GPS = new Win7Ublox7();
-        GPS.listPorts();
-        GPS.reader( PORT_NAME );
+        //GPS.listPorts();
+        //GPS.reader( PORT_NAME );
+        //System.out.println(GPS.Latitude());
+        //System.out.println(GPS.Longitude());
 
-        //XTrexDisplay disp = XTrexDisplay.getInstance();
-        //disp.setScreen(new WhereTo());
+        XTrexDisplay disp = XTrexDisplay.getInstance();
+        disp.setScreen(MainMenu.GetInstance());
 
     	//MapScreen map = new MapScreen();
     	//disp.setScreen(map);

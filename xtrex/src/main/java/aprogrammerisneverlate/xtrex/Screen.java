@@ -37,7 +37,8 @@ public abstract class Screen extends JPanel {
 	 * If the user is on any screen besides the main menu, they will be taken to the main menu.
 	 */
 	public void onMenuButtonPressed() {
-		// TODO: Go to the MainMenu screen when the menu button is pressed (unless the user is already on the MainMenu screen).
+		XTrexDisplay disp = XTrexDisplay.getInstance();
+		disp.setScreen(MainMenu.GetInstance());
 	}
 
 	/**
