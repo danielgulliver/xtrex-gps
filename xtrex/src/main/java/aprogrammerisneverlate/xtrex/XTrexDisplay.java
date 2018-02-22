@@ -47,7 +47,9 @@ public class XTrexDisplay extends JFrame implements ActionListener {
 		this.add(xTrekButtons, BorderLayout.PAGE_START);
 
 
-		setScreen(new MainMenu());
+		// TODO: Replace screen with MainMenu when it actually works.
+		//setScreen(new MainMenu());
+		setScreen(new WhereTo());
 		
 		this.pack();
 		this.setVisible(true);
