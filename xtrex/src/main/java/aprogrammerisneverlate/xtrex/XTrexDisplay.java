@@ -49,7 +49,7 @@ public class XTrexDisplay extends JFrame implements ActionListener {
 
 		// TODO: Replace screen with MainMenu when it actually works.
 		//setScreen(new MainMenu());
-		setScreen(new WhereTo());
+		setScreen(new TripComputer());
 		
 		this.pack();
 		this.setVisible(true);
@@ -69,8 +69,8 @@ public class XTrexDisplay extends JFrame implements ActionListener {
 	 * Return the Screen currently being shown on the display.
 	 * @return the current Screen being shown on the display
 	 */
-	public static Screen getCurrentScreen() {
-		return display.currentScreen;
+	public Screen getCurrentScreen() {
+		return currentScreen;
 	}
 	
 	/**
@@ -80,13 +80,15 @@ public class XTrexDisplay extends JFrame implements ActionListener {
 	public void setScreen(Screen screen) {
 		if (currentScreen != null) remove(currentScreen);
 		currentScreen = screen;
-		add(currentScreen, BorderLayout.PAGE_END);
-		revalidate();
-		repaint();
+		add(currentScreen, BorderLayout.CENTER);
+		screen.revalidate();
+		screen.repaint();
+		this.revalidate();
+		this.repaint();
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		Screen currentScreen = XTrexDisplay.getCurrentScreen();
+		Screen currentScreen = XTrexDisplay.getInstance().getCurrentScreen();
 
 		JButton sourceBtn = (JButton) e.getSource();
 		if (sourceBtn.equals(powerBtn)) {
