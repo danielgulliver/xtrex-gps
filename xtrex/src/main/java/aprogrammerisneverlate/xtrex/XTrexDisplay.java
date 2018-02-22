@@ -9,13 +9,16 @@ import java.awt.event.ActionListener;
 
 /**
  * The XTrexDisplay class displays a window on the screen in which the current screen is shown.
+ * 
+ * @author Daniel Gulliver
  */
 public class XTrexDisplay extends JFrame implements ActionListener {
 
+	private static final long serialVersionUID = -2837748826675931508L;
+	private static XTrexDisplay display = null;
 	private Screen currentScreen;
 
 	// Device buttons
-	// TODO: Replace with customised button class
 	JButton powerBtn = new JButton("On/Off");
 	JButton menuBtn = new JButton("Menu");
 	JButton minusBtn = new JButton("-");
@@ -24,7 +27,7 @@ public class XTrexDisplay extends JFrame implements ActionListener {
 
 	JToolBar xTrekButtons = new JToolBar("XTrex Buttons");
 	
-	protected XTrexDisplay() {
+	private XTrexDisplay() {
 		this.setTitle("XTrex");
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -44,19 +47,28 @@ public class XTrexDisplay extends JFrame implements ActionListener {
 		this.add(xTrekButtons, BorderLayout.PAGE_START);
 
 
-		// TODO: Replace with Menu screen when it has been created.
-		setScreen(new WhereTo());
+		setScreen(new MainMenu());
 		
 		this.pack();
 		this.setVisible(true);
 	}
 
 	/**
-	 * Return the Screen currently being shown on the display.
-	 * @return the Screen 
+	 * Return the single instance of XTrexDisplay held by this class.
+	 * @return the single instance of XTrexDisplay
 	 */
-	public Screen getCurrentScreen() {
-		return currentScreen;
+	public static XTrexDisplay getInstance() {
+		if (display == null)
+			display = new XTrexDisplay();
+		return display;
+	}
+
+	/**
+	 * Return the Screen currently being shown on the display.
+	 * @return the current Screen being shown on the display
+	 */
+	public static Screen getCurrentScreen() {
+		return display.currentScreen;
 	}
 	
 	/**
@@ -72,7 +84,7 @@ public class XTrexDisplay extends JFrame implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		Screen currentScreen = this.getCurrentScreen();
+		Screen currentScreen = XTrexDisplay.getCurrentScreen();
 
 		JButton sourceBtn = (JButton) e.getSource();
 		if (sourceBtn.equals(powerBtn)) {
