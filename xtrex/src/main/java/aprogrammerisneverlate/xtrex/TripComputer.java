@@ -9,8 +9,17 @@ public class TripComputer extends Screen {
 
     private static final long serialVersionUID = 1L;
 
-    TripComputer() {
+    private static TripComputer tripComputer = null;
+
+    private TripComputer() {
         repaint();
+    }
+
+    public static TripComputer getInstance() {
+        if (tripComputer == null) {
+            tripComputer = new TripComputer();
+        }
+        return tripComputer;
     }
 
 	@Override

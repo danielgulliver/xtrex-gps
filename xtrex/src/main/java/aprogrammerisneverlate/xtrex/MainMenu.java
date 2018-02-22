@@ -4,8 +4,11 @@ import java.awt.GridLayout;
 import java.awt.LayoutManager;
 import java.util.Arrays;
 import java.util.List;
+import java.util.ArrayList;
 
 public class MainMenu extends Screen {
+
+    private static MainMenu mainMenu = null;
     
     XTrexDisplay ScreenController = XTrexDisplay.getInstance();
 
@@ -34,16 +37,18 @@ public class MainMenu extends Screen {
 
     private SelectionController Selector;
 
-    MainMenu(){
+    private MainMenu(){
         setLayout(new GridLayout(3,2));
-        WhereToButton = new MenuButton("Where To?", new WhereTo());
-        TripComputerButton = new MenuButton("Trip Computer", new MainMenu());
-        MapButton = new MenuButton("Map", new MainMenu());
-        SpeechButton = new MenuButton("Trip Computer", new MainMenu());
-        SatelliteButton = new MenuButton("Trip Computer", new MainMenu());
-        AboutButton = new MenuButton("Trip Computer", new MainMenu());
-
-        //Selector = new SelectionController(Arrays.asList(WhereToButton, TripComputerButton, MapButton, SpeechButton, SatelliteButton, AboutButton));
+        WhereToButton = new MenuButton("Where To?", WhereTo.getInstance());
+        TripComputerButton = new MenuButton("Trip Computer", TripComputer.getInstance());
+        MapButton = new MenuButton("Map", mainMenu);
+        SpeechButton = new MenuButton("Speech", mainMenu);
+        SatelliteButton = new MenuButton("Satellite", mainMenu);
+        AboutButton = new MenuButton("About", mainMenu);
+        
+        ArrayList<PrefabButton> UIButtons = new ArrayList<PrefabButton>(Arrays.asList(WhereToButton, TripComputerButton, MapButton, SpeechButton, SatelliteButton, AboutButton));
+    
+        Selector = new SelectionController(UIButtons);
 
         // WhereToButton
         // TripComputerButton
@@ -58,6 +63,13 @@ public class MainMenu extends Screen {
         this.add(SpeechButton);
         this.add(SatelliteButton);
         this.add(AboutButton);
+    }
+
+    public static MainMenu GetInstance() {
+        if (mainMenu == null) {
+            mainMenu = new MainMenu();
+        }
+        return mainMenu;
     }
     
 
