@@ -10,13 +10,16 @@ import java.awt.event.ActionListener;
 
 /**
  * The XTrexDisplay class displays a window on the screen in which the current screen is shown.
+ * 
+ * @author Daniel Gulliver
  */
 public class XTrexDisplay extends JFrame implements ActionListener {
 
+	private static final long serialVersionUID = -2837748826675931508L;
+	private static XTrexDisplay display = null;
 	private Screen currentScreen;
 
 	// Device buttons
-	// TODO: Replace with customised button class
 	JButton powerBtn = new JButton("On/Off");
 	JButton menuBtn = new JButton("Menu");
 	JButton minusBtn = new JButton("-");
@@ -25,11 +28,11 @@ public class XTrexDisplay extends JFrame implements ActionListener {
 
 	JToolBar xTrekButtons = new JToolBar("XTrex Buttons");
 	
-	protected XTrexDisplay() {
+	private XTrexDisplay() {
 		this.setTitle("XTrex");
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//this.setPreferredSize(new Dimension(Screen.SCREEN_WIDTH, Screen.SCREEN_HEIGHT)); // replace in future
+		this.setPreferredSize(new Dimension(Screen.SCREEN_WIDTH, Screen.SCREEN_HEIGHT));
 		
 		powerBtn.addActionListener(this);
 		menuBtn.addActionListener(this);
@@ -44,18 +47,23 @@ public class XTrexDisplay extends JFrame implements ActionListener {
 		xTrekButtons.add(selectBtn);
 	
 		this.add(xTrekButtons, BorderLayout.PAGE_START);
-
-
-		// TODO: Replace with Menu screen when it has been created.
-		setScreen(new WhereTo());
-		
 		this.pack();
 		this.setVisible(true);
 	}
 
 	/**
+	 * Return the single instance of XTrexDisplay held by this class.
+	 * @return the single instance of XTrexDisplay
+	 */
+	public static XTrexDisplay getInstance() {
+		if (display == null)
+			display = new XTrexDisplay();
+		return display;
+	}
+
+	/**
 	 * Return the Screen currently being shown on the display.
-	 * @return the Screen 
+	 * @return the current Screen being shown on the display
 	 */
 	public Screen getCurrentScreen() {
 		return currentScreen;
@@ -69,8 +77,10 @@ public class XTrexDisplay extends JFrame implements ActionListener {
 		if (currentScreen != null) remove(currentScreen);
 		currentScreen = screen;
 		add(currentScreen, BorderLayout.CENTER);
-		revalidate();
-		repaint();
+		currentScreen.revalidate();
+		currentScreen.repaint();
+		this.revalidate();
+		this.repaint();
 	}
 	
 	public void refreshDisplay() {
@@ -78,7 +88,7 @@ public class XTrexDisplay extends JFrame implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		Screen currentScreen = this.getCurrentScreen();
+		Screen currentScreen = XTrexDisplay.getInstance().getCurrentScreen();
 
 		JButton sourceBtn = (JButton) e.getSource();
 		if (sourceBtn.equals(powerBtn)) {

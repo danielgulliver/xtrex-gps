@@ -8,9 +8,12 @@ public class xtrex {
         //Win7Ublox7 GPS = new Win7Ublox7();
         //GPS.listPorts();
         //GPS.reader( PORT_NAME );
-    	XTrexDisplay disp = new XTrexDisplay();
-    	MapScreen map = new MapScreen();
-    	map.drawMap();
-    	disp.setScreen(map);
+
+        XTrexDisplay disp = XTrexDisplay.getInstance();
+        disp.setScreen(WhereTo.getInstance());
+
+    	//MapScreen map = new MapScreen();
+    	//disp.setScreen(map);
+    	//map.drawMap();
     }
 }

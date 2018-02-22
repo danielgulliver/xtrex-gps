@@ -12,6 +12,7 @@ public class SelectionController {
     }
 
     public SelectionController(List<PrefabButton> buttons) {
+        UIElements = new ArrayList<PrefabButton>();
         UIElements.addAll(buttons);
         position = 1;
         selected(true);
