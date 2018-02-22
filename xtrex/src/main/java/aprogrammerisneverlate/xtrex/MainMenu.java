@@ -7,7 +7,7 @@ import java.util.List;
 
 public class MainMenu extends Screen {
     
-    XTrexDisplay ScreenController = new XTrexDisplay();
+    XTrexDisplay ScreenController = XTrexDisplay.getInstance();
 
     class MenuButton extends PrefabButton {
         private Screen targetScreen;

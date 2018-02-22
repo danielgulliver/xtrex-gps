@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -36,8 +38,8 @@ public class WhereTo extends Screen {
 		setLayout(new BorderLayout());
 
 		// Create destination field.
-		destinationField = new JTextPane();
-		destinationField.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
+		destinationField = new JTextPaneLimit(25);
+		destinationField.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 22));
 		add(destinationField, BorderLayout.PAGE_START);
 
 
@@ -115,6 +117,41 @@ public class WhereTo extends Screen {
 		currentKeyboard.sc.click();
 	}
 
+	class JTextPaneLimit extends JTextPane implements KeyListener {
+		private static final long serialVersionUID = 1L;
+		private int maxChars;
+
+		JTextPaneLimit(int maxChars) {
+			this.maxChars = maxChars;
+			this.addKeyListener(this);
+		}
+		
+		@Override
+		public void setText(String text) {
+			if (text.length() <= maxChars) {
+				super.setText(text);
+			}
+		}
+
+		public void keyPressed(KeyEvent e) {
+			
+		}
+
+		public void keyReleased(KeyEvent e) {
+			
+		}
+
+		public void keyTyped(KeyEvent e) {
+			int keyCode = e.getKeyCode();
+			if (keyCode == 32 || (keyCode >= 48 && keyCode <= 90)) {
+				e.consume();
+				if (this.getText().length() < maxChars) {
+					this.setText(this.getText() + ("" + e.getKeyChar()).toUpperCase());
+				}
+			}
+		}
+	}
+
 	class CharacterButton extends PrefabButton {
 		private static final long serialVersionUID = 6752238440776770911L;
 		private char keyValue;
@@ -144,9 +181,12 @@ public class WhereTo extends Screen {
 		@Override
 		public void action() {
 			// Remove the last character from the display.
+			String newDestinationText;
 			try {
-				String newDestinationText = destinationField.getText(0, destinationField.getText().length() - 1);
-				WhereTo.this.destinationField.setText(newDestinationText);
+				if (destinationField.getText().length() >= 1) {
+					newDestinationText = destinationField.getText(0, destinationField.getText().length() - 1);
+					WhereTo.this.destinationField.setText(newDestinationText);
+				}
 			} catch (BadLocationException e) {
 				e.printStackTrace();
 			}
@@ -186,13 +226,16 @@ public class WhereTo extends Screen {
 
 			// Add the buttons to the keyboard.
 			for (PrefabButton button : buttons) {
-				add(button);
 				button.addActionListener(this);
+				add(button);
 			}
 		}
 
 		public void actionPerformed(ActionEvent e) {
-			((PrefabButton) e.getSource()).action();
+			if (e.getSource() instanceof PrefabButton) {
+				PrefabButton sourceButton = (PrefabButton) e.getSource();
+				sourceButton.action();
+			}
 		}
 	}
 }
