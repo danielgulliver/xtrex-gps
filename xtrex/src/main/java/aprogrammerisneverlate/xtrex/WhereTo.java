@@ -25,7 +25,10 @@ import javax.swing.text.BadLocationException;
 public class WhereTo extends Screen {
 	
 	private static final long serialVersionUID = 2063996011118360800L;
-	private Keyboard currentKeyboard, keyboard1, keyboard2;
+	private static Keyboard keyboard1;
+	private static Keyboard keyboard2;
+
+	private Keyboard currentKeyboard;
 	private JTextPane destinationField;
 	
 	protected WhereTo() {
@@ -48,7 +51,7 @@ public class WhereTo extends Screen {
 		}
 
 		// Create button to switch to second keyboard for keyboard 1.
-		//keyboard1Buttons.add(new SwitchKeyboardButton("=>", keyboard2));
+		keyboard1Buttons.add(new SwitchKeyboardButton("=>"));
 		
 		keyboard1 = new Keyboard(keyboard1Buttons, 7, 4);
 
@@ -63,7 +66,7 @@ public class WhereTo extends Screen {
 		}
 
 		// Create button to switch to first keyboard.
-		//keyboard2Buttons.add(new SwitchKeyboardButton("<=", WhereTo.this.keyboard1));
+		keyboard2Buttons.add(new SwitchKeyboardButton("<="));
 
 		// Create delete button.
 		keyboard2Buttons.add(new DeleteButton());
@@ -87,6 +90,14 @@ public class WhereTo extends Screen {
 		add(currentKeyboard, BorderLayout.CENTER);
 		revalidate();
 		repaint();
+	}
+
+	/**
+	 * Return the keyboard currently being shown on the screen.
+	 * @return the current keyboard
+	 */
+	public Keyboard getKeyboard() {
+		return currentKeyboard;
 	}
 
 	public void onMinusButtonPressed() {
@@ -144,16 +155,18 @@ public class WhereTo extends Screen {
 
 	class SwitchKeyboardButton extends PrefabButton {
 		private static final long serialVersionUID = -7789589360533656032L;
-		Keyboard keyboardToSwitchTo;
 
-		SwitchKeyboardButton (String displayString, Keyboard keyboardToSwitchTo) {
+		SwitchKeyboardButton (String displayString) {
 			super(displayString);
-			this.keyboardToSwitchTo = keyboardToSwitchTo;
 		}
 
 		@Override
 		public void action() {
-			WhereTo.this.setKeyboard(keyboardToSwitchTo);
+			// Toggle the current keyboard.
+			if (WhereTo.this.getKeyboard() == WhereTo.keyboard1)
+				WhereTo.this.setKeyboard(WhereTo.keyboard2);
+			else
+				WhereTo.this.setKeyboard(WhereTo.keyboard1);
 		}
 	}
 
