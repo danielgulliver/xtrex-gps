@@ -1,6 +1,5 @@
 package aprogrammerisneverlate.xtrex;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
@@ -22,7 +21,6 @@ public abstract class Screen extends JPanel {
 	
 	Screen() {
 		this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
-		this.setBackground(Color.BLACK);
 	}
 
 	/**
