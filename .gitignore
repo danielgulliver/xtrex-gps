@@ -5,3 +5,5 @@ xtrex/.project
 xtrex/.settings/org.eclipse.core.resources.prefs
 xtrex/.settings/org.eclipse.jdt.core.prefs
 .vscode/tasks.json
+
+*.class
