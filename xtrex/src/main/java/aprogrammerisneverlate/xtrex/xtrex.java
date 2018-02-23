@@ -10,10 +10,8 @@ public class xtrex {
         //GPS.reader( PORT_NAME );
 
         XTrexDisplay disp = XTrexDisplay.getInstance();
-        disp.setScreen(WhereTo.getInstance());
-
-    	//MapScreen map = new MapScreen();
-    	//disp.setScreen(map);
-    	//map.drawMap();
+        MapScreen mapS = MapScreen.getInstance();
+        disp.setScreen(mapS);
+        mapS.getMaps();
     }
 }

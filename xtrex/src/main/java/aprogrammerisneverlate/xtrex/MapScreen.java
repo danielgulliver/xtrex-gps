@@ -1,14 +1,15 @@
 package aprogrammerisneverlate.xtrex;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 
 public class MapScreen extends Screen {
 	
@@ -19,17 +20,29 @@ public class MapScreen extends Screen {
 	private final static String IMG_SIZE = "490x600";
 	
 	private int zoom = 10;
+	private byte[] imgData;
 	
-	public MapScreen() {
+	private static MapScreen instance = null;
+	
+	private MapScreen() {
 		super();
+	}
+	
+	public static MapScreen getInstance() {
+		
+		if (MapScreen.instance == null)
+			MapScreen.instance = new MapScreen();
+		
+		return MapScreen.instance;
+		
 	}
 	
 	@Override
 	public void onMinusButtonPressed() {
 		
 		if (zoom > 1) {
-			zoom--;
-			drawMap();
+			this.zoom--;
+			this.getMaps();
 		}
 		
 	}
@@ -38,8 +51,8 @@ public class MapScreen extends Screen {
 	public void onPlusButtonPressed() {
 		
 		if (zoom < 21) {
-			zoom++;
-			drawMap();
+			this.zoom++;
+			this.getMaps();
 		}
 		
 	}
@@ -49,40 +62,40 @@ public class MapScreen extends Screen {
 		return;
 	}
 	
-	public void drawMap() {
+	@Override
+	 public void paint(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
+        
+        ByteArrayInputStream bais = new ByteArrayInputStream(this.imgData);
+        BufferedImage image = null;
+        try {
+            image = ImageIO.read(bais);
+        } catch (IOException e) {
+        	e.printStackTrace();
+        }
+        
+        if (image != null)
+        	g2d.drawImage(image, 0, 0, null);
+	}
+        
+	
+	public void getMaps() {
 		
 		// The below block was modified from Maps.java by David Wakeling
 		final String method = "GET";
 	    final String url
-	      = ( API_BASE
-	        + "?center=" + DEFAULT_LAT + "," + DEFAULT_LONG
+	      = ( MapScreen.API_BASE
+	        + "?center=" + MapScreen.DEFAULT_LAT + "," + MapScreen.DEFAULT_LONG
 	        + "&zoom=" + zoom
-	        + "&size=" + IMG_SIZE
-	        + "&key=" + API_KEY );
-	    System.out.println(url);
+	        + "&size=" + MapScreen.IMG_SIZE
+	        + "&key=" + MapScreen.API_KEY );
 	    
 	    final byte[] body = {};
 	    final String[][] headers = {};
+	   
+	    this.imgData = HttpConnect.httpConnect( method, url, headers, body );
 	    
-	    byte[] response = HttpConnect.httpConnect( method, url, headers, body );
-	    
-	    ByteArrayInputStream bais = new ByteArrayInputStream(response);
-	    
-	    BufferedImage img = null;
-	    try {
-			img = ImageIO.read(bais);
-		} catch (IOException e) {
-			System.out.println("IOException when parsing map image: "+e.getMessage());
-			e.printStackTrace();
-		}
-	    
-	    if (img != null) {
-	    	JLabel picLabel = new JLabel(new ImageIcon(img));
-	    	this.add(picLabel);
-	    	this.repaint();
-	    	System.out.println("added picLabel");
-	    }
-	    	
+	    repaint();
 	    
 	}
 	
