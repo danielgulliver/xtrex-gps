@@ -18,8 +18,6 @@ public class xtrex {
 
 
         XTrexDisplay disp = XTrexDisplay.getInstance();
-        MapScreen mapS = MapScreen.getInstance();
-        disp.setScreen(MainMenu.GetInstance());
-        mapS.getMaps();
+        disp.setScreen(MainMenu.getInstance());
     }
 }
