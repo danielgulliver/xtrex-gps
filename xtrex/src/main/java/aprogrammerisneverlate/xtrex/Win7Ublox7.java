@@ -1,17 +1,18 @@
 package aprogrammerisneverlate.xtrex;
 
-import gnu.io.CommPort;
-import gnu.io.CommPortIdentifier;
-import gnu.io.SerialPort;
-import java.io.InputStream;
-import java.time.LocalTime;
-
   /* 
+   * Connor Harris - work package 5
    * Modified from:
    *    Win7 Ublox7 reader.
    *    by: 
    *       David Wakeling, 2018.
    */
+
+import gnu.io.CommPort;
+import gnu.io.CommPortIdentifier;
+import gnu.io.SerialPort;
+import java.io.InputStream;
+import java.time.LocalTime;
 
 public class Win7Ublox7 implements GPSinterface {
   /* original variables */
@@ -55,6 +56,7 @@ public class Win7Ublox7 implements GPSinterface {
             nGSV = Integer.parseInt(tokenSat[0]);
             localTime = LocalTime.now();
             Logs.Logger("-- Number of GSV messages: " + tokenSat[0] + "  --" );
+            System.out.println("-- Number of GSV messages: " + tokenSat[0] + "  --");
         }
         
         if ( input.contains(GLLpre) ) {

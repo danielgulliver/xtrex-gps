@@ -77,10 +77,12 @@ public class XTrexDisplay extends JFrame implements ActionListener {
 		if (currentScreen != null) remove(currentScreen);
 		currentScreen = screen;
 		add(currentScreen, BorderLayout.CENTER);
-		currentScreen.revalidate();
-		currentScreen.repaint();
 		this.revalidate();
 		this.repaint();
+	}
+	
+	public void refreshDisplay() {
+		repaint();
 	}
 
 	public void actionPerformed(ActionEvent e) {

@@ -1,7 +1,7 @@
 package aprogrammerisneverlate.xtrex;
 
-import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
@@ -21,7 +21,6 @@ public abstract class Screen extends JPanel {
 	
 	Screen() {
 		this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
-		this.setBackground(Color.BLACK);
 	}
 
 	/**
@@ -55,5 +54,9 @@ public abstract class Screen extends JPanel {
 	 * Specifies the behaviour to be performed when the select button on the XTrex device is pressed.
 	 */
 	public abstract void onSelectButtonPressed();
+	
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+	}
 
 }
