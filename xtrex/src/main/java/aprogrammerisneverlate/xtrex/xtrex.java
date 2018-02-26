@@ -15,9 +15,7 @@ public class xtrex {
             System.out.println(GPS.Longitude());
             System.out.println("\nStarting GPS Read \n");
             GPS.Start();
-        }
-               
-        else { 
+        } else { 
         XTrexDisplay disp = XTrexDisplay.getInstance();
         disp.setScreen(MainMenu.getInstance());
         }

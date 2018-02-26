@@ -81,11 +81,11 @@ public class Win7Ublox7 {
             Logs.Logger( "    GPS aquired at: " + tokens[4]  );
                         
             if ( tokens[1].contains("N") || tokens[1].contains("S") ){ 
-                latitude = Float.parseFloat(tokens[0]);
+                latitude = Float.parseFloat(tokens[0])/100;
                 Logs.Logger( "    Latitude: " + tokens[0] );
             }
             if ( tokens[3].contains("E") || tokens[3].contains("W") ){ 
-                longitude = Float.parseFloat(tokens[2]);
+                longitude = Float.parseFloat(tokens[2])/100;
                 Logs.Logger( "    Longitude: " + tokens[2] );
             }
           }
