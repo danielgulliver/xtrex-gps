@@ -14,7 +14,7 @@ import gnu.io.SerialPort;
 import java.io.InputStream;
 import java.time.LocalTime;
 
-public class Win7Ublox7 implements GPSinterface {
+public class Win7Ublox7 extends GPS {
   /* original variables */
   final static String PORT_NAME = "COM6"; /* found via Computer->Devices */
   final static int    BAUD_RATE =  9600;  /* bps */
@@ -30,15 +30,23 @@ public class Win7Ublox7 implements GPSinterface {
   static float latitude = 50.737730f;
   static float longitude = -3.532626f;
 
-    public boolean GPS() {
+    public void Start() {
+        listPorts();
+        reader( PORT_NAME );
+    }
+
+    public boolean Tracking() {
         return aGPS;
     }
+
     public float Latitude() {
         return latitude;
     }
+
     public float Longitude() {
         return longitude;
     }
+
     public float GPStime() {
         return GPStime;
     }
@@ -89,7 +97,7 @@ public class Win7Ublox7 implements GPSinterface {
    */
   public static void reader( String portName ) {
     Logs.Logging(true);
-    Logs.Logger(  "--- OPEN PORT ---" );
+    System.out.println(  "--- OPEN PORT ---\n" );
     try {
       CommPortIdentifier portId =
         CommPortIdentifier.getPortIdentifier( portName );

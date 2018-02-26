@@ -3,23 +3,28 @@ package aprogrammerisneverlate.xtrex;
 * Win7 Ublox7 reader.
 */   
 public class xtrex {
-    final static String PORT_NAME = "COM6";
+    private static String OS = null;
+
     public static void main( String[] argv ) {
-        /* Win7Ublox7 GPS = new Win7Ublox7();
-        GPS.listPorts();
+        if(OS == null) { OS = System.getProperty("os.name"); }
+        System.out.println(OS);
+        if (OS.startsWith("Windows")) {
+            Win7Ublox7 GPS = new Win7Ublox7();
+            System.out.println();
+            System.out.println(GPS.Latitude());
+            System.out.println(GPS.Longitude());
+            System.out.println("\nStarting GPS Read \n");
+            GPS.Start();
+        }
+               
         
-        System.out.println();
-        System.out.println(GPS.latitude);
-        System.out.println(GPS.longitude);
-        System.out.println("\n\n");
-
-        GPS.reader( PORT_NAME ); */
-
-
+        
+/* 
+        
 
         XTrexDisplay disp = XTrexDisplay.getInstance();
         MapScreen mapS = MapScreen.getInstance();
         disp.setScreen(MainMenu.GetInstance());
-        mapS.getMaps();
+        mapS.getMaps(); */
     }
 }
