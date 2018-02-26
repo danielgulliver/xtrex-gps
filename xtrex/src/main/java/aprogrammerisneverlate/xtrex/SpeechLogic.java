@@ -211,7 +211,7 @@ public class SpeechLogic {
 	}
 
 	/**
-	 * For testing purposes
+	 * For testing purposes!
 	 */
 	public static void printLang() {
 		System.out.println(language.getName());
