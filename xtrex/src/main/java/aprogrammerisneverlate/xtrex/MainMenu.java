@@ -42,7 +42,7 @@ public class MainMenu extends Screen {
         WhereToButton = new MenuButton("Where To?", WhereTo.getInstance());
         TripComputerButton = new MenuButton("Trip Computer", TripComputer.getInstance());
         MapButton = new MenuButton("Map", MapScreen.getInstance());
-        SpeechButton = new MenuButton("Speech", mainMenu);
+        SpeechButton = new MenuButton("Speech", LanguageMenu.getInstance());
         SatelliteButton = new MenuButton("Satellite", mainMenu);
         AboutButton = new MenuButton("About", mainMenu);
         
@@ -72,14 +72,6 @@ public class MainMenu extends Screen {
         return mainMenu;
     }
     
-
-    public void onPowerButtonPressed() {
-        
-    }
-
-    public void onMenuButtonPressed() {
-    }
-
     public void onMinusButtonPressed() {
         Selector.back();
     }
