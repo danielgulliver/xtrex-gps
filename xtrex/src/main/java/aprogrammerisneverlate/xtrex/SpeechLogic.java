@@ -211,7 +211,16 @@ public class SpeechLogic {
 	}
 
 	/**
-	 * For testing purposes
+	 * get the current language of the system
+	 * 
+	 * @return the current language of the system
+	 */
+	public static String getLanguage() {
+		return language.getName();
+	}
+
+	/**
+	 * For testing purposes!
 	 */
 	public static void printLang() {
 		System.out.println(language.getName());
