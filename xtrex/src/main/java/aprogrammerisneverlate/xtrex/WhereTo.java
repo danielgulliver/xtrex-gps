@@ -125,10 +125,17 @@ public class WhereTo extends Screen {
 		currentKeyboard.sc.click();
 	}
 
+	/**
+	 * A text field with a character limit.
+	 */
 	class JTextPaneLimit extends JTextPane implements KeyListener {
 		private static final long serialVersionUID = 1L;
 		private int maxChars;
 
+		/**
+		 * Construct a text field with a text limit.
+		 * @param maxChars the maximum number of characters to allow in the field
+		 */
 		JTextPaneLimit(int maxChars) {
 			this.maxChars = maxChars;
 			this.addKeyListener(this);
@@ -160,10 +167,21 @@ public class WhereTo extends Screen {
 		}
 	}
 
+	/**
+	 * A button designed for keyboards, which has a character on its face and inserts a character into the text field.
+	 * Typically the character added to the text field is the same as the one on the face of the button, however this
+	 * is not the case for the space character; an underscore is shown on the face of the button, but a normal space
+	 * is inserted into the text field.
+	 */
 	class CharacterButton extends PrefabButton {
 		private static final long serialVersionUID = 6752238440776770911L;
 		private char keyValue;
 		
+		/**
+		 * Construct a CharacterButton.
+		 * @param keyValue the character to display on the face of the button, and to add to the display (except in the
+		 * case of the space button)
+		 */
 		CharacterButton(char keyValue) {
 			super("" + keyValue);
 			if (keyValue == '_')
@@ -179,6 +197,9 @@ public class WhereTo extends Screen {
 		}
 	}
 
+	/**
+	 * A button designed for keyboards, which deletes the last character from the text field.
+	 */
 	class DeleteButton extends PrefabButton {
 		private static final long serialVersionUID = -2056965874020110981L;
 
@@ -201,9 +222,16 @@ public class WhereTo extends Screen {
 		}
 	}
 
+	/**
+	 * A button designed for keyboards, which toggles between the two keyboards.
+	 */
 	class SwitchKeyboardButton extends PrefabButton {
 		private static final long serialVersionUID = -7789589360533656032L;
 
+		/**
+		 * Construct a SwitchKeyboardButton.
+		 * @param displayString the string to display on the button
+		 */
 		SwitchKeyboardButton (String displayString) {
 			super(displayString);
 		}
@@ -227,6 +255,12 @@ public class WhereTo extends Screen {
 		public SelectionController sc;
 		public ArrayList<PrefabButton> buttons;
 
+		/**
+		 * Construct a Keyboard.
+		 * @param buttons the ArrayList of PrefabButtons to add to the keyboard
+		 * @param rows the number of rows of buttons
+		 * @param cols the number of columns of buttons
+		 */
 		Keyboard(ArrayList<PrefabButton> buttons, int rows, int cols) {
 			setLayout(new GridLayout(rows, cols));
 			buttons.addAll(buttons);
@@ -240,6 +274,7 @@ public class WhereTo extends Screen {
 		}
 
 		public void actionPerformed(ActionEvent e) {
+			// Perform a button's associated action when it is clicked.
 			if (e.getSource() instanceof PrefabButton) {
 				PrefabButton sourceButton = (PrefabButton) e.getSource();
 				sourceButton.action();
