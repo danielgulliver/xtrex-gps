@@ -14,7 +14,7 @@ import gnu.io.SerialPort;
 import java.io.InputStream;
 import java.time.LocalTime;
 
-public class Win7Ublox7 extends GPS {
+public class Win7Ublox7 {
   /* original variables */
   final static String PORT_NAME = "COM6"; /* found via Computer->Devices */
   final static int    BAUD_RATE =  9600;  /* bps */
