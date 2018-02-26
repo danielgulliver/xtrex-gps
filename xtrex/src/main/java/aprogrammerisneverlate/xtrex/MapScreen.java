@@ -20,7 +20,7 @@ public class MapScreen extends Screen {
 	private final static String IMG_SIZE = "490x600";
 	
 	private int zoom = 10;
-	private byte[] imgData;
+	private byte[] imgData = null;
 	
 	private static MapScreen instance = null;
 	
@@ -42,7 +42,7 @@ public class MapScreen extends Screen {
 		
 		if (zoom > 1) {
 			this.zoom--;
-			this.getMaps();
+			this.getMap();
 		}
 		
 	}
@@ -52,7 +52,7 @@ public class MapScreen extends Screen {
 		
 		if (zoom < 21) {
 			this.zoom++;
-			this.getMaps();
+			this.getMap();
 		}
 		
 	}
@@ -64,7 +64,12 @@ public class MapScreen extends Screen {
 	
 	@Override
 	 public void paint(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
+		Graphics2D g2d = (Graphics2D) g;
+		
+		if (this.imgData == null) {
+			this.getMap();
+			return;
+		}
         
         ByteArrayInputStream bais = new ByteArrayInputStream(this.imgData);
         BufferedImage image = null;
@@ -79,7 +84,7 @@ public class MapScreen extends Screen {
 	}
         
 	
-	public void getMaps() {
+	public void getMap() {
 		
 		// The below block was modified from Maps.java by David Wakeling
 		final String method = "GET";

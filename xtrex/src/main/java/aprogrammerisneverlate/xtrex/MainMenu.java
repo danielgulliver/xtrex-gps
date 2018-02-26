@@ -65,7 +65,7 @@ public class MainMenu extends Screen {
         this.add(AboutButton);
     }
 
-    public static MainMenu GetInstance() {
+    public static MainMenu getInstance() {
         if (mainMenu == null) {
             mainMenu = new MainMenu();
         }

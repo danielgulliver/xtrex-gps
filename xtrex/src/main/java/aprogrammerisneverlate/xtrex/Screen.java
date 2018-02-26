@@ -37,7 +37,7 @@ public abstract class Screen extends JPanel {
 	 */
 	public void onMenuButtonPressed() {
 		XTrexDisplay disp = XTrexDisplay.getInstance();
-		disp.setScreen(MainMenu.GetInstance());
+		disp.setScreen(MainMenu.getInstance());
 	}
 
 	/**
