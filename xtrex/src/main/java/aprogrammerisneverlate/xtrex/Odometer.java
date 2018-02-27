@@ -15,6 +15,7 @@ public class Odometer {
 
     /**
      * Calculate the distance travelled by the XTrex device since booting.
+     * Must be called before <code>getDistanceTravelled()</code> in order to return the latest value.
      */
     public static void calculateDistanceTravelled() {
         // TODO: Calculate distance travelled
@@ -22,6 +23,7 @@ public class Odometer {
 
     /**
      * Calculate the current speed at which the XTrex device is travelling.
+     * Must be called before <code>getCurrentSpeed()</code> in order to return the latest value.
      */
     public static void calculateCurrentSpeed() {
         // TODO: Calculate current speed
@@ -29,6 +31,7 @@ public class Odometer {
 
     /**
      * Calculate the amount of time for which the XTrex device has been moving since booting.
+     * Must be called before <code>getMovingTime()</code> in order to return the latest value.
      */
     public static void calculateMovingTime() {
         // TODO: Calculate moving time
@@ -36,6 +39,7 @@ public class Odometer {
 
     /**
      * Return the distance travelled by the XTrex device since booting.
+     * Remember to call <code>calculateDistanceTravelled()</code> first to get the latest value.
      * @return the distance travelled by the XTrex device
      */
     public static float getDistanceTravelled() {
@@ -44,6 +48,7 @@ public class Odometer {
 
     /**
      * Return the current speed at which the XTrex device is travelling.
+     * Remember to call <code>calculateCurrentSpeed()</code> first to get the latest value.
      * @return the current speed of the XTrex device
      */
     public static float getCurrentSpeed() {
@@ -52,6 +57,7 @@ public class Odometer {
 
     /**
      * Return the amount of time for which the XTrex device has been moving since booting.
+     * Remember to call <code>calculateMovingTime()</code> first to get the latest value.
      * @return the moving time of the XTrex device
      */
     public static float getMovingTime() {
