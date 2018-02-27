@@ -13,7 +13,7 @@ public class LanguageMenu extends Screen {
     XTrexDisplay ScreenController = XTrexDisplay.getInstance();
 
     class MenuButton extends PrefabButton {
-        private int language;
+        private Integer language;
 
         public MenuButton(String displayString, Integer language){
             super(displayString);
