@@ -8,8 +8,15 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-
 import javax.imageio.ImageIO;
+
+/**
+ * Deals with the map screen and google maps API calls
+ * 
+ * @author Adam Griffiths
+ * 
+ * @version 0.2
+ */
 
 public class MapScreen extends Screen {
 	
@@ -23,6 +30,7 @@ public class MapScreen extends Screen {
 	private byte[] imgData = null;
 	
 	private static MapScreen instance = null;
+	//private static GPS gpsInstance = null;
 	
 	private MapScreen() {
 		super();
@@ -85,6 +93,9 @@ public class MapScreen extends Screen {
         
 	
 	public void getMap() {
+
+		/* float lat = gpsInstance.Latitude();
+		float long = gpsInstance.Longitude(); */
 		
 		// The below block was modified from Maps.java by David Wakeling
 		final String method = "GET";
@@ -100,8 +111,10 @@ public class MapScreen extends Screen {
 	   
 	    this.imgData = HttpConnect.httpConnect( method, url, headers, body );
 	    
-	    repaint();
-	    
 	}
+
+	/*public static void setGpsInstance(GPS instance) {
+		MapScreen.gpsInstance = instance;
+	}*/
 	
 }
