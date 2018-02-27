@@ -10,6 +10,7 @@ public class xtrex {
         //GPS.Start();
         XTrexDisplay disp = XTrexDisplay.getInstance();
         disp.setScreen(MainMenu.getInstance());
+
     }
 
     public static Thread getGpsThread() {
