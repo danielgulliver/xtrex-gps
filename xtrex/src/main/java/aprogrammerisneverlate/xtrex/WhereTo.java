@@ -118,6 +118,13 @@ public class WhereTo extends Screen {
 		return destinationField.getText();
 	}
 
+
+	@Override
+	public void onMenuButtonPressed() {
+		super.onMenuButtonPressed();
+		
+	}
+
 	public void onMinusButtonPressed() {
 		// Highlight the previous button on the keyboard on the screen.
 		currentKeyboard.sc.back();
