@@ -66,12 +66,14 @@ public class SpeechLogic {
 	 * @param directions is an array of strings containing all the directions that need to have speech generated for.
 	 */
 	public static void parseDirections(String[] directions) {
-		final String token  = renewAccessToken(APIKEY);
-		for (int i = 0; i < directions.length; i++) {
-			byte[] speech = generateSpeech(token, directions[i], language.getLocale(), 
-					language.getGender(), language.getArtist(), 
-					FORMAT);
-			writeData(speech, String.valueOf(i) + ".wav");
+		if (getLanguage() != null) {
+			final String token  = renewAccessToken(APIKEY);
+			for (int i = 0; i < directions.length; i++) {
+				byte[] speech = generateSpeech(token, directions[i], language.getLocale(), 
+						language.getGender(), language.getArtist(), 
+						FORMAT);
+				writeData(speech, String.valueOf(i) + ".wav");
+			}
 		}
 	}
 
@@ -184,11 +186,11 @@ public class SpeechLogic {
 	}
 
 	/**
-	 * Will make a decision on how to handle speech settings being off (thus index = 0).
-	 * Should only be used by the front end speech class which will only give values 1 through 5,
-	 * but this is sloppy and allows errors. Currently language off defaults to English.
+	 * Set the language of the speech. Default is that there is no speech and language is set to null.
+	 * 
+	 * @param the index of the the language in the list of supported languages.
 	 */
-	public static void setLanguage(int index) {
+	public static void setLanguage(Integer index) {
 		switch(index) {
 		case 1:
 			language = LanguageEnum.ENGLISH;
@@ -206,7 +208,7 @@ public class SpeechLogic {
 			language = LanguageEnum.SPANISH;
 			break;	
 		default:
-			language = LanguageEnum.ENGLISH;
+			language = null;
 		}
 	}
 

@@ -15,7 +15,7 @@ public class LanguageMenu extends Screen {
     class MenuButton extends PrefabButton {
         private int language;
 
-        public MenuButton(String displayString, int language){
+        public MenuButton(String displayString, Integer language){
             super(displayString);
             this.language = language;
         }
@@ -38,7 +38,7 @@ public class LanguageMenu extends Screen {
 
     private LanguageMenu(){
         setLayout(new GridLayout(6,1));
-        Off = new MenuButton("Off", 0);
+        Off = new MenuButton("Off", null);
         English = new MenuButton("English", 1);
         French = new MenuButton("French", 2);
         German = new MenuButton("German", 3);
