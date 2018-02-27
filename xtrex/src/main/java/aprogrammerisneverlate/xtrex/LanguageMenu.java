@@ -37,7 +37,7 @@ public class LanguageMenu extends Screen {
     private SelectionController Selector;
 
     private LanguageMenu(){
-        setLayout(new GridLayout(5,1));
+        setLayout(new GridLayout(6,1));
         Off = new MenuButton("Off", 0);
         English = new MenuButton("English", 1);
         French = new MenuButton("French", 2);
