@@ -29,7 +29,7 @@ public class OSXUblox7 {
       while ( ( n = in.read( buffer ) ) > -1 ) {
         s = new String( buffer, 0, n );     
         GPS.processGPS(s);     /* Redirrect output to proccessing */
-        // System.out.print( s );
+        //System.out.print( s );
       }
     } catch ( Exception ex ) {
       System.out.println( ex ); System.exit( 1 );

@@ -82,23 +82,25 @@ public class GPSparser {
         if ( input.contains(GLLpre) ) {
           noPre = input.substring(input.indexOf(GLLpre) + GLLpre.length());
           tokens = noPre.split(",");
-          if ( tokens[5].contains("V") && tokens[0].length() == 0 ){ 
-              aGPS = false;
-              Logs.Logger( "--  NO GPS ACQUIRED  --" + "  at time: " + localTime );
-          } else { 
-            GPStime = Float.parseFloat(tokens[4]);
-            aGPS = true;
-            System.out.println("-----   GPS ACQUIRED   -----");
-            Logs.Logger("GPS LOCATION: ");
-            Logs.Logger( "    GPS aquired at: " + tokens[4]  );
-                        
-            if ( tokens[1].contains("N") || tokens[1].contains("S") ){ 
-                latitude = Float.parseFloat(tokens[0])/100;
-                Logs.Logger( "    Latitude: " + tokens[0] );
-            }
-            if ( tokens[3].contains("E") || tokens[3].contains("W") ){ 
-                longitude = Float.parseFloat(tokens[2])/100;
-                Logs.Logger( "    Longitude: " + tokens[2] );
+          if (tokens.length >= 6) {
+            if ( tokens[5].contains("V") && tokens[0].length() == 0 ){ 
+                aGPS = false;
+                Logs.Logger( "--  NO GPS ACQUIRED  --" + "  at time: " + localTime );
+            } else { 
+                GPStime = Float.parseFloat(tokens[4]);
+                aGPS = true;
+                System.out.println("-----   GPS ACQUIRED   -----");
+                Logs.Logger("GPS LOCATION: ");
+                Logs.Logger( "    GPS aquired at: " + tokens[4]  );
+                            
+                if ( tokens[1].contains("N") || tokens[1].contains("S") ){ 
+                    latitude = Float.parseFloat(tokens[0])/100;
+                    Logs.Logger( "    Latitude: " + Float.toString(latitude) );
+                }
+                if ( tokens[3].contains("E") || tokens[3].contains("W") ){ 
+                    longitude = Float.parseFloat(tokens[2])/100;
+                    Logs.Logger( "    Longitude: " + Float.toString(longitude) );
+                }
             }
           }
         }

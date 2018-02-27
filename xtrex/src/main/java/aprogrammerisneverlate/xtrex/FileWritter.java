@@ -19,7 +19,7 @@ public class FileWritter {
         LogPath = Paths.get(".").toAbsolutePath().normalize().toString();
         if (start) {
             try {
-                fw = new FileWriter(LogPath + "\\log.txt");
+                fw = new FileWriter(LogPath + File.separator + "log.txt");
                 bw = new BufferedWriter(fw);
             } catch (IOException e) {
                 e.printStackTrace();
