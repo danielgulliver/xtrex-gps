@@ -110,6 +110,14 @@ public class WhereTo extends Screen {
 		return currentKeyboard;
 	}
 
+	/**
+	 * Return the destination entered by the user in the destination field.
+	 * @return the destination entered by the user
+	 */
+	public String getDestination() {
+		return destinationField.getText();
+	}
+
 	public void onMinusButtonPressed() {
 		// Highlight the previous button on the keyboard on the screen.
 		currentKeyboard.sc.back();
