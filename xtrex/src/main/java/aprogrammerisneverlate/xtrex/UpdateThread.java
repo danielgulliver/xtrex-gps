@@ -1,3 +1,5 @@
+package aprogrammerisneverlate.xtrex;
+
 /**
  * A thread to update the map and the trip computer in the background as GPS polls come through
  * 
@@ -23,7 +25,12 @@
             gpsThread.wait();
             mapScreen.getMap();
 
-            // TODO: Update trip odometer
+            // Update odometer - calculate new values
+            Odometer.calculateCurrentSpeed();
+            Odometer.calculateDistanceTravelled();
+            Odometer.calculateMovingTime();
+
+            // TODO: Update Trip Computer display - display new values
 
         }
 

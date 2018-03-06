@@ -5,11 +5,21 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
 
-
+/**
+ * The speech menu for the user to select the language of the speech.
+ * 
+ * @author Conor Spilsbury
+ * @version Sprint 2 
+ */
 public class LanguageMenu extends Screen {
-
     private static LanguageMenu languageMenu = null;
-
+    private MenuButton Off;
+    private MenuButton English;
+    private MenuButton French;
+    private MenuButton German;
+    private MenuButton Italian;
+    private MenuButton Spanish;
+    private SelectionController Selector;
     XTrexDisplay ScreenController = XTrexDisplay.getInstance();
 
     class MenuButton extends PrefabButton {
@@ -27,15 +37,6 @@ public class LanguageMenu extends Screen {
         }
     }
 
-    private MenuButton Off;
-    private MenuButton English;
-    private MenuButton French;
-    private MenuButton German;
-    private MenuButton Italian;
-    private MenuButton Spanish;
-
-    private SelectionController Selector;
-
     private LanguageMenu(){
         setLayout(new GridLayout(6,1));
         Off = new MenuButton("Off", null);
@@ -46,7 +47,6 @@ public class LanguageMenu extends Screen {
         Spanish = new MenuButton("Spanish", 5);
         
         List<PrefabButton> UIButtons = new ArrayList<PrefabButton>(Arrays.asList(Off, English, French, German, Italian, Spanish));
-    
         Selector = new SelectionController(UIButtons);
 
         this.add(Off);
