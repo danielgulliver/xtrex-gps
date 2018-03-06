@@ -2,7 +2,7 @@ package aprogrammerisneverlate.xtrex;
 
 import java.time.LocalTime;
 
-public class GPSparser implements Runnable {  
+public class GPSparser {  
     final static String gLLpre = "$GPGLL,";
     final static String positionPre = "$GPGGA,";
     final static String velocityPre = "$GPRMC,";
@@ -11,7 +11,7 @@ public class GPSparser implements Runnable {
     private static LocalTime localTime;
     private static GPSparser GPS = null;
     private static String OS = null;
-    static FileWritter logs = new FileWritter();
+    static LogWriter logs = new LogWriter();
     static int aGPS = 0;
     static int nGPS = 0;
     static float gPStime = 0.0f;
@@ -34,7 +34,7 @@ public class GPSparser implements Runnable {
 	}
 
     public void Start() {
-        logs.Logging(true);
+        logs.Logging(true, "log.txt");
         if(OS == null) { OS = System.getProperty("os.name"); }
         System.out.println(OS);
         if (OS.startsWith("Windows")) {
@@ -51,7 +51,7 @@ public class GPSparser implements Runnable {
             System.out.println("\nStarting GPS Read \n");
             Ublox.reader("/dev/cu.usbmodem1421");
         }       
-        logs.Logging(false);
+        logs.Logging(false, "");
     }
 
     public int Tracking() {
@@ -70,11 +70,11 @@ public class GPSparser implements Runnable {
         return gPStime;
     }
 
-    private float SexagesimalToDecimal( String coordinate ) {
+    private static float SexagesimalToDecimal( String coordinate ) {
         String[] hourMinuteSecond = coordinate.split(".");
-        float hour = Integer.parseInt(hourMinuteSecond[0].substring(0, lhourMinuteSecond[0])-2));
-        float minute = Integer.parseInt(hourMinuteSecond[0].substring(length(hourMinuteSecond[0])-2, length(hourMinuteSecond[0]))/60;
-        float second = Integer.parseInt(hourMinuteSecond[0])/3600;
+        float hour = Integer.parseInt(hourMinuteSecond[0].substring(0, hourMinuteSecond[0].length()-2));
+        float minute = Integer.parseInt(hourMinuteSecond[0].substring(hourMinuteSecond[0].length()-2, hourMinuteSecond[0].length()))/60;
+        float second = Integer.parseInt(hourMinuteSecond[1])/3600;
 
         return hour+minute+second;
     } 
@@ -87,22 +87,22 @@ public class GPSparser implements Runnable {
         String[] tokenV;
         String[] tokenSat;
         int nGSV;
+        localTime = LocalTime.now();
 
         if ( input.contains(gSVpre) ) {
             noPreSat = input.substring(input.indexOf(gSVpre) + gSVpre.length());
             tokenSat = noPreSat.split(",");
             nGSV = Integer.parseInt(tokenSat[0]);
-            localTime = LocalTime.now();
             logs.Logger("-- Number of GSV messages: " + tokenSat[0] + "  --" );
-            79
-            System.out.println("-- Number of GSV messages: " + tokenSat[0] + "  --");
+            // System.out.println("-- Number of GSV messages: " + tokenSat[0] + "  --");
         }
         
         if ( input.contains(positionPre) ) {
+          System.out.println(input);
           noPre = input.substring(input.indexOf(positionPre) + positionPre.length());
           tokens = noPre.split(",");
-          if (tokens.length >= 6) {
-            if ( Integer.parseInt(tokens[5]) == 0 /* || tokens[1].length() == 0 */ ){ 
+          if (tokens.length >= 8 ){
+            if ( /* Integer.parseInt(tokens[5]) == 0 || */ tokens[1].length() == 0 ){ 
                 aGPS = Integer.parseInt(tokens[5]);
                 logs.Logger( "--  NO GPS ACQUIRED  --" + "  at time: " + localTime );
             } else { 
@@ -139,23 +139,22 @@ public class GPSparser implements Runnable {
           }
         }
         if ( input.contains(velocityPre) ) {
+            System.out.println(input);
             noPreV = input.substring(input.indexOf(velocityPre) + velocityPre.length());
             tokenV = noPreV.split(",");
-            if (tokenV[1].contains("A")) {
-                if (tokenV[6].length() > 0) {
-                    velocity = convertRate * Float.parseFloat(tokenV[6]);
-                    logs.Logger( "    Velocity: " + Float.toString(velocity) );
-                }
-                if (tokenV[7].length() > 0) {
-                    trueTrackAngle = Float.parseFloat(tokenV[7]);
-                    logs.Logger( "    Velocity: " + Float.toString(trueTrackAngle) );
-                }
+            if (tokenV.length >= 8 ){
+                //if (tokenV[1].contains("A")) {
+                    if (tokenV[6].length() > 0) {
+                        velocity = convertRate * Float.parseFloat(tokenV[6]);
+                        logs.Logger( "    Velocity: " + Float.toString(velocity) );
+                    }
+                    if (tokenV[7].length() > 0) {
+                        trueTrackAngle = Float.parseFloat(tokenV[7]);
+                        logs.Logger( "    Velocity: " + Float.toString(trueTrackAngle) );
+                    }
+                // }
             }
 
         }
     }
-
-	public void run() {
-		
-	}
 }
