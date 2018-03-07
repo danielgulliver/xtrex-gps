@@ -7,7 +7,7 @@ public class xtrex {
 
     public static void main( String[] argv ) {
         GPSparser GPS = GPSparser.getInstance();
-        GPS.Start();
+        //GPS.Start();
         XTrexDisplay disp = XTrexDisplay.getInstance();
         disp.setScreen(MainMenu.getInstance());
     }

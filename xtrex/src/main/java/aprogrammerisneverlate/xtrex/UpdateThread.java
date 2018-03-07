@@ -22,7 +22,7 @@ package aprogrammerisneverlate.xtrex;
 
         while (running) {
             
-            gpsThread.wait();
+            //gpsThread.wait();
             mapScreen.getMap();
 
             // Update odometer - calculate new values
