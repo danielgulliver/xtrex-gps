@@ -231,6 +231,9 @@ public class SpeechModel {
 		System.out.println(language.getName());
     }
 
+    /**
+     * Lazy instantiate the SpeechModel
+     */
     public static SpeechModel getInstance() {
         if (speechModel == null) {
             speechModel = new SpeechModel();
