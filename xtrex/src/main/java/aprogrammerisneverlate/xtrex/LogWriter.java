@@ -5,34 +5,30 @@ package aprogrammerisneverlate.xtrex;
 import java.io.*;
 import java.nio.file.Paths;
 
-public class FileWritter {
+public class LogWriter {
     private static BufferedWriter bw = null;
     private static FileWriter fw = null;
     private static String LogPath;
     
-    public void Logging () {
-        LogPath = Paths.get(".").toAbsolutePath().normalize().toString();
-        Logging(true); 
-    }
     
-        static void Logging (boolean start) {
-        LogPath = Paths.get(".").toAbsolutePath().normalize().toString();
-        if (start) {
-            try {
-                fw = new FileWriter(LogPath + File.separator + "log.txt");
-                bw = new BufferedWriter(fw);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            try {
-                bw.flush();
-                bw.close();
-                fw.close();
-            } catch (IOException exc) {
-                exc.printStackTrace();
-            }
+    public static void Logging (boolean start, String filename) {
+    LogPath = Paths.get(".").toAbsolutePath().normalize().toString();
+    if (start) {
+        try {
+            fw = new FileWriter(LogPath + File.separator + filename);
+            bw = new BufferedWriter(fw);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+    } else {
+        try {
+            bw.flush();
+            bw.close();
+            fw.close();
+        } catch (IOException exc) {
+            exc.printStackTrace();
+        }
+    }
     }
     
     public void Logger (String log) {

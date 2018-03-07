@@ -11,16 +11,16 @@ import java.util.ArrayList;
  * @author Conor Spilsbury
  * @version Sprint 2 
  */
-public class LanguageMenu extends Screen {
-    private static LanguageMenu languageMenu = null;
+public class SpeechView extends Screen {
+    private static SpeechView speechView = null;
     private MenuButton Off;
     private MenuButton English;
     private MenuButton French;
     private MenuButton German;
     private MenuButton Italian;
     private MenuButton Spanish;
+    private SpeechController controller;
     private SelectionController Selector;
-    XTrexDisplay ScreenController = XTrexDisplay.getInstance();
 
     class MenuButton extends PrefabButton {
         private Integer language;
@@ -33,11 +33,12 @@ public class LanguageMenu extends Screen {
         @Override
         public void action() {
             super.action();
-            SpeechLogic.setLanguage(language);
+            controller.update(language);
         }
     }
 
-    private LanguageMenu(){
+    public SpeechView(SpeechController controller){
+        this.controller = controller;
         setLayout(new GridLayout(6,1));
         Off = new MenuButton("Off", null);
         English = new MenuButton("English", 1);
@@ -45,7 +46,7 @@ public class LanguageMenu extends Screen {
         German = new MenuButton("German", 3);
         Italian = new MenuButton("Italian", 4);
         Spanish = new MenuButton("Spanish", 5);
-        
+
         List<PrefabButton> UIButtons = new ArrayList<PrefabButton>(Arrays.asList(Off, English, French, German, Italian, Spanish));
         Selector = new SelectionController(UIButtons);
 
@@ -68,12 +69,4 @@ public class LanguageMenu extends Screen {
     public void onSelectButtonPressed() {
         Selector.click();
     }
-
-    public static LanguageMenu getInstance() {
-        if (languageMenu == null) {
-            languageMenu = new LanguageMenu();
-        }
-        return languageMenu;
-    }
-
 }
