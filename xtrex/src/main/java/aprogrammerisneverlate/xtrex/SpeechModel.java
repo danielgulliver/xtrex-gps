@@ -32,10 +32,10 @@ public class SpeechModel {
     private static final int MICROSECONDS_IN_MILISECOND = 1000;
     private enum LanguageEnum {
 		ENGLISH("English", "en-GB", "Female", "(en-GB, Susan, Apollo)"),
-		FRENCH("French", "fr-FR", "Male", "(fr-FR, Paul, Apollo)"),
-		GERMAN("German", "de-DE", "Male", "(de-DE, Stefan, Apollo)"),
-		ITALIAN("Italian", "it-IT",	"Male",	"(it-IT, Cosimo, Apollo)"),
-		SPANISH("Spanish", "es-ES", "Female", "(es-ES, HelenaRUS)");
+		FRENCH("Français", "fr-FR", "Male", "(fr-FR, Paul, Apollo)"),
+		GERMAN("Deutsch", "de-DE", "Male", "(de-DE, Stefan, Apollo)"),
+		ITALIAN("Italiano", "it-IT",	"Male",	"(it-IT, Cosimo, Apollo)"),
+		SPANISH("Español", "es-ES", "Female", "(es-ES, HelenaRUS)");
 
 		private String name;
 		private String locale;
@@ -85,6 +85,10 @@ public class SpeechModel {
 	 * @param index of the the language in the list of supported languages.
 	 */
 	public void setLanguage(Integer index) {
+		if (index == null) {
+			language = null;
+			return;
+		}
 		switch(index) {
 		case 1:
 			language = LanguageEnum.ENGLISH;
@@ -230,9 +234,7 @@ public class SpeechModel {
 	 * 
 	 * @param  fileNumber is the integer name of the audio file to play
 	 */
-	public static void playAudio(int fileNumber) {
-		String filename = String.valueOf(fileNumber) + ".wav";
-		File file = new File(filename);
+	public static void playAudio(File file) {
 		AudioInputStream audioIn;
 		try {
 			audioIn = AudioSystem.getAudioInputStream(file);
@@ -257,7 +259,11 @@ public class SpeechModel {
 	 * @return the current language of the system
 	 */
 	public String getLanguage() {
-		return language.getName();
+		if (language != null) {
+			return language.getName();
+		} else {
+			return null;
+		}
 	}
 
     /**

@@ -1,6 +1,7 @@
 package aprogrammerisneverlate.xtrex;
 
 import java.awt.GridLayout;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
@@ -48,7 +49,7 @@ public class SpeechView extends Screen {
         @Override
         public void action() {
             super.action();
-            controller.update(language);
+			controller.selected(language);
         }
     }
 
@@ -65,7 +66,7 @@ public class SpeechView extends Screen {
         Off = new MenuButton("Off", null);
         English = new MenuButton("English", 1);
         French = new MenuButton("Le Français", 2);
-        German = new MenuButton("Deutsche", 3);
+        German = new MenuButton("Deutsch", 3);
         Italian = new MenuButton("Italiano", 4);
         Spanish = new MenuButton("Español", 5);
 
