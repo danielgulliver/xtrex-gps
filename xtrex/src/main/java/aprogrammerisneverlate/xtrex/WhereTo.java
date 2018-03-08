@@ -64,14 +64,17 @@ public class WhereTo extends Screen {
 		// Create second keyboard:
 		ArrayList<PrefabButton> keyboard2Buttons = new ArrayList<PrefabButton>();
 		
-		// Create character buttons.
-		char[] numbers = "1234567890".toCharArray();
+		// Create number buttons (1-9).
+		char[] numbers = "789456123".toCharArray();
 		for (char number : numbers) {
 			keyboard2Buttons.add(new CharacterButton(number));
 		}
 
 		// Create button to switch to first keyboard.
 		keyboard2Buttons.add(new SwitchKeyboardButton("<="));
+
+		// Create zero button.
+		keyboard2Buttons.add(new CharacterButton('0'));
 
 		// Create delete button.
 		keyboard2Buttons.add(new DeleteButton());

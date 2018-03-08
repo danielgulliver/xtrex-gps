@@ -30,7 +30,6 @@ package aprogrammerisneverlate.xtrex;
     }
 
     public void run() {
-        Thread gpsThread = new Thread(GPSparser.getInstance(false));
         MapScreen mapScreen = MapScreen.getInstance();
         TripComputer tripComputer = TripComputer.getInstance();
 
