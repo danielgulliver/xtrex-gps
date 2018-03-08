@@ -38,13 +38,18 @@ package aprogrammerisneverlate.xtrex;
     public void run() {
         Maps.MapController mapController = Maps.getController();
         TripComputer tripComputer = TripComputer.getInstance();
+        SatelliteView satView = SatelliteView.getInstance();
+        GPSspoofer spoof = GPSspoofer.getInstance();
 
+        mapController.updateMap();
+        
         while (running) {
             
         	if (xtrex.gpsEnabled) {
 	        	synchronized(this) {
 		            try {
 		                gpsThread.wait();
+		                System.out.println("Notifed");
 		            } catch (Exception e) {
 		                e.printStackTrace();
 		            }
@@ -56,6 +61,10 @@ package aprogrammerisneverlate.xtrex;
 					e.printStackTrace();
 				}
         	}
+        	
+            if (!xtrex.gpsEnabled) {
+            	spoof.update();
+            }
             
             mapController.updateMap();
 
@@ -67,13 +76,9 @@ package aprogrammerisneverlate.xtrex;
             tripComputer.setSpeed((int) Math.round(Odometer.getCurrentSpeed()));
             tripComputer.setTime(Odometer.getMovingTime());
             tripComputer.repaint();
-
-            // FIXME: Temporary hack to sleep the thread. Should wait for gpsThread instead.
-            try {
-                Thread.sleep(1000);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            
+            satView.update();
+            
         }
 
     }
