@@ -11,15 +11,15 @@ import java.io.InputStream;
  * David Wakeling, 2018.
  */
 public class OSXUblox7 {
-  final static String FILE_NAME = "/dev/cu.usbmodem1421";
+  final String FILE_NAME = "/dev/cu.usbmodem1421";
   /* final static String FILE_NAME = "/dev/cu.usbmodem1441"; */
-  final static int    BUFF_SIZE = 1024;
+  final int    BUFF_SIZE = 1024;
   static GPSparser GPS = GPSparser.getInstance(true);
 
   /*
    * Reader.
    */
-  public static void reader( String fileName ) {
+  public void reader( String fileName ) {
     try {
       FileInputStream in = new FileInputStream( new File( fileName ) );
       byte[] buffer      = new byte[ BUFF_SIZE ];
@@ -39,7 +39,7 @@ public class OSXUblox7 {
   /*
    * OSX Ublox7 reader.
    */   
-  public static void main( String[] argv ) {
+  public void main( String[] argv ) {
     reader( FILE_NAME );
   } 
 }

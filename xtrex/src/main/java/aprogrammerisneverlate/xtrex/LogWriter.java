@@ -6,12 +6,12 @@ import java.io.*;
 import java.nio.file.Paths;
 
 public class LogWriter {
-    private static BufferedWriter bw = null;
-    private static FileWriter fw = null;
-    private static String LogPath;
+    private BufferedWriter bw = null;
+    private FileWriter fw = null;
+    private String LogPath;
     
     
-    public static void Logging (boolean start, String filename) {
+    public void Logging (boolean start, String filename) {
     LogPath = Paths.get(".").toAbsolutePath().normalize().toString();
     if (start) {
         try {
