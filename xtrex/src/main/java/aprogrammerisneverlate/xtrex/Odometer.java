@@ -7,7 +7,7 @@ package aprogrammerisneverlate.xtrex;
  */
 public class Odometer {
 
-    private GPSparser gps = GPSparser.getInstance();
+    private GPSparser gps = GPSparser.getInstance(false);
 
     private static float distanceTravelled;
     private static float currentSpeed;
