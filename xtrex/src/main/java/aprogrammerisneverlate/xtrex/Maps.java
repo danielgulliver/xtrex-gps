@@ -72,32 +72,34 @@ public class Maps {
 		
 	}
 	
-	private class MapController {
+	public class MapController {
 		
 		private MapModel mapModel;
 		private MapView mapView;
 		
-		public MapController() {
+		private MapController() {
 			
 			this.mapModel = new MapModel();
 			this.mapView = new MapView(this);
 			
-			this.mapView.setMapData(this.mapModel.getMapData(0.0d, 0.0d));
-			
 		}
 		
-		public MapView getMapView() {
+		public MapView getScreen() {
 			return this.mapView;
+		}
+		
+		public void updateMap() {
+			this.mapView.setMapData(this.mapModel.getMapData());
 		}
 		
 		public void increaseZoom() {
 			this.mapModel.setZoom(this.mapModel.getZoom() + 1);
-			this.mapView.setMapData(this.mapModel.getMapData(0.0d, 0.0d));
+			this.updateMap();
 		}
 		
 		public void decreaseZoom() {
 			this.mapModel.setZoom(this.mapModel.getZoom() - 1);
-			this.mapView.setMapData(this.mapModel.getMapData(0.0d, 0.0d));
+			this.updateMap();
 		}
 		
 		
@@ -111,6 +113,8 @@ public class Maps {
 		private final static String DEFAULT_LONG = "-3.532626";
 		private final static String IMG_SIZE = "342x418";
 		
+		
+		private GPSparser gps = GPSparser.getInstance(true);
 		private int zoom = 17;
 		
 		//Implicit no argument constructor here
@@ -126,21 +130,11 @@ public class Maps {
 			
 		}
 		
-		public byte[] getMapData(double latitude, double longitude) {
-			
-			String latStr, longStr;
-			
-			if (latitude == 0.0d || longitude == 0.0d) {
+		public byte[] getMapData() {
 				
-				latStr = MapModel.DEFAULT_LAT;
-				longStr = MapModel.DEFAULT_LONG;
-				
-			} else {
-				
-				latStr  = new Double(latitude).toString();
-				longStr = new Double(longitude).toString();
+			String latStr  = Double.toString(gps.Latitude());
+			String longStr = Double.toString(gps.Longitude());
  				
-			}
 			
 			final String method = "GET";
 		    final String url
@@ -169,18 +163,12 @@ public class Maps {
 		
 	}
 	
-	public static Maps getInstance() {
+	public static MapController getController() {
 		
 		if (Maps.mapsInstance == null)
 			Maps.mapsInstance = new Maps();
 		
-		return Maps.mapsInstance;
-		
-	}
-	
-	public Screen getScreen() {
-		
-		return this.mapController.getMapView();
+		return Maps.mapsInstance.mapController;
 		
 	}
 	
