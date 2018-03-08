@@ -92,9 +92,9 @@ public class WhereToModel {
             // Add the relevant character to the display.
             if (controller != null)
                 controller.setDestination(controller.getDestination() + keyValue);
-            else {
+            /*else {
                 throw new ControllerNotPairedException("The model does not have a paired controller");
-            }
+            }*/
 		}
 	}
 
@@ -117,9 +117,9 @@ public class WhereToModel {
                     String newDestination = controller.getDestination().substring(0, destination.length() - 1);
                     controller.setDestination(newDestination);
                 }
-            } else {
+            }/* else {
                 throw new ControllerNotPairedException("The model does not have a paired controller");
-            }
+            }*/
 		}
 	}
 
@@ -142,9 +142,9 @@ public class WhereToModel {
             if (controller != null) {
                 // Toggle the current keyboard.
                 controller.toggleKeyboard();
-            } else {
+            }/* else {
                 throw new ControllerNotPairedException("The model does not have a paired controller");
-            }
+            }*/
 		}
 	}
 }

@@ -72,7 +72,7 @@ public class GPSparser implements Runnable {
             }      
         } 
         else {
-            spoof = GPSspoofer.getInstance()
+            spoof = GPSspoofer.getInstance();
             System.out.println("Demo Mode Active - spoofing GPS reading");
         }
         logs.Logging(false, "");
