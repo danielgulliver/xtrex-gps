@@ -44,7 +44,6 @@ public class SatelliteView extends Screen {
         latitude = gps.Latitude();
         longitude = gps.Longitude();
         nGPS = gps.numSatalites();
-        System.out.println("update " + nGPS);
         repaint();
     }
 

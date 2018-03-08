@@ -3,7 +3,7 @@ package aprogrammerisneverlate.xtrex;
 * Win7 Ublox7 reader.
 */   
 public class xtrex {
-    public static Boolean gpsEnabled = true;
+    public static Boolean gpsEnabled = false;
     private static Thread gpsThread = null;
 
 
@@ -17,8 +17,8 @@ public class xtrex {
         // Start threads.
         // TODO: Create and start GPS thread.
         //gpsThread.start();
-        xtrex.gpsThread.run();
         new Thread(UpdateThread.getInstance()).start();
+        xtrex.gpsThread.run();
     }
 
 	public static Thread getGpsThread() {
