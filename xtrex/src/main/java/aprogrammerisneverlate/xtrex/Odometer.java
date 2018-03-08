@@ -6,35 +6,59 @@ package aprogrammerisneverlate.xtrex;
  * @author Daniel Gulliver
  */
 public class Odometer {
+    private static double distanceTravelled = 0.0;
+    private static double currentSpeed = 0.0;
+    private static double movingTime = 0.0;
 
-    private GPSparser gps = GPSparser.getInstance();
+    private static double prevLat = GPSparser.getInstance().Latitude();
+    private static double prevLong = GPSparser.getInstance().Longitude();
 
-    private static float distanceTravelled;
-    private static float currentSpeed;
-    private static float movingTime;
+    private static final double startTime = System.currentTimeMillis();
 
     /**
-     * Calculate the distance travelled by the XTrex device since booting.
-     * Must be called before <code>getDistanceTravelled()</code> in order to return the latest value.
+     * Calculate the distance travelled by the GPS device since the last GPS poll. This function is to be called after each GPS poll.
+     * @return the distance travelled by the GPS device since the last GPS poll
      */
-    public static void calculateDistanceTravelled() {
-        // TODO: Calculate distance travelled
+    private static double distanceTravelledInTimeSlice() {
+        double currLat = GPSparser.getInstance().Latitude();
+        double currLong = GPSparser.getInstance().Longitude();
+
+        final double R = 6371E3F;
+        double phi1 = Math.toRadians(prevLat);
+        double phi2 = Math.toRadians(currLat);
+        double delta_phi = Math.toRadians(prevLat - currLat);
+        double delta_lambda = Math.toRadians(prevLong - currLong);
+
+        // Haversine formula for calculating the distance between two points on a sphere given their latitude and longitude.
+        double a = Math.sin(delta_phi / 2) * Math.sin(delta_phi / 2) +
+                   Math.cos(phi1) * Math.cos(phi2) *
+                   Math.sin(delta_lambda / 2) * Math.sin(delta_lambda / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        double d = R * c;
+        return d;
+    }
+
+    /**
+     * Increase the distance travelled by the amount moved in the last time slice.
+     */
+    public static void setDistanceTravelled() {
+        distanceTravelled += distanceTravelledInTimeSlice();
     }
 
     /**
      * Calculate the current speed at which the XTrex device is travelling.
      * Must be called before <code>getCurrentSpeed()</code> in order to return the latest value.
      */
-    public static void calculateCurrentSpeed() {
-        // TODO: Calculate current speed
+    public static void setCurrentSpeed() {
+        currentSpeed = distanceTravelledInTimeSlice() / 1.0; // TODO: Replace time with polling rate of GPS device.
     }
 
     /**
-     * Calculate the amount of time for which the XTrex device has been moving since booting.
+     * Calculate the amount of time for which the XTrex device has been moving since booting in milliseconds.
      * Must be called before <code>getMovingTime()</code> in order to return the latest value.
      */
-    public static void calculateMovingTime() {
-        // TODO: Calculate moving time
+    public static void setMovingTime() {
+        movingTime = System.currentTimeMillis() - startTime;
     }
 
     /**
@@ -42,7 +66,7 @@ public class Odometer {
      * Remember to call <code>calculateDistanceTravelled()</code> first to get the latest value.
      * @return the distance travelled by the XTrex device
      */
-    public static float getDistanceTravelled() {
+    public static double getDistanceTravelled() {
         return distanceTravelled;
     }
 
@@ -51,7 +75,7 @@ public class Odometer {
      * Remember to call <code>calculateCurrentSpeed()</code> first to get the latest value.
      * @return the current speed of the XTrex device
      */
-    public static float getCurrentSpeed() {
+    public static double getCurrentSpeed() {
         return currentSpeed;
     }
 
@@ -60,7 +84,22 @@ public class Odometer {
      * Remember to call <code>calculateMovingTime()</code> first to get the latest value.
      * @return the moving time of the XTrex device
      */
-    public static float getMovingTime() {
+    public static double getMovingTime() {
         return movingTime;
+    }
+
+    /**
+     * Update the status of the odometer by calculating new values for the distance travelled, moving time, and current speed.
+     */
+    public static void update() {
+        setDistanceTravelled();
+        setMovingTime();
+        setCurrentSpeed();
+    }
+
+    public static void main(String[] args) {
+        System.out.println("Distance travelled: " + getDistanceTravelled());
+        setDistanceTravelled();
+        System.out.println("Distance travelled: " + getDistanceTravelled());
     }
 }

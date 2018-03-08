@@ -81,6 +81,10 @@ public class WhereTo extends Screen {
 		setKeyboard(keyboard1);		
 	}
 
+	/**
+	 * Return the single instance of WhereTo.
+	 * @return the single instance of WhereTo
+	 */
 	public static WhereTo getInstance() {
 		if (whereTo == null)
 			whereTo = new WhereTo();
@@ -172,6 +176,7 @@ public class WhereTo extends Screen {
 		}
 
 		public void keyTyped(KeyEvent e) {
+			// TODO: Remove magic numbers.
 			int keyCode = e.getKeyCode();
 			if (keyCode == 32 || (keyCode >= 48 && keyCode <= 90)) {
 				e.consume();
