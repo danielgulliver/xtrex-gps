@@ -42,6 +42,7 @@ package aprogrammerisneverlate.xtrex;
         GPSspoofer spoof = GPSspoofer.getInstance();
 
         mapController.updateMap();
+        System.out.println("Updated map");
         
         while (running) {
             
@@ -72,10 +73,12 @@ package aprogrammerisneverlate.xtrex;
             Odometer.update();
 
             // Update Trip Computer display - display new values
-            tripComputer.setDistance((int) Math.round(Odometer.getDistanceTravelled()));
-            tripComputer.setSpeed((int) Math.round(Odometer.getCurrentSpeed()));
-            tripComputer.setTime(Odometer.getMovingTime());
-            tripComputer.repaint();
+            if (XTrexDisplay.getInstance().getCurrentScreen() instanceof TripComputer) {
+                tripComputer.setDistance((int) Math.round(Odometer.getDistanceTravelled()));
+                tripComputer.setSpeed((int) Math.round(Odometer.getCurrentSpeed()));
+                tripComputer.setTime(Odometer.getMovingTime());
+                tripComputer.repaint();
+            }
             
             satView.update();
             
