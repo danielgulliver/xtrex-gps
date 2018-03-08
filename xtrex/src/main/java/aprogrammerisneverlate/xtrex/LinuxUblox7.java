@@ -11,7 +11,7 @@ import java.io.InputStream;
 public class LinuxUblox7 {
   final static String FILE_NAME = "/dev/ttyACM0";
   final static int    BUFF_SIZE = 1024;
-  static GPSparser GPS = GPSparser.getInstance();
+  static GPSparser GPS = GPSparser.getInstance(true);
 
   /*
    * Reader.

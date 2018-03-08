@@ -4,6 +4,9 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -22,15 +25,17 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 public class SpeechModel {
     private static SpeechModel speechModel = null;
     private final static String APIKEY = "524ef33fdf7447a2a64cb38e0d70d1f6";
-	//private final static String APIKEY2 = "7d6100f349c24081906cae7f4cb1d0d9";
+	private final static String APIKEY2 = "7d6100f349c24081906cae7f4cb1d0d9";
 	private final static String FORMAT = "riff-16khz-16bit-mono-pcm";
     private static LanguageEnum language;
+    private static String accessToken = null;
+    private static final int MICROSECONDS_IN_MILISECOND = 1000;
     private enum LanguageEnum {
 		ENGLISH("English", "en-GB", "Female", "(en-GB, Susan, Apollo)"),
-		FRENCH("French", "fr-FR", "Male", "(fr-FR, Paul, Apollo)"),
-		GERMAN("German", "de-DE", "Male", "(de-DE, Stefan, Apollo)"),
-		ITALIAN("Italian", "it-IT",	"Male",	"(it-IT, Cosimo, Apollo)"),
-		SPANISH("Spanish", "es-ES", "Female", "(es-ES, HelenaRUS)");
+		FRENCH("Français", "fr-FR", "Male", "(fr-FR, Paul, Apollo)"),
+		GERMAN("Deutsch", "de-DE", "Male", "(de-DE, Stefan, Apollo)"),
+		ITALIAN("Italiano", "it-IT",	"Male",	"(it-IT, Cosimo, Apollo)"),
+		SPANISH("Español", "es-ES", "Female", "(es-ES, HelenaRUS)");
 
 		private String name;
 		private String locale;
@@ -60,13 +65,30 @@ public class SpeechModel {
 			return artist;
 		}		
     }
+
+    /**
+     * Initialise the speech Model and set a schedule execution service to 
+     * renew a new access token to the Bingg Speech API once every 10 minutes.
+     */
+    public SpeechModel() {
+        final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+        executorService.scheduleAtFixedRate(new Runnable(){
+            public void run() {
+                setAccessToken();
+            }
+        },0,10,TimeUnit.MINUTES);
+    }
     
     /**
 	 * Set the language of the speech. Default is that there is no speech and language is set to null.
 	 * 
-	 * @param the index of the the language in the list of supported languages.
+	 * @param index of the the language in the list of supported languages.
 	 */
 	public void setLanguage(Integer index) {
+		if (index == null) {
+			language = null;
+			return;
+		}
 		switch(index) {
 		case 1:
 			language = LanguageEnum.ENGLISH;
@@ -95,10 +117,10 @@ public class SpeechModel {
 	 * @param directions is an array of strings containing all the directions that need to have speech generated for.
 	 */
 	public void parseDirections(String[] directions) {
+        if (directions == null) return;
 		if (this.getLanguage() != null) {
-			final String token  = renewAccessToken(APIKEY);
 			for (int i = 0; i < directions.length; i++) {
-				byte[] speech = generateSpeech(token, directions[i], language.getLocale(), 
+				byte[] speech = generateSpeech(getAccessToken(), directions[i], language.getLocale(), 
 						language.getGender(), language.getArtist(), 
 						FORMAT);
 				writeData(speech, String.valueOf(i) + ".wav");
@@ -126,7 +148,25 @@ public class SpeechModel {
 		};
 		byte[] response = HttpConnect.httpConnect(method, url, headers, body);
 		return new String(response); 
-	}
+    }
+    
+    /**
+     * Sets the access token for the Bing Speech API using the 
+     * renewAccessToken(String key) method. 
+     */
+    private static void setAccessToken() {
+        String token = renewAccessToken(APIKEY);
+        accessToken = token;
+    }
+
+    /**
+     * Retrieve the current accessToken.
+     * 
+     * @return The current access token for Bing Speech API.
+     */
+    private String getAccessToken() {
+        return accessToken;
+    }
 
 
     /**
@@ -192,18 +232,16 @@ public class SpeechModel {
 	/**
 	 * Play the audio file
 	 * 
-	 * @param  fileNumber is the integer name of the audio file to play
+	 * @param File is the file name of the audio file to play
 	 */
-	public static void playAudio(int fileNumber) {
-		String filename = String.valueOf(fileNumber) + ".wav";
-		File file = new File(filename);
+	public static void playAudio(File file) {
 		AudioInputStream audioIn;
 		try {
 			audioIn = AudioSystem.getAudioInputStream(file);
 			Clip clip = AudioSystem.getClip();
 			clip.open(audioIn);
 			clip.start();
-			Thread.sleep(clip.getMicrosecondLength());
+			Thread.sleep(clip.getMicrosecondLength()/MICROSECONDS_IN_MILISECOND);
 		} catch (UnsupportedAudioFileException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -221,16 +259,16 @@ public class SpeechModel {
 	 * @return the current language of the system
 	 */
 	public String getLanguage() {
-		return language.getName();
+		if (language != null) {
+			return language.getName();
+		} else {
+			return null;
+		}
 	}
 
-	/**
-	 * For testing purposes!
-	 */
-	public static void printLang() {
-		System.out.println(language.getName());
-    }
-
+    /**
+     * Lazy instantiate the SpeechModel
+     */
     public static SpeechModel getInstance() {
         if (speechModel == null) {
             speechModel = new SpeechModel();
