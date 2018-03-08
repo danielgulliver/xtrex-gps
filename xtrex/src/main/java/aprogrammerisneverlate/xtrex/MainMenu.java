@@ -41,7 +41,7 @@ public class MainMenu extends Screen {
         TripComputerButton = new MenuButton("Trip Computer", TripComputer.getInstance());
         MapButton = new MenuButton("Map", Maps.getInstance().getScreen());
         SpeechButton = new MenuButton("Speech", Speech.getSpeechViewInstance());
-        SatelliteButton = new MenuButton("Satellite", mainMenu);
+        SatelliteButton = new MenuButton("Satellite", SatelliteView.getInstance());
         AboutButton = new MenuButton("About", mainMenu);
         
         ArrayList<PrefabButton> UIButtons = new ArrayList<PrefabButton>(Arrays.asList(WhereToButton, TripComputerButton, MapButton, SpeechButton, SatelliteButton, AboutButton));
