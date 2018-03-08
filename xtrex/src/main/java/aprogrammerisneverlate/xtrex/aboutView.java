@@ -1,4 +1,4 @@
-package aprogrammerisneverlate.xtrex;
+/*package aprogrammerisneverlate.xtrex;
 
 import java.awt.*;
 import java.io.File;
@@ -21,4 +21,4 @@ public class AboutView extends Screen{
         return aboutView;
     }
 
-} 
+}*/
