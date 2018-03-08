@@ -65,7 +65,7 @@ public class SpeechView extends Screen {
         // define all the buttons to be used as part of the menu.
         Off = new MenuButton("Off", null);
         English = new MenuButton("English", 1);
-        French = new MenuButton("Le Français", 2);
+        French = new MenuButton("Français", 2);
         German = new MenuButton("Deutsch", 3);
         Italian = new MenuButton("Italiano", 4);
         Spanish = new MenuButton("Español", 5);

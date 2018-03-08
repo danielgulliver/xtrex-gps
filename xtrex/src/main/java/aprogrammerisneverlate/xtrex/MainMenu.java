@@ -1,9 +1,7 @@
 package aprogrammerisneverlate.xtrex;
 
 import java.awt.GridLayout;
-import java.awt.LayoutManager;
 import java.util.Arrays;
-import java.util.List;
 import java.util.ArrayList;
 
 public class MainMenu extends Screen {
@@ -38,7 +36,7 @@ public class MainMenu extends Screen {
     private SelectionController Selector;
 
     private MainMenu(){
-        setLayout(new GridLayout(3,2));
+        setLayout(new GridLayout(3,2,10,10));
         WhereToButton = new MenuButton("Where To?", WhereTo.getInstance());
         TripComputerButton = new MenuButton("Trip Computer", TripComputer.getInstance());
         MapButton = new MenuButton("Map", MapScreen.getInstance());
