@@ -13,6 +13,7 @@ public class WhereToController {
         this.model = model;
         this.alphaKeyboard = model.constructAlphabeticKeyboard();
         this.numKeyboard = model.constructNumericKeyboard();
+        this.currentKeyboard = this.alphaKeyboard;
         this.view.setKeyboard(this.alphaKeyboard);
     }
 
@@ -24,9 +25,10 @@ public class WhereToController {
     }
 
     public void toggleKeyboard() {
-        if (currentKeyboard.equals(alphaKeyboard)) {
+        if (this.currentKeyboard.equals(alphaKeyboard)) {
             view.setKeyboard(numKeyboard);
             this.currentKeyboard = numKeyboard;
+
         } else {
             view.setKeyboard(alphaKeyboard);
             this.currentKeyboard = alphaKeyboard;
