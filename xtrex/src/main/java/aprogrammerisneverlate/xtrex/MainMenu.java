@@ -42,7 +42,7 @@ public class MainMenu extends Screen {
         WhereToButton = new MenuButton("Where To?", WhereTo.getInstance());
         TripComputerButton = new MenuButton("Trip Computer", TripComputer.getInstance());
         MapButton = new MenuButton("Map", MapScreen.getInstance());
-        SpeechButton = new MenuButton("Speech", LanguageMenu.getInstance());
+        SpeechButton = new MenuButton("Speech", Speech.getSpeechViewInstance());
         SatelliteButton = new MenuButton("Satellite", mainMenu);
         AboutButton = new MenuButton("About", mainMenu);
         
