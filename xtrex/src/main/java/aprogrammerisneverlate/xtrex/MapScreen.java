@@ -51,6 +51,7 @@ public class MapScreen extends Screen {
 		if (zoom > 1) {
 			this.zoom--;
 			this.getMap();
+			repaint();
 		}
 		
 	}
@@ -61,6 +62,7 @@ public class MapScreen extends Screen {
 		if (zoom < 21) {
 			this.zoom++;
 			this.getMap();
+			repaint();
 		}
 		
 	}
