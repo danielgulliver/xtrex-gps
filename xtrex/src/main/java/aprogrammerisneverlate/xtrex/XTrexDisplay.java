@@ -6,9 +6,11 @@ import javax.swing.JToolBar;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 
 /**
  * The XTrexDisplay class displays a window on the screen in which the current screen is shown.
@@ -20,6 +22,7 @@ public class XTrexDisplay extends JFrame implements ActionListener {
 	private static final long serialVersionUID = -2837748826675931508L;
 	private static XTrexDisplay display = null;
 	private Screen currentScreen;
+	private XTrexFrame contentFrame = new XTrexFrame();
 
 	// Device buttons
 	JButton powerBtn = new JButton("On/Off");
@@ -31,10 +34,12 @@ public class XTrexDisplay extends JFrame implements ActionListener {
 	JToolBar xTrekButtons = new JToolBar("XTrex Buttons");
 	
 	private XTrexDisplay() {
+		//this.setUndecorated(true);
+		//this.setBackground(new Color(1,1,1,0));
 		this.setTitle("XTrex");
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setPreferredSize(new Dimension(Screen.SCREEN_WIDTH, Screen.SCREEN_HEIGHT));
+		//this.setPreferredSize(new Dimension(662, 1275));
 
 		// Set a cross-platform look and feel.
 		try {
@@ -61,6 +66,7 @@ public class XTrexDisplay extends JFrame implements ActionListener {
 		xTrekButtons.add(plusBtn);
 		xTrekButtons.add(selectBtn);
 	
+		this.add(contentFrame, BorderLayout.CENTER);
 		this.add(xTrekButtons, BorderLayout.PAGE_START);
 		this.pack();
 		this.setVisible(true);
@@ -81,7 +87,8 @@ public class XTrexDisplay extends JFrame implements ActionListener {
 	 * @return the current Screen being shown on the display
 	 */
 	public Screen getCurrentScreen() {
-		return currentScreen;
+		//return currentScreen;
+		return contentFrame.getCurrentScreen();
 	}
 	
 	/**
@@ -89,15 +96,17 @@ public class XTrexDisplay extends JFrame implements ActionListener {
 	 * Removes the current screen from the display and then adds the specified screen.
 	 */
 	public void setScreen(Screen screen) {
-		if (currentScreen != null) remove(currentScreen);
-		currentScreen = screen;
-		add(currentScreen, BorderLayout.CENTER);
-		this.revalidate();
-		this.repaint();
+		// if (currentScreen != null) remove(currentScreen);
+		// currentScreen = screen;
+		// add(currentScreen, BorderLayout.CENTER);
+		// this.revalidate();
+		// this.repaint();
+		contentFrame.setScreen(screen);
 	}
 	
 	public void refreshDisplay() {
-		repaint();
+		//repaint();
+		contentFrame.repaint();
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -116,4 +125,7 @@ public class XTrexDisplay extends JFrame implements ActionListener {
 			currentScreen.onSelectButtonPressed();
 		}
 	}
+
+	
+
 }
