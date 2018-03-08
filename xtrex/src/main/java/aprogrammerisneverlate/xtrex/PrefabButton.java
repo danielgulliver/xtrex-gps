@@ -26,7 +26,7 @@ public class PrefabButton extends JButton {
     	
     	setBackground(Color.white);
         setForeground(new Color(113,113,113));
-        setFont(new Font("Arial", Font.PLAIN, 30));
+        setFont(new Font("Arial", Font.PLAIN, 20));
         setBorder(BorderFactory.createLineBorder(new Color(237,237,237), 5));
         setBorder(BorderFactory.createCompoundBorder(getBorder(), BorderFactory.createLineBorder(new Color(220,220,220), 2)));
     }

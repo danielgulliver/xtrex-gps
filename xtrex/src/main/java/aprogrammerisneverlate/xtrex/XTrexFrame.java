@@ -10,15 +10,16 @@ import javax.swing.*;
 public class XTrexFrame extends JPanel {
 
     private Screen currentScreen;
-    JLabel label = null;
+    JLabel label = new JLabel();
 
     public XTrexFrame(){
         //this.setBackground(new Color(1,1,1,0));
-        this.setPreferredSize(new Dimension(662, 1275));
+        //this.setPreferredSize(new Dimension(662, 1275));
+        this.setPreferredSize(new Dimension(460, 886));
 
         try{
             BufferedImage img = ImageIO.read(new File("bg.png"));
-            label = new JLabel(new ImageIcon(img));
+            label.setIcon(new ImageIcon(new ImageIcon(img).getImage().getScaledInstance(460, 886, Image.SCALE_SMOOTH)));
             add(label);
             label.setOpaque(false);
             label.setLayout(new OverlayLayout(label));
@@ -41,8 +42,8 @@ public class XTrexFrame extends JPanel {
     public void setScreen(Screen screen) {
 		if (currentScreen != null) label.remove(currentScreen);
         currentScreen = screen;
-        currentScreen.setMaximumSize(new Dimension(490,600));
-        currentScreen.setAlignmentX(0.49f);
+        currentScreen.setMaximumSize(new Dimension(342,418));
+        //currentScreen.setAlignmentX(0.49f);
         currentScreen.setAlignmentY(0.56f);
         currentScreen.setBackground(new Color(237,237,237));
         label.add(currentScreen);
