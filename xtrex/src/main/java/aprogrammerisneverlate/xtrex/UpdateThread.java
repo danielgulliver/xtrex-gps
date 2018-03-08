@@ -30,22 +30,18 @@ package aprogrammerisneverlate.xtrex;
     }
 
     public void run() {
-        //Thread gpsThread = xtrex.getGpsThread();
+        Thread gpsThread = new Thread(GPSparser.getInstance(false));
         MapScreen mapScreen = MapScreen.getInstance();
-        //MapScreen.setGpsInstance(GPS.getInstance());
         TripComputer tripComputer = TripComputer.getInstance();
 
         while (running) {
             
-<<<<<<< HEAD
+            // Wait for the GPS Thread to notify us to update.
             /*try {
                 gpsThread.wait();
             } catch (Exception e) {
                 e.printStackTrace();
             }*/
-=======
-            //gpsThread.wait();
->>>>>>> ca89fd9c747b2f6eb7b5dd3516665c081703324c
             mapScreen.getMap();
 
             // Update odometer - calculate new values
@@ -54,7 +50,6 @@ package aprogrammerisneverlate.xtrex;
             // Update Trip Computer display - display new values
             tripComputer.setDistance((int) Math.round(Odometer.getDistanceTravelled()));
             tripComputer.setSpeed((int) Math.round(Odometer.getCurrentSpeed()));
-            System.out.println(Odometer.getMovingTime());
             tripComputer.setTime(Odometer.getMovingTime());
             tripComputer.repaint();
 
