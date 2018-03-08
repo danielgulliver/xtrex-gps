@@ -2,72 +2,115 @@ package aprogrammerisneverlate.xtrex;
 
 import java.time.LocalTime;
 
-public class GPSparser {  
+/**
+ * Selects the version of Ublox 7 appropriate for the Clients OS
+ * Parses GPS input to variables and output log.
+ * 
+ * @author Connor Harris
+ * @version Sprint 2 
+ */
+
+public class GPSparser implements Runnable {  
+    
     final static String gLLpre = "$GPGLL,";
     final static String positionPre = "$GPGGA,";
     final static String velocityPre = "$GPRMC,";
     final static String gSVpre = "$GPGSV,";
     final static float convertRate = 1.852f; // Convertion factor for Knots to Km/h
     private static LocalTime localTime;
-    private static GPSparser GPS = null;
     private static String OS = null;
+    private static Boolean gpsEnabled = false;
+    private GPSspoofer spoof = GPSspoofer.getInstance();
     static LogWriter logs = new LogWriter();
-    static int aGPS = 0;
-    static int nGPS = 0;
-    static float gPStime = 0.0f;
-    static float latitude = 50.737730f;
-    static float longitude = -3.532626f;
-    static float altitude = 0.0f;
-    static float velocity = 0.0f;
-    static float trueTrackAngle = 0.0f;
+    private static int aGPS = 0;
+    private static int nGPS = 0;
+    private static float gPStime = 0.0f;
+    private static float latitude = 50.737730f;
+    private static float longitude = -3.532626f;
+    private static float altitude = 0.0f;
+    private static float velocity = 0.0f;
+    private static float trueTrackAngle = 0.0f;
 
     private GPSparser(){}
     
     /**
-	 * Return the single instance of GPSparser held by this class.
+	 * Return the single instance of GPSparser held by this class
+     * in a thread safe manner.
 	 * @return the single instance of GPSparser
 	 */
-	public static GPSparser getInstance() {
-		if (GPS == null)
-			GPS = new GPSparser();
-		return GPS;
+    private static class Loader {
+        static final GPSparser instance = new GPSparser();
+    }
+	public static GPSparser getInstance(Boolean gpsEnable) {
+        gpsEnabled = gpsEnable;
+        return Loader.instance;
 	}
 
     public void Start() {
         logs.Logging(true, "log.txt");
         if(OS == null) { OS = System.getProperty("os.name"); }
         System.out.println(OS);
-        if (OS.startsWith("Windows")) {
-            Win7Ublox7 Ublox = new Win7Ublox7();
-            Ublox.listPorts();
-            System.out.println("\nStarting GPS Read \n");
-            Ublox.reader("COM6");
-        } else if (OS.startsWith("Linux")) {
-            LinuxUblox7 Ublox = new LinuxUblox7();
-            System.out.println("\nStarting GPS Read \n");
-            Ublox.reader("/dev/ttyACM0");
-        } else if (OS.startsWith("Mac")) {
-            OSXUblox7 Ublox = new OSXUblox7();
-            System.out.println("\nStarting GPS Read \n");
-            Ublox.reader("/dev/cu.usbmodem1421");
-        }       
+        logs.Logger(OS);
+        if (gpsEnabled == true) {
+            if (OS.startsWith("Windows")) {
+                Win7Ublox7 Ublox = new Win7Ublox7();
+                Ublox.listPorts();
+                System.out.println("\nStarting GPS Read \n");
+                Ublox.reader("COM6");
+            } else if (OS.startsWith("Linux")) {
+                LinuxUblox7 Ublox = new LinuxUblox7();
+                System.out.println("\nStarting GPS Read \n");
+                Ublox.reader("/dev/ttyACM0");
+            } else if (OS.startsWith("Mac")) {
+                OSXUblox7 Ublox = new OSXUblox7();
+                System.out.println("\nStarting GPS Read \n");
+                Ublox.reader("/dev/cu.usbmodem1421");
+            }      
+        } 
+        else {
+            System.out.println("Demo Mode Active - spoofing GPS reading");
+        }
         logs.Logging(false, "");
     }
 
     public int Tracking() {
-        return aGPS;
+        if (gpsEnabled == true) return aGPS;
+        else return spoof.aGPS;
+    }
+
+    public float numSatalites() {
+        if (gpsEnabled == true) return nGPS;
+        else return spoof.nGPS;
     }
 
     public float Latitude() {
-        return latitude;
+        if (gpsEnabled == true) return latitude;
+        else return spoof.latitude;
     }
 
     public float Longitude() {
-        return longitude;
+        if (gpsEnabled == true) return longitude;
+        else return spoof.longitude;
     }
 
     public float GPStime() {
-        return gPStime;
+        if (gpsEnabled == true) return gPStime;
+        else return spoof.gpsTime;
+    }
+    
+    public float Altitude() {
+        if (gpsEnabled == true) return altitude;
+        else return spoof.altitude;
+    }
+
+    public float Velocity() {
+        if (gpsEnabled == true) return velocity;
+        else return spoof.velocity;
+    }
+
+    public float TrueTrackAngle() {
+        if (gpsEnabled == true) return trueTrackAngle;
+        else return spoof.trueTrackAngle;
     }
 
     private static float SexagesimalToDecimal( String coordinate ) {
@@ -93,7 +136,7 @@ public class GPSparser {
             noPreSat = input.substring(input.indexOf(gSVpre) + gSVpre.length());
             tokenSat = noPreSat.split(",");
             nGSV = Integer.parseInt(tokenSat[0]);
-            logs.Logger("-- Number of GSV messages: " + tokenSat[0] + "  --" );
+            logs.Logger("-- Number of GSV messages: " + tokenSat[0] + "   Number of Satalites in view: " + tokenSat[2] + "  --" );
             // System.out.println("-- Number of GSV messages: " + tokenSat[0] + "  --");
         }
         
@@ -156,5 +199,8 @@ public class GPSparser {
             }
 
         }
+    }
+    public void run() {
+        Start();
     }
 }
