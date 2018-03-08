@@ -6,7 +6,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 public class SatelliteView extends Screen {
-    GPSparser gps =  GPSparser.getInstance(true); // set to true if dongle is loaded.
+    GPSparser gps =  GPSparser.getInstance();
     double latitude = 0.0d;
     double longitude= 0.0d;
     int nGPS = 0;

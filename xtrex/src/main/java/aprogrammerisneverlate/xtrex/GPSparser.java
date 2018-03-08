@@ -42,8 +42,7 @@ public class GPSparser implements Runnable {
     private static class Loader {
         static final GPSparser instance = new GPSparser();
     }
-    public static GPSparser getInstance(Boolean gpsEnable) {
-        gpsEnabled = gpsEnable;
+    public static GPSparser getInstance() {
         return Loader.instance;
 	}
 
@@ -185,8 +184,8 @@ public class GPSparser implements Runnable {
                         altitude = Float.parseFloat(tokens[7]);
                         logs.Logger( "    Altitude: " + Float.toString(altitude) );
                     }
-                
                 }
+                notify();
             }
           }
         }
@@ -210,6 +209,7 @@ public class GPSparser implements Runnable {
     }
     
     public void run() {
+        gpsEnabled = xtrex.gpsEnabled;
         Start();
     }
 }

@@ -20,7 +20,7 @@ public class Win7Ublox7 {
   final int    TIMEOUT   =  2000;  /* ms  */
   final int    BUFF_SIZE =  1024;  
   /* my variables */
-  GPSparser GPS = GPSparser.getInstance(true);
+  GPSparser GPS = GPSparser.getInstance();
   
 
   /*
