@@ -21,7 +21,7 @@ public class GPSparser implements Runnable {
     private LocalTime localTime;
     private String OS = null;
     private static Boolean gpsEnabled = false;
-    private GPSspoofer spoof = null;
+    private GPSspoofer spoof = GPSspoofer.getInstance();
     static LogWriter logs = new LogWriter();
     private int aGPS = 0;
     private int nGPS = 0;
@@ -59,7 +59,7 @@ public class GPSparser implements Runnable {
                 Win7Ublox7 Ublox = new Win7Ublox7();
                 Ublox.listPorts();
                 System.out.println("\nStarting GPS Read \n");
-                Ublox.reader("COM6");
+                Ublox.reader("COM3");
             } else if (OS.startsWith("Linux")) {
                 LinuxUblox7 Ublox = new LinuxUblox7();
                 System.out.println("\nStarting GPS Read \n");
@@ -71,7 +71,6 @@ public class GPSparser implements Runnable {
             }      
         } 
         else {
-            spoof = GPSspoofer.getInstance();
             System.out.println("Demo Mode Active - spoofing GPS reading");
         }
         logs.Logging(false, "");
