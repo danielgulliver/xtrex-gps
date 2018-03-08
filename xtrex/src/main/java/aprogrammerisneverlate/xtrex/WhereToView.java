@@ -33,7 +33,7 @@ public class WhereToView extends Screen {
 		setLayout(new BorderLayout());
 
 		// Create destination field.
-		JTextPane destinationField = new JTextPaneLimit(25);
+		destinationField = new JTextPaneLimit(25);
 		destinationField.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 22));
 		add(destinationField, BorderLayout.PAGE_START);
 	}
@@ -54,15 +54,18 @@ public class WhereToView extends Screen {
 	 * @param Keyboard kbd -- The keyboard to display on the screen
 	 */
 	public void setKeyboard(Keyboard kbd) {
-		if (currentKeyboard != null) {
-			remove(currentKeyboard);
+		if (this.currentKeyboard != null) {
+			remove(this.currentKeyboard);
 		}
-		currentKeyboard = kbd;
-		add(currentKeyboard, BorderLayout.CENTER);
+		this.currentKeyboard = kbd;
+		add(this.currentKeyboard, BorderLayout.CENTER);
 		revalidate();
 		repaint();
 	}
 
+	/**
+	 * Set the destination text in the input field.
+	 */
 	public void setDestination(String destination) {
 		this.destination = destination;
 		destinationField.setText(destination);
