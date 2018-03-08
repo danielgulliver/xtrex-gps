@@ -12,7 +12,6 @@ import java.util.ArrayList;
  * @version Sprint 2 
  */
 public class SpeechView extends Screen {
-    private static SpeechView speechView = null;
     private MenuButton Off;
     private MenuButton English;
     private MenuButton French;
@@ -22,15 +21,19 @@ public class SpeechView extends Screen {
     private SpeechController controller;
     private SelectionController Selector;
 
+    /**
+     * Inner class extends the PrefabButton class, which extends the JButton class. 
+     * Used to create each button in the menu for setting the language. 
+     */
     class MenuButton extends PrefabButton {
         private Integer language;
 
         /**
          * Instantiate a new MenuButton.
          * 
-         * @param String to be displayed as the button's text.
-         * @param Integer corresponding to the position of the specified language 
-         * in the default list of languages.
+         * @param displayString is the text to be displayed as the button's text.
+         * @param language is the integer corresponding to the position of the specified 
+         * language in the default list of languages.
          */
 
         public MenuButton(String displayString, Integer language){
@@ -52,7 +55,7 @@ public class SpeechView extends Screen {
     /**
      * Create a new instance of the SpeechView.
      * 
-     * @param controller as part of the MVC pattern for Speech.
+     * @param controller is the controller part of the MVC pattern for Speech.
      */
     public SpeechView(SpeechController controller){
         this.controller = controller;
@@ -62,7 +65,7 @@ public class SpeechView extends Screen {
         Off = new MenuButton("Off", null);
         English = new MenuButton("English", 1);
         French = new MenuButton("Le Français", 2);
-        German = new MenuButton("German", 3);
+        German = new MenuButton("Deutsche", 3);
         Italian = new MenuButton("Italiano", 4);
         Spanish = new MenuButton("Español", 5);
 
