@@ -34,8 +34,8 @@ public class XTrexDisplay extends JFrame implements ActionListener {
 	JToolBar xTrekButtons = new JToolBar("XTrex Buttons");
 	
 	private XTrexDisplay() {
-		//this.setUndecorated(true);
-		//this.setBackground(new Color(1,1,1,0));
+		this.setUndecorated(true);
+		this.setBackground(new Color(1,1,1,0));
 		this.setTitle("XTrex");
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

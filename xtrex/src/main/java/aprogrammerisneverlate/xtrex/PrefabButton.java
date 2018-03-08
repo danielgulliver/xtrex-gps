@@ -3,7 +3,9 @@ package aprogrammerisneverlate.xtrex;
 import javax.swing.JButton;
 
 import java.awt.Color;
+import java.awt.Font;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 
 public class PrefabButton extends JButton {
@@ -24,11 +26,14 @@ public class PrefabButton extends JButton {
     	
     	setBackground(Color.white);
         setForeground(new Color(113,113,113));
+        setFont(new Font("Arial", Font.PLAIN, 30));
+        setBorder(BorderFactory.createLineBorder(new Color(237,237,237), 5));
+        setBorder(BorderFactory.createCompoundBorder(getBorder(), BorderFactory.createLineBorder(new Color(220,220,220), 2)));
     }
 
     public void selected(boolean isSelected) {
         if (isSelected) {
-            setBackground(new Color(255,153,0)); //Orange
+            setBackground(new Color(249,147,33)); //Orange
             setForeground(Color.white);
         } else {
             setBackground(Color.white);
