@@ -7,8 +7,8 @@ public class xtrex {
 
     public static void main( String[] argv ) {
         GPSparser GPS = GPSparser.getInstance(false);
-        gpsThread = new Thread(GPS, "GPS thread");
-        gpsThread.run();
+        xtrex.gpsThread = new Thread(GPS, "GPS thread");
+        xtrex.gpsThread.run();
         XTrexDisplay disp = XTrexDisplay.getInstance();
         disp.setScreen(MainMenu.getInstance());
 
