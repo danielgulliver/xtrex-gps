@@ -10,7 +10,7 @@ public class Odometer {
     private static double currentSpeed = 0.0;
     private static double movingTime = 0.0;
 
-    private static GPSparser gps = GPSparser.getInstance(false);
+    private static GPSparser gps = GPSparser.getInstance();
     private static double prevLat = gps.Latitude();
     private static double prevLong = gps.Longitude();
 

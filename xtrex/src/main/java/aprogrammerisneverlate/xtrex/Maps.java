@@ -114,10 +114,12 @@ public class Maps {
 		private final static String IMG_SIZE = "342x418";
 		
 		
-		private GPSparser gps = GPSparser.getInstance(true);
+		private GPSparser gps;
 		private int zoom = 17;
 		
-		//Implicit no argument constructor here
+		private MapModel() {
+			this.gps = GPSparser.getInstance();
+		}
 		
 		public int getZoom() {
 			return this.zoom;
