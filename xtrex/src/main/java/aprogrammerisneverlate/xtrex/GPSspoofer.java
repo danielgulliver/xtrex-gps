@@ -36,4 +36,14 @@ public class GPSspoofer {
 	public static GPSspoofer getInstance() {
         return Loader.instance;
     }     
+    public void update(){
+        aGPS = rand.nextInt(5) +1;
+        nGPS = rand.nextInt(36) +1;
+        gpsTime = Float.parseFloat((LocalTime.now()).toString().replaceAll(":",""));
+        latitude = 50.73f + rand.nextFloat()/100;
+        longitude = -3.53f + rand.nextFloat()/100;
+        altitude = 120.0f + rand.nextFloat()/500;
+        velocity = 0.0f + rand.nextFloat();
+        trueTrackAngle = rand.nextFloat()*360;
+    }
 }
