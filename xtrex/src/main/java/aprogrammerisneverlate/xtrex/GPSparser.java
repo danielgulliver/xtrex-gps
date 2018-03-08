@@ -184,7 +184,9 @@ public class GPSparser implements Runnable {
                         logs.Logger( "    Altitude: " + Float.toString(altitude) );
                     }
                 }
-                notify();
+                synchronized(this){
+                    notify();
+                }
             }
           }
         }
