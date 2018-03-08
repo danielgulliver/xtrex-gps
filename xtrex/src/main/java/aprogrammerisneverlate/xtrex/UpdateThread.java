@@ -13,10 +13,11 @@ package aprogrammerisneverlate.xtrex;
 
     private static UpdateThread updateThread;
     private Thread t;
+    private Thread gpsThread;
     private boolean running = true;
 
     private UpdateThread() {
-
+    	this.gpsThread = xtrex.gpsThread;
     }
 
     /**
@@ -24,13 +25,15 @@ package aprogrammerisneverlate.xtrex;
      * @return the single instance of UpdateThread
      */
     public static UpdateThread getInstance() {
+    	
         if (updateThread == null)
             updateThread = new UpdateThread();
+        
         return updateThread;
     }
 
     public void run() {
-        MapScreen mapScreen = MapScreen.getInstance();
+        //MapScreen mapScreen = MapScreen.getInstance();
         TripComputer tripComputer = TripComputer.getInstance();
 
         while (running) {
@@ -41,7 +44,7 @@ package aprogrammerisneverlate.xtrex;
             } catch (Exception e) {
                 e.printStackTrace();
             }*/
-            mapScreen.getMap();
+           // mapScreen.getMap();
 
             // Update odometer - calculate new values
             Odometer.update();
