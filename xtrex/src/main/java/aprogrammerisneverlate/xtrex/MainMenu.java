@@ -36,7 +36,7 @@ public class MainMenu extends Screen {
     private SelectionController Selector;
 
     private MainMenu(){
-        setLayout(new GridLayout(3,2,10,10));
+        setLayout(new GridLayout(3,2));
         WhereToButton = new MenuButton("Where To?", WhereTo.getInstance());
         TripComputerButton = new MenuButton("Trip Computer", TripComputer.getInstance());
         MapButton = new MenuButton("Map", MapScreen.getInstance());
