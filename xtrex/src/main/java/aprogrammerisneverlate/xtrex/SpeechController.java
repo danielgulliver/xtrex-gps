@@ -34,9 +34,16 @@ public class SpeechController {
      * @throws IOException
      */
     public void selected(Integer language) {
+        // use the integer representation of the language to set the language for the device.
         model.setLanguage(language);
+
+        // get the name of the language as a string.
         String lang = model.getLanguage();
+
+        // check that a language has been set and it's not been turned off.
         if (lang == null) return;
+
+        // play the audio to say the specific language has been selected.
         File openFile = new File(lang + "Selected.wav");
         SpeechModel.playAudio(openFile);
     }
