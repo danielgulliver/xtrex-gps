@@ -14,14 +14,14 @@ import java.util.Random;
 public class GPSspoofer {
     private static Random rand = new Random();
     private Boolean spoofing = true;
-    static int aGPS = rand.nextInt(5) +1;
-    static int nGPS = rand.nextInt(36) +1;
-    static float gpsTime = Float.parseFloat((LocalTime.now()).toString().replaceAll(":",""));
-    static float latitude = 50.73f + rand.nextFloat()/100;
-    static float longitude = -3.53f + rand.nextFloat()/100;
-    static float altitude = 120.0f + rand.nextFloat()/500;
-    static float velocity = 0.0f + rand.nextFloat();
-    static float trueTrackAngle = rand.nextFloat()*360;
+    int aGPS = rand.nextInt(5) +1;
+    int nGPS = rand.nextInt(36) +1;
+    float gpsTime = Float.parseFloat((LocalTime.now()).toString().replaceAll(":",""));
+    float latitude = 50.73f + rand.nextFloat()/100;
+    float longitude = -3.53f + rand.nextFloat()/100;
+    float altitude = 120.0f + rand.nextFloat()/500;
+    float velocity = 0.0f + rand.nextFloat();
+    float trueTrackAngle = rand.nextFloat()*360;
 
 
     private GPSspoofer(){}

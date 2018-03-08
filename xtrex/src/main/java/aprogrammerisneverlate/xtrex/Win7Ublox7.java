@@ -15,18 +15,18 @@ import java.io.InputStream;
 
 public class Win7Ublox7 {
   /* original variables */
-  final static String PORT_NAME = "COM6"; /* found via Computer->Devices */
-  final static int    BAUD_RATE =  9600;  /* bps */
-  final static int    TIMEOUT   =  2000;  /* ms  */
-  final static int    BUFF_SIZE =  1024;  
+  final String PORT_NAME = "COM6"; /* found via Computer->Devices */
+  final int    BAUD_RATE =  9600;  /* bps */
+  final int    TIMEOUT   =  2000;  /* ms  */
+  final int    BUFF_SIZE =  1024;  
   /* my variables */
-  static GPSparser GPS = GPSparser.getInstance(true);
+  GPSparser GPS = GPSparser.getInstance(true);
   
 
   /*
    * Reader Provided in Win7Ublox7.
    */
-  public static void reader( String portName ) {
+  public void reader( String portName ) {
     
     System.out.println(  "--- OPEN PORT ---\n" );
     try {
@@ -69,7 +69,7 @@ public class Win7Ublox7 {
     }
   }
 
-  static void listPorts() {
+    void listPorts() {
         java.util.Enumeration<CommPortIdentifier> portEnum = CommPortIdentifier.getPortIdentifiers();
         while ( portEnum.hasMoreElements() ) 
         {
@@ -78,7 +78,7 @@ public class Win7Ublox7 {
         }        
     }
     
-    static String getPortTypeName ( int portType )
+    String getPortTypeName ( int portType )
     {
         switch ( portType )
         {
