@@ -12,12 +12,12 @@ package aprogrammerisneverlate.xtrex;
  public class UpdateThread implements Runnable {
 
     private static UpdateThread updateThread;
-    private Thread t;
+    
     private Thread gpsThread;
     private boolean running = true;
 
     private UpdateThread() {
-    	this.gpsThread = xtrex.gpsThread;
+    	
     }
 
     /**
@@ -26,25 +26,28 @@ package aprogrammerisneverlate.xtrex;
      */
     public static UpdateThread getInstance() {
     	
-        if (updateThread == null)
+        if (updateThread == null) {
             updateThread = new UpdateThread();
+            updateThread.gpsThread = xtrex.getGpsThread();
+        }
+            
         
         return updateThread;
     }
 
     public void run() {
-        //MapScreen mapScreen = MapScreen.getInstance();
+        Maps.MapController mapController = Maps.getController();
         TripComputer tripComputer = TripComputer.getInstance();
 
         while (running) {
             
-            // Wait for the GPS Thread to notify us to update.
-            /*try {
+            try {
                 gpsThread.wait();
             } catch (Exception e) {
                 e.printStackTrace();
-            }*/
-           // mapScreen.getMap();
+            }
+            
+            mapController.updateMap();
 
             // Update odometer - calculate new values
             Odometer.update();
@@ -63,16 +66,6 @@ package aprogrammerisneverlate.xtrex;
             }
         }
 
-    }
-
-    public void start() {
-        if (t == null)
-            t = new Thread(this);
-        t.start();
-    }
-
-    public void stopRunning(){
-        this.running = false;
     }
 
  }

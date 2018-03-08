@@ -15,10 +15,10 @@ public class xtrex {
         // Start threads.
         // TODO: Create and start GPS thread.
         gpsThread.start();
-        UpdateThread.getInstance().start();
+        new Thread(UpdateThread.getInstance()).start();
     }
 
-	public Thread gpsInstance() {
+	public static Thread getGpsThread() {
         return gpsThread;
 	}
 
