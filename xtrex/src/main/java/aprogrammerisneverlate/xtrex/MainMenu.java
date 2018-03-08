@@ -37,7 +37,7 @@ public class MainMenu extends Screen {
 
     private MainMenu(){
         setLayout(new GridLayout(3,2));
-        WhereToButton = new MenuButton("Where To?", WhereTo.getInstance());
+        WhereToButton = new MenuButton("Where To?", WhereTo.getInstance().getView());
         TripComputerButton = new MenuButton("Trip Computer", TripComputer.getInstance());
         MapButton = new MenuButton("Map", MapScreen.getInstance());
         SpeechButton = new MenuButton("Speech", Speech.getSpeechViewInstance());
