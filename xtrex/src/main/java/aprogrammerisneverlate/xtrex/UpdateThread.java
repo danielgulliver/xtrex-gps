@@ -37,11 +37,15 @@ package aprogrammerisneverlate.xtrex;
 
         while (running) {
             
+<<<<<<< HEAD
             /*try {
                 gpsThread.wait();
             } catch (Exception e) {
                 e.printStackTrace();
             }*/
+=======
+            //gpsThread.wait();
+>>>>>>> ca89fd9c747b2f6eb7b5dd3516665c081703324c
             mapScreen.getMap();
 
             // Update odometer - calculate new values

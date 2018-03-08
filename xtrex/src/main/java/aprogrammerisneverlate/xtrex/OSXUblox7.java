@@ -14,7 +14,7 @@ public class OSXUblox7 {
   final static String FILE_NAME = "/dev/cu.usbmodem1421";
   /* final static String FILE_NAME = "/dev/cu.usbmodem1441"; */
   final static int    BUFF_SIZE = 1024;
-  static GPSparser GPS = GPSparser.getInstance();
+  static GPSparser GPS = GPSparser.getInstance(true);
 
   /*
    * Reader.

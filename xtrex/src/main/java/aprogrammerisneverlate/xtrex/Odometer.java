@@ -10,8 +10,9 @@ public class Odometer {
     private static double currentSpeed = 0.0;
     private static double movingTime = 0.0;
 
-    private static double prevLat = GPSparser.getInstance().Latitude();
-    private static double prevLong = GPSparser.getInstance().Longitude();
+    private static GPSparser gps = GPSparser.getInstance(false);
+    private static double prevLat = gps.Latitude();
+    private static double prevLong = gps.Longitude();
 
     private static final double startTime = System.currentTimeMillis();
 
@@ -20,8 +21,8 @@ public class Odometer {
      * @return the distance travelled by the GPS device since the last GPS poll
      */
     private static double distanceTravelledInTimeSlice() {
-        double currLat = GPSparser.getInstance().Latitude();
-        double currLong = GPSparser.getInstance().Longitude();
+        double currLat = gps.Latitude();
+        double currLong = gps.Longitude();
 
         final double R = 6371E3F;
         double phi1 = Math.toRadians(prevLat);
