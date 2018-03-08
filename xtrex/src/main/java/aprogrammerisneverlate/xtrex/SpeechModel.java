@@ -64,7 +64,7 @@ public class SpeechModel {
     /**
 	 * Set the language of the speech. Default is that there is no speech and language is set to null.
 	 * 
-	 * @param the index of the the language in the list of supported languages.
+	 * @param index of the the language in the list of supported languages.
 	 */
 	public void setLanguage(Integer index) {
 		switch(index) {
