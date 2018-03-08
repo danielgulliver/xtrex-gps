@@ -13,24 +13,24 @@ import java.lang.Math;
 
 public class GPSparser implements Runnable {  
     
-    final static String gLLpre = "$GPGLL,";
-    final static String positionPre = "$GPGGA,";
-    final static String velocityPre = "$GPRMC,";
-    final static String gSVpre = "$GPGSV,";
-    final static float convertRate = 1.852f; // Convertion factor for Knots to Km/h
-    private static LocalTime localTime;
-    private static String OS = null;
+    final String gLLpre = "$GPGLL,";
+    final String positionPre = "$GPGGA,";
+    final String velocityPre = "$GPRMC,";
+    final String gSVpre = "$GPGSV,";
+    final float convertRate = 1.852f; // Convertion factor for Knots to Km/h
+    private LocalTime localTime;
+    private String OS = null;
     private static Boolean gpsEnabled = false;
     private GPSspoofer spoof = GPSspoofer.getInstance();
     static LogWriter logs = new LogWriter();
-    private static int aGPS = 0;
-    private static int nGPS = 0;
-    private static float gPStime = 0.0f;
-    private static double latitude = 50.737730d;
-    private static double longitude = -3.532626d;
-    private static float altitude = 0.0f;
-    private static float velocity = 0.0f;
-    private static float trueTrackAngle = 0.0f;
+    private int aGPS = 0;
+    private int nGPS = 0;
+    private float gPStime = 0.0f;
+    private double latitude = 50.737730d;
+    private double longitude = -3.532626d;
+    private float altitude = 0.0f;
+    private float velocity = 0.0f;
+    private float trueTrackAngle = 0.0f;
 
     private GPSparser(){}
     
@@ -39,10 +39,10 @@ public class GPSparser implements Runnable {
      * in a thread safe manner.
 	 * @return the single instance of GPSparser
 	 */
-    private static class Loader {
+    private class Loader {
         static final GPSparser instance = new GPSparser();
     }
-	public static GPSparser getInstance(Boolean gpsEnable) {
+    public static GPSparser getInstance(Boolean gpsEnable) {
         gpsEnabled = gpsEnable;
         return Loader.instance;
 	}
@@ -54,6 +54,7 @@ public class GPSparser implements Runnable {
         logs.Logger(OS);
         if (gpsEnabled == true) {
             if (OS.startsWith("Windows")) {
+                System.err.close();
                 Win7Ublox7 Ublox = new Win7Ublox7();
                 Ublox.listPorts();
                 System.out.println("\nStarting GPS Read \n");
@@ -114,7 +115,7 @@ public class GPSparser implements Runnable {
         else return spoof.trueTrackAngle;
     }
 
-    public static double SexagesimalToDecimal( String coordinate ) {
+    public double SexagesimalToDecimal( String coordinate ) {
         String[] hourMinuteSecond = coordinate.split("[.]");
         double hour = Integer.parseInt(hourMinuteSecond[0].substring(0, hourMinuteSecond[0].length()-2));
         double minute = Integer.parseInt(hourMinuteSecond[0].substring(hourMinuteSecond[0].length()-2, hourMinuteSecond[0].length()))/60.0d;
@@ -123,7 +124,7 @@ public class GPSparser implements Runnable {
         return hour+minute+second;
     } 
 
-    public static void processGPS( String input ) {
+    public void processGPS( String input ) {
         String noPre;
         String noPreV;
         String noPreSat;
@@ -137,8 +138,10 @@ public class GPSparser implements Runnable {
             noPreSat = input.substring(input.indexOf(gSVpre) + gSVpre.length());
             tokenSat = noPreSat.split(",");
             nGSV = Integer.parseInt(tokenSat[0]);
-            logs.Logger("-- Number of GSV messages: " + tokenSat[0] + "   Number of Satalites in view: " + tokenSat[2] + "  --" );
+            if (Integer.parseInt(tokenSat[1])  == 1){
+                logs.Logger("-- Number of GSV messages: " + tokenSat[0] + "   Number of Satalites in view: " + tokenSat[2] + "  --" );
             // System.out.println("-- Number of GSV messages: " + tokenSat[0] + "  --");
+            }
         }
         
         if ( input.contains(positionPre) ) {
@@ -179,6 +182,7 @@ public class GPSparser implements Runnable {
                         altitude = Float.parseFloat(tokens[7]);
                         logs.Logger( "    Altitude: " + Float.toString(altitude) );
                     }
+                notify();
                 }
             }
           }
@@ -201,6 +205,7 @@ public class GPSparser implements Runnable {
 
         }
     }
+    
     public void run() {
         Start();
     }
