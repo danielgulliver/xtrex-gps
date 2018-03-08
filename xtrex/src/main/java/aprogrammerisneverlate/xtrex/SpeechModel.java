@@ -232,7 +232,7 @@ public class SpeechModel {
 	/**
 	 * Play the audio file
 	 * 
-	 * @param  fileNumber is the integer name of the audio file to play
+	 * @param File is the file name of the audio file to play
 	 */
 	public static void playAudio(File file) {
 		AudioInputStream audioIn;
