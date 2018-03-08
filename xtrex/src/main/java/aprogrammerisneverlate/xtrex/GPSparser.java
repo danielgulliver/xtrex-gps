@@ -39,7 +39,7 @@ public class GPSparser implements Runnable {
      * in a thread safe manner.
 	 * @return the single instance of GPSparser
 	 */
-    private class Loader {
+    private static class Loader {
         static final GPSparser instance = new GPSparser();
     }
     public static GPSparser getInstance(Boolean gpsEnable) {
@@ -80,7 +80,7 @@ public class GPSparser implements Runnable {
         else return spoof.aGPS;
     }
 
-    public float numSatalites() {
+    public int numSatalites() {
         if (gpsEnabled == true) return nGPS;
         else return spoof.nGPS;
     }
