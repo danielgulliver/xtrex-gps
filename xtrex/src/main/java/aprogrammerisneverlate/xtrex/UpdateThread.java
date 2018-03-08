@@ -41,11 +41,21 @@ package aprogrammerisneverlate.xtrex;
 
         while (running) {
             
-            try {
-                gpsThread.wait();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        	if (xtrex.gpsEnabled) {
+	        	synchronized(this) {
+		            try {
+		                gpsThread.wait();
+		            } catch (Exception e) {
+		                e.printStackTrace();
+		            }
+	        	}
+        	} else {
+        		try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+        	}
             
             mapController.updateMap();
 
