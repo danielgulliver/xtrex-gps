@@ -29,6 +29,7 @@ public class AboutView extends Screen{
             constraints.gridy = 1;
             constraints.fill = GridBagConstraints.HORIZONTAL;
             add(version,constraints);
+            constraints.gridy = 2;
             add(compName,constraints);
             //label.setLayout(new OverlayLayout(label));
             //label.setAlignmentX(0.5f);
