@@ -51,7 +51,7 @@ public class Odometer {
      * Must be called before <code>getCurrentSpeed()</code> in order to return the latest value.
      */
     public static void setCurrentSpeed() {
-        currentSpeed = distanceTravelledInTimeSlice() / 1.0; // TODO: Replace time with polling rate of GPS device.
+        currentSpeed = gps.Velocity();
     }
 
     /**
