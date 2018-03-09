@@ -137,7 +137,7 @@ public class Maps {
 		
 		
 		private GPSparser gps;
-		private int zoom = 17;
+		private int zoom = 18;
 		
 		private MapModel() {
 			this.gps = GPSparser.getInstance();
