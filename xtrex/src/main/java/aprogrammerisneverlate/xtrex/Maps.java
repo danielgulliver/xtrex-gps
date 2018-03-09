@@ -2,6 +2,9 @@ package aprogrammerisneverlate.xtrex;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -9,6 +12,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 /**
  * Deals with the map screen and google maps API calls
@@ -23,9 +27,19 @@ public class Maps {
 		
 		private byte mapData[] = null;		
 		private MapController mapController;
+		private GPSparser gps;
+		private BufferedImage cursorImg = null;
 		
 		public MapView(MapController mapController) {
 			this.mapController = mapController;
+			this.gps = GPSparser.getInstance();
+			
+			try {
+				this.cursorImg = ImageIO.read(new File("cursor.png"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+	
 		}
 		
 		public void setMapData(byte mapData[]) {
@@ -50,8 +64,16 @@ public class Maps {
 	        	e.printStackTrace();
 	        }
 	        
-	        if (image != null)
-	        	g2d.drawImage(image, 0, 0, null);
+	        if (image != null) {
+	        	double rotation = Math.toRadians((double) gps.TrueTrackAngle());
+	        	double locationX = image.getWidth() / 2;
+	        	double locationY = image.getHeight() / 2;
+	        	AffineTransform tx = AffineTransform.getRotateInstance(rotation, locationX, locationY);
+	        	AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+	        	g2d.drawImage(op.filter(image, null), -99, -61, null);
+	        	g2d.drawImage(cursorImg, 156, 194, null);
+	        	
+	        }
 	        
 		}
 		
@@ -111,7 +133,7 @@ public class Maps {
 		private final static String API_KEY = "AIzaSyDgW3X4z9hxnIAMRjl5ZAbeWgh0ylL68NQ";
 		private final static String DEFAULT_LAT = "50.737730";
 		private final static String DEFAULT_LONG = "-3.532626";
-		private final static String IMG_SIZE = "342x418";
+		private final static String IMG_SIZE = "540x540";
 		
 		
 		private GPSparser gps;
