@@ -212,5 +212,6 @@ public class GPSparser implements Runnable {
     public void run() {
         gpsEnabled = xtrex.gpsEnabled;
         Start();
+        System.out.println("strart");
     }
 }

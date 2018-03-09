@@ -130,7 +130,7 @@ public class Maps {
 	private class MapModel {
 		
 		private final static String API_BASE = "https://maps.googleapis.com/maps/api/staticmap";
-		private final static String API_KEY = "AIzaSyDgW3X4z9hxnIAMRjl5ZAbeWgh0ylL68NQ";
+		private final static String API_KEY = "AIzaSyDpQHzQZdWYYhzcvq7-QGuHE2_z6oLJkHA";
 		private final static String DEFAULT_LAT = "50.737730";
 		private final static String DEFAULT_LONG = "-3.532626";
 		private final static String IMG_SIZE = "540x540";
