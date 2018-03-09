@@ -5,6 +5,10 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
+/**
+ * The Trip Computer screen displays the distance travelled, current speed, and time of the journey on the screen.
+ * @author Daniel Gulliver
+ */
 public class TripComputer extends Screen {
 
     private static final long serialVersionUID = 1L;
@@ -19,6 +23,10 @@ public class TripComputer extends Screen {
         repaint();
     }
 
+    /**
+     * Return the single instance of TripComputer held by this class.
+     * @return the single instance of TripComputer held by this class
+     */
     public static TripComputer getInstance() {
         if (tripComputer == null) {
             tripComputer = new TripComputer();
@@ -28,27 +36,39 @@ public class TripComputer extends Screen {
 
 	@Override
 	public void onMinusButtonPressed() {
-		
+		// Do nothing.
 	}
 
 	@Override
 	public void onPlusButtonPressed() {
-		
+		// Do nothing.
 	}
 
 	@Override
 	public void onSelectButtonPressed() {
-		
+		// Do nothing.
     }
     
+    /**
+     * Set the distance travelled by the XTrex device.
+     * @param distance the distance travelled by the XTrex device
+     */
     public void setDistance(int distance) {
         this.distance = distance;
     }
 
+    /**
+     * Set the current speed of travel of the XTrex device.
+     * @param speed the current speed of travel of the XTrex device
+     */
     public void setSpeed(int speed) {
         this.speed = speed;
     }
 
+    /**
+     * Set the time of the journey of the XTrex device.
+     * @param millis the time of the journey of the XTrex device
+     */
     public void setTime(double millis) {
         int seconds = (int) millis / 1000;
         this.minutes = seconds / 60;
