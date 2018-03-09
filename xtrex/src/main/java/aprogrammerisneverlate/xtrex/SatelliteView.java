@@ -6,7 +6,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 public class SatelliteView extends Screen {
-    GPSparser gps =  GPSparser.getInstance(true); // set to true if dongle is loaded.
+    GPSparser gps =  GPSparser.getInstance();
     double latitude = 0.0d;
     double longitude= 0.0d;
     int nGPS = 0;
@@ -44,7 +44,6 @@ public class SatelliteView extends Screen {
         latitude = gps.Latitude();
         longitude = gps.Longitude();
         nGPS = gps.numSatalites();
-        System.out.println("update " + nGPS);
         repaint();
     }
 
@@ -55,7 +54,7 @@ public class SatelliteView extends Screen {
         g2d.clearRect(0, 0, Screen.WIDTH, Screen.HEIGHT);
         g2d.setFont(new Font(Font.SANS_SERIF, Font.BOLD, textSize));
         g2d.setColor(Color.BLACK);
-        g2d.drawString(" Latitude: ", 50, 100);
+        g2d.drawString("Latitude: ", 50, 100);
         g2d.drawString(Double.toString(latitude), 50, 100 + textSize + textMargin);
         g2d.drawString("Longitude: ", 50, 200);
         g2d.drawString(Double.toString(longitude), 50, 200 + textSize + textMargin);

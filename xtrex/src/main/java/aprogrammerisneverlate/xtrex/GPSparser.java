@@ -21,7 +21,7 @@ public class GPSparser implements Runnable {
     private LocalTime localTime;
     private String OS = null;
     private static Boolean gpsEnabled = false;
-    private GPSspoofer spoof = null;
+    private GPSspoofer spoof = GPSspoofer.getInstance();
     static LogWriter logs = new LogWriter();
     private int aGPS = 0;
     private int nGPS = 0;
@@ -43,8 +43,7 @@ public class GPSparser implements Runnable {
     private static class Loader {
         static final GPSparser instance = new GPSparser();
     }
-    public static GPSparser getInstance(Boolean gpsEnable) {
-        gpsEnabled = gpsEnable;
+    public static GPSparser getInstance() {
         return Loader.instance;
     }
     
@@ -64,7 +63,7 @@ public class GPSparser implements Runnable {
                 Win7Ublox7 Ublox = new Win7Ublox7();
                 Ublox.listPorts();
                 System.out.println("\nStarting GPS Read \n");
-                Ublox.reader("COM6");
+                Ublox.reader("COM3");
             } else if (OS.startsWith("Linux")) {
                 LinuxUblox7 Ublox = new LinuxUblox7();
                 System.out.println("\nStarting GPS Read \n");
@@ -76,7 +75,6 @@ public class GPSparser implements Runnable {
             }      
         } 
         else {
-            spoof = GPSspoofer.getInstance()
             System.out.println("Demo Mode Active - spoofing GPS reading");
         }
         logs.Logging(false, "");
@@ -189,7 +187,9 @@ public class GPSparser implements Runnable {
                         altitude = Float.parseFloat(tokens[7]);
                         logs.Logger( "    Altitude: " + Float.toString(altitude) );
                     }
-                
+                }
+                synchronized(this){
+                    notify();
                 }
             }
           }
@@ -214,6 +214,8 @@ public class GPSparser implements Runnable {
     }
     
     public void run() {
+        gpsEnabled = xtrex.gpsEnabled;
         Start();
+        System.out.println("strart");
     }
 }

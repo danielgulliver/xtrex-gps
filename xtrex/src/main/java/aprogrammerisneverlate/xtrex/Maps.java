@@ -2,6 +2,9 @@ package aprogrammerisneverlate.xtrex;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -9,6 +12,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 /**
  * Deals with the map screen and google maps API calls
@@ -23,9 +27,19 @@ public class Maps {
 		
 		private byte mapData[] = null;		
 		private MapController mapController;
+		private GPSparser gps;
+		private BufferedImage cursorImg = null;
 		
 		public MapView(MapController mapController) {
 			this.mapController = mapController;
+			this.gps = GPSparser.getInstance();
+			
+			try {
+				this.cursorImg = ImageIO.read(new File("cursor.png"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+	
 		}
 		
 		public void setMapData(byte mapData[]) {
@@ -50,9 +64,17 @@ public class Maps {
 	        	e.printStackTrace();
 	        }
 	        
-	        if (image != null)
-	        	g2d.drawImage(image, 0, 0, null);
-	        
+	        if (image != null) {
+	        	double rotation = Math.toRadians(360 - (double) gps.TrueTrackAngle());
+	        	double locationX = image.getWidth() / 2;
+	        	double locationY = image.getHeight() / 2;
+	        	AffineTransform tx = AffineTransform.getRotateInstance(rotation, locationX, locationY);
+	        	AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+	        	g2d.drawImage(op.filter(image, null), -99, -61, null);
+	        	g2d.drawImage(cursorImg, 156, 194, null);
+	        	
+	        }
+
 		}
 		
 		@Override
@@ -72,32 +94,34 @@ public class Maps {
 		
 	}
 	
-	private class MapController {
+	public class MapController {
 		
 		private MapModel mapModel;
 		private MapView mapView;
 		
-		public MapController() {
+		private MapController() {
 			
 			this.mapModel = new MapModel();
 			this.mapView = new MapView(this);
 			
-			this.mapView.setMapData(this.mapModel.getMapData(0.0d, 0.0d));
-			
 		}
 		
-		public MapView getMapView() {
+		public MapView getScreen() {
 			return this.mapView;
+		}
+		
+		public void updateMap() {
+			this.mapView.setMapData(this.mapModel.getMapData());
 		}
 		
 		public void increaseZoom() {
 			this.mapModel.setZoom(this.mapModel.getZoom() + 1);
-			this.mapView.setMapData(this.mapModel.getMapData(0.0d, 0.0d));
+			this.updateMap();
 		}
 		
 		public void decreaseZoom() {
 			this.mapModel.setZoom(this.mapModel.getZoom() - 1);
-			this.mapView.setMapData(this.mapModel.getMapData(0.0d, 0.0d));
+			this.updateMap();
 		}
 		
 		
@@ -106,14 +130,18 @@ public class Maps {
 	private class MapModel {
 		
 		private final static String API_BASE = "https://maps.googleapis.com/maps/api/staticmap";
-		private final static String API_KEY = "AIzaSyDgW3X4z9hxnIAMRjl5ZAbeWgh0ylL68NQ";
-		private final static String DEFAULT_LAT = "50.737730";
-		private final static String DEFAULT_LONG = "-3.532626";
-		private final static String IMG_SIZE = "342x418";
+		private final static String API_KEY = "AIzaSyDv8abU01v40-krRiApS1w-zr5Kkcxb0zI";
+		private final static String DEFAULT_LAT = "50.77730";
+		private final static String DEFAULT_LONG = "-3.52626";
+		private final static String IMG_SIZE = "540x540";
 		
-		private int zoom = 17;
 		
-		//Implicit no argument constructor here
+		private GPSparser gps;
+		private int zoom = 18;
+		
+		private MapModel() {
+			this.gps = GPSparser.getInstance();
+		}
 		
 		public int getZoom() {
 			return this.zoom;
@@ -126,21 +154,11 @@ public class Maps {
 			
 		}
 		
-		public byte[] getMapData(double latitude, double longitude) {
-			
-			String latStr, longStr;
-			
-			if (latitude == 0.0d || longitude == 0.0d) {
+		public byte[] getMapData() {
 				
-				latStr = MapModel.DEFAULT_LAT;
-				longStr = MapModel.DEFAULT_LONG;
-				
-			} else {
-				
-				latStr  = new Double(latitude).toString();
-				longStr = new Double(longitude).toString();
+			String latStr  = Double.toString(gps.Latitude());
+			String longStr = Double.toString(gps.Longitude());
  				
-			}
 			
 			final String method = "GET";
 		    final String url
@@ -169,18 +187,12 @@ public class Maps {
 		
 	}
 	
-	public static Maps getInstance() {
+	public static MapController getController() {
 		
 		if (Maps.mapsInstance == null)
 			Maps.mapsInstance = new Maps();
 		
-		return Maps.mapsInstance;
-		
-	}
-	
-	public Screen getScreen() {
-		
-		return this.mapController.getMapView();
+		return Maps.mapsInstance.mapController;
 		
 	}
 	
