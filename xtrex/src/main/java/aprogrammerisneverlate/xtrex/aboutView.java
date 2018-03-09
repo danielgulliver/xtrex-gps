@@ -13,7 +13,8 @@ public class AboutView extends Screen{
 
     private JLabel logoImg = new JLabel();
     private GridBagConstraints constraints = new GridBagConstraints();
-    private PrefabButton compName = new PrefabButton("Xtrex Sprint 2 \\n Team K");
+    private PrefabButton version = new PrefabButton("Xtrex Sprint 2");
+    private PrefabButton compName = new PrefabButton("Team K");
 
     private AboutView(){
         setLayout(new GridBagLayout());
@@ -27,6 +28,7 @@ public class AboutView extends Screen{
             logoImg.setOpaque(false);
             constraints.gridy = 1;
             constraints.fill = GridBagConstraints.HORIZONTAL;
+            add(version,constraints);
             add(compName,constraints);
             //label.setLayout(new OverlayLayout(label));
             //label.setAlignmentX(0.5f);

@@ -3,7 +3,7 @@ package aprogrammerisneverlate.xtrex;
 * Win7 Ublox7 reader.
 */   
 public class xtrex {
-    public static Boolean gpsEnabled = false;
+    public static Boolean gpsEnabled = true;
     private static Thread gpsThread = null;
 
 
