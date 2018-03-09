@@ -5,6 +5,7 @@ package aprogrammerisneverlate.xtrex;
  * 
  * @author Daniel Gulliver
  * @author Adam Griffiths
+ * @author Connor Harris
  * 
  * @version 0.1
  */

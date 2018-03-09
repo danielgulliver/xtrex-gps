@@ -9,6 +9,15 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+/**
+ * Selects the version of Ublox 7 appropriate for the Clients OS
+ * Parses GPS input to variables and output log.
+ * 
+ * @author Laurance Jones
+ * @author Connor Harris
+ * @version Sprint 2 
+ */
+
 public class AboutView extends Screen{
 
     private JLabel logoImg = new JLabel();

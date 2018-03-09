@@ -80,46 +80,84 @@ public class GPSparser implements Runnable {
         logs.Logging(false, "");
     }
 
+    /**
+	 * Returns the tracking acuracy provided by the gps receiver
+	 * @return GPS track accuracy
+	 */
     public int Tracking() {
         if (gpsEnabled == true) return aGPS;
         else return spoof.aGPS;
     }
 
-    public int numSatalites() {
+    /**
+	 * Returns the number of satellites in view provided by the gps receiver
+	 * @return number of GPS satellites
+	 */
+    public int numSatellites() {
         if (gpsEnabled == true) return nGPS;
         else return spoof.nGPS;
     }
 
+    /**
+	 * Returns the latitude provided by the gps receiver
+	 * @return latitude
+	 */
     public double Latitude() {
         if (gpsEnabled == true) return latitude;
         else return spoof.latitude;
     }
 
+    /**
+	 * Returns the longitude provided by the gps receiver
+	 * @return longitude
+	 */
     public double Longitude() {
         if (gpsEnabled == true) return longitude;
         else return spoof.longitude;
     }
 
+    /**
+	 * Returns the current Time provided by the gps receiver
+	 * @return GPS time
+	 */
     public float GPStime() {
         if (gpsEnabled == true) return gPStime;
         else return spoof.gpsTime;
     }
     
+    /**
+	 * Returns the altitude provided by the gps receiver
+	 * @return GPS altitude
+	 */
     public float Altitude() {
         if (gpsEnabled == true) return altitude;
         else return spoof.altitude;
     }
 
+    /**
+	 * Returns the velocity provided by the gps receiver
+	 * @return GPS velocity
+	 */
     public float Velocity() {
         if (gpsEnabled == true) return velocity;
         else return spoof.velocity;
     }
 
+    /**
+	 * Returns the heading from true north provided by the gps receiver
+	 * @return GPS Heading
+	 */
     public float TrueTrackAngle() {
         if (gpsEnabled == true) return trueTrackAngle;
         else return spoof.trueTrackAngle;
     }
 
+
+    /**
+	 * Converts the NMEA unique lat/long format to Decimal Degrees
+     * taken by the google maps API
+	 * @return Decimal Degrees
+	 */
     public double SexagesimalToDecimal( String coordinate ) {
         String[] hourMinuteSecond = coordinate.split("[.]");
         double hour = Integer.parseInt(hourMinuteSecond[0].substring(0, hourMinuteSecond[0].length()-2));
@@ -129,6 +167,9 @@ public class GPSparser implements Runnable {
         return hour+minute+second;
     } 
 
+    /**
+	 * Processes the NMEA Strings to Variables and the Log file.
+	 */
     public void processGPS( String input ) {
         String noPre;
         String noPreV;
@@ -189,7 +230,7 @@ public class GPSparser implements Runnable {
                     }
                 }
                 synchronized(this){
-                    notify();
+                    notify(); // Notifys the update thread new Data is availiable 
                 }
             }
           }
@@ -216,6 +257,5 @@ public class GPSparser implements Runnable {
     public void run() {
         gpsEnabled = xtrex.gpsEnabled;
         Start();
-        System.out.println("strart");
     }
 }

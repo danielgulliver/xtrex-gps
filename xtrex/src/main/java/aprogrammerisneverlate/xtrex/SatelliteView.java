@@ -40,13 +40,20 @@ public class SatelliteView extends Screen {
 	public void onSelectButtonPressed() {
 		
     }
+
+    /**
+	 * updates the View with the latest availiable data.
+	 */
     public void update(){
         latitude = gps.Latitude();
         longitude = gps.Longitude();
-        nGPS = gps.numSatalites();
+        nGPS = gps.numSatellites();
         repaint();
     }
 
+    /**
+	 * Draws the updateable Screen.
+	 */
     public void paint(Graphics g) {
         int textSize = 24, textMargin = 10;
         Graphics2D g2d = (Graphics2D) g;
