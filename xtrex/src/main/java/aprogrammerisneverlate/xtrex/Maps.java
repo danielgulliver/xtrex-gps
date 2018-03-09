@@ -2,6 +2,7 @@ package aprogrammerisneverlate.xtrex;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
@@ -11,6 +12,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 /**
  * Deals with the map screen and google maps API calls
@@ -26,10 +28,18 @@ public class Maps {
 		private byte mapData[] = null;		
 		private MapController mapController;
 		private GPSparser gps;
+		private BufferedImage cursorImg = null;
 		
 		public MapView(MapController mapController) {
 			this.mapController = mapController;
 			this.gps = GPSparser.getInstance();
+			
+			try {
+				this.cursorImg = ImageIO.read(new File("cursor.png"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+	
 		}
 		
 		public void setMapData(byte mapData[]) {
@@ -60,7 +70,9 @@ public class Maps {
 	        	double locationY = image.getHeight() / 2;
 	        	AffineTransform tx = AffineTransform.getRotateInstance(rotation, locationX, locationY);
 	        	AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
-	        	g2d.drawImage(op.filter(image, null), 99, 61, null);
+	        	g2d.drawImage(op.filter(image, null), -99, -61, null);
+	        	g2d.drawImage(cursorImg, 156, 194, null);
+	        	
 	        }
 	        
 		}
