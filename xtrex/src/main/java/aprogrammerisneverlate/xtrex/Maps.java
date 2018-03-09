@@ -65,7 +65,7 @@ public class Maps {
 	        }
 	        
 	        if (image != null) {
-	        	double rotation = Math.toRadians((double) gps.TrueTrackAngle());
+	        	double rotation = Math.toRadians(360 - (double) gps.TrueTrackAngle());
 	        	double locationX = image.getWidth() / 2;
 	        	double locationY = image.getHeight() / 2;
 	        	AffineTransform tx = AffineTransform.getRotateInstance(rotation, locationX, locationY);
@@ -74,7 +74,7 @@ public class Maps {
 	        	g2d.drawImage(cursorImg, 156, 194, null);
 	        	
 	        }
-	        
+
 		}
 		
 		@Override
@@ -130,9 +130,9 @@ public class Maps {
 	private class MapModel {
 		
 		private final static String API_BASE = "https://maps.googleapis.com/maps/api/staticmap";
-		private final static String API_KEY = "AIzaSyDpQHzQZdWYYhzcvq7-QGuHE2_z6oLJkHA";
-		private final static String DEFAULT_LAT = "50.737730";
-		private final static String DEFAULT_LONG = "-3.532626";
+		private final static String API_KEY = "AIzaSyDv8abU01v40-krRiApS1w-zr5Kkcxb0zI";
+		private final static String DEFAULT_LAT = "50.77730";
+		private final static String DEFAULT_LONG = "-3.52626";
 		private final static String IMG_SIZE = "540x540";
 		
 		
