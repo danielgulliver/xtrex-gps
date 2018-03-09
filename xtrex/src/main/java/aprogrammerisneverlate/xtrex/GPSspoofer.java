@@ -26,9 +26,10 @@ public class GPSspoofer {
 
     private GPSspoofer(){}
     /**
-	 * Return the single instance of GPSparser held by this class
+	 * Return the single instance of GPSspoofer held by this class
      * in a thread safe manner.
-	 * @return the single instance of GPSparser
+     * Loader Class ensures that a thread safe singleton pattern is adheared to.
+	 * @return the single instance of GPSspoofer
 	 */
     private static class Loader {
         static final GPSspoofer instance = new GPSspoofer();
@@ -36,6 +37,11 @@ public class GPSspoofer {
 	public static GPSspoofer getInstance() {
         return Loader.instance;
     }     
+    
+    /**
+	 * Updates false variables in beliveable ranges to allow testing without
+     * a Ublox7 GPS receiver.
+	 */
     public void update(){
         aGPS = rand.nextInt(5) +1;
         nGPS = rand.nextInt(36) +1;

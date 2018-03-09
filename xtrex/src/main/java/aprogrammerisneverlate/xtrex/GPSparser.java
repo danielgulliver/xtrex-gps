@@ -37,6 +37,7 @@ public class GPSparser implements Runnable {
     /**
 	 * Return the single instance of GPSparser held by this class
      * in a thread safe manner.
+     * Loader Class ensures that a thread safe singleton pattern is adheared to.
 	 * @return the single instance of GPSparser
 	 */
     private static class Loader {
@@ -45,8 +46,11 @@ public class GPSparser implements Runnable {
     public static GPSparser getInstance(Boolean gpsEnable) {
         gpsEnabled = gpsEnable;
         return Loader.instance;
-	}
-
+    }
+    
+    /**
+	 * Starts the Logging and selects the apropriate version of Ublox7
+	 */
     public void Start() {
         logs.Logging(true, "log.txt");
         if(OS == null) { OS = System.getProperty("os.name"); }
