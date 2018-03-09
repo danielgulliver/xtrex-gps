@@ -1,9 +1,8 @@
 package aprogrammerisneverlate.xtrex;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 import javax.swing.JTextPane;
 
@@ -24,7 +23,9 @@ public class WhereToView extends Screen {
 
 	private static WhereToView whereTo = null;
 
-	private JTextPane destinationField;
+	private static final int DESTINATION_FIELD_CHARACTER_LIMIT = 20;
+
+	private JTextPaneLimit destinationField;
 	private String destination = "";
 	private Keyboard currentKeyboard = null;
 	
@@ -33,8 +34,10 @@ public class WhereToView extends Screen {
 		setLayout(new BorderLayout());
 
 		// Create destination field.
-		destinationField = new JTextPaneLimit(25);
+		destinationField = new JTextPaneLimit(DESTINATION_FIELD_CHARACTER_LIMIT);
+		destinationField.setEnabled(false);
 		destinationField.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 22));
+		destinationField.setForeground(Color.BLACK);
 		add(destinationField, BorderLayout.PAGE_START);
 	}
 
@@ -112,7 +115,7 @@ public class WhereToView extends Screen {
 	/**
 	 * A text field with a character limit.
 	 */
-	class JTextPaneLimit extends JTextPane implements KeyListener {
+	class JTextPaneLimit extends JTextPane {
 		private static final long serialVersionUID = 1L;
 		private int maxChars;
 
@@ -122,32 +125,12 @@ public class WhereToView extends Screen {
 		 */
 		JTextPaneLimit(int maxChars) {
 			this.maxChars = maxChars;
-			this.addKeyListener(this);
 		}
 		
 		@Override
 		public void setText(String text) {
 			if (text.length() <= maxChars) {
 				super.setText(text);
-			}
-		}
-
-		public void keyPressed(KeyEvent e) {
-			
-		}
-
-		public void keyReleased(KeyEvent e) {
-			
-		}
-
-		public void keyTyped(KeyEvent e) {
-			// TODO: Remove magic numbers.
-			int keyCode = e.getKeyCode();
-			if (keyCode == 32 || (keyCode >= 48 && keyCode <= 90)) {
-				e.consume();
-				if (this.getText().length() < maxChars) {
-					this.setText(this.getText() + ("" + e.getKeyChar()).toUpperCase());
-				}
 			}
 		}
 	}

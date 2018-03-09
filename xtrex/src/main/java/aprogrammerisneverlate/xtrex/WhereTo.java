@@ -1,5 +1,8 @@
 package aprogrammerisneverlate.xtrex;
 
+/**
+ * Set up MVC for the Where To screen.
+ */
 public class WhereTo {
     private static WhereTo whereTo = null;
 
@@ -11,9 +14,14 @@ public class WhereTo {
         this.model = WhereToModel.getInstance();
         this.view = WhereToView.getInstance();
         this.controller = WhereToController.getInstance();
+        // We cannot put the controller in the constructor so we must pair it manually.
         this.model.setController(this.controller);
     }
 
+    /**
+     * Return the single instance of WhereTo held by this class.
+     * @return the single instance of WhereTo held by this class
+     */
     public static WhereTo getInstance() {
         if (whereTo == null) {
             whereTo = new WhereTo();
@@ -21,6 +29,10 @@ public class WhereTo {
         return whereTo;
     }
 
+    /**
+     * Return the Where To screen (view object).
+     * @return the Where To screen
+     */
     public WhereToView getView() {
         return view;
     }
