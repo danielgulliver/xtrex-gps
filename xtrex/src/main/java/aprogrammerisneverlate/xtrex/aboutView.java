@@ -1,6 +1,9 @@
 package aprogrammerisneverlate.xtrex;
 
 import java.awt.*;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
@@ -9,9 +12,28 @@ import javax.swing.*;
 public class AboutView extends Screen{
 
     private JLabel logoImg = new JLabel();
+    private GridBagConstraints constraints = new GridBagConstraints();
+    private PrefabButton compName = new PrefabButton("Xtrex Sprint 2 \\n Team K");
 
     private AboutView(){
         setLayout(new GridBagLayout());
+        try{
+            BufferedImage img = ImageIO.read(new File("exlogo.png"));
+            logoImg.setIcon(new ImageIcon(new ImageIcon(img).getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
+            constraints.ipady = 10;
+            constraints.gridx = 0;
+            constraints.gridy = 0;
+            add(logoImg, constraints);
+            logoImg.setOpaque(false);
+            constraints.gridy = 1;
+            constraints.fill = GridBagConstraints.HORIZONTAL;
+            add(compName,constraints);
+            //label.setLayout(new OverlayLayout(label));
+            //label.setAlignmentX(0.5f);
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
     }

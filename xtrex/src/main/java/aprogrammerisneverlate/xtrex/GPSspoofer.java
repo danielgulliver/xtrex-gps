@@ -17,8 +17,8 @@ public class GPSspoofer {
     int aGPS = rand.nextInt(5) +1;
     int nGPS = rand.nextInt(36) +1;
     float gpsTime = Float.parseFloat((LocalTime.now()).toString().replaceAll(":",""));
-    float latitude = 50.73f + rand.nextFloat()/100;
-    float longitude = -3.53f + rand.nextFloat()/100;
+    float latitude = 50.73f + rand.nextFloat()/1000;
+    float longitude = -3.53f + rand.nextFloat()/1000;
     float altitude = 120.0f + rand.nextFloat()/500;
     float velocity = 0.0f + rand.nextFloat();
     float trueTrackAngle = rand.nextFloat()*360;
