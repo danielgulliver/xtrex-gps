@@ -15,6 +15,10 @@ public class WhereToModel {
         
     }
 
+    /**
+     * Return the single instance of WhereToModel held by this class.
+     * @return the single instance of WhereToModel held by this class 
+     */
     public static WhereToModel getInstance() {
         if (whereToModel == null) {
             whereToModel = new WhereToModel();
@@ -22,10 +26,20 @@ public class WhereToModel {
         return whereToModel;
     }
 
+    /**
+     * Set the controller to be used by the model. The controller must be set before its methods can be called.
+     * It is recommended to set the controller straight after initialising the model.
+     * It cannot be initialised in the constructor as the WhereToController constructor takes a WhereToModel.
+     */
     public void setController(WhereToController controller) {
         this.controller = controller;
     }
 
+    /**
+     * Construct and return an alphabetic keyboard.
+     * An alphabetic keyboard contains the letters A-Z, a space button, and a button to switch to a numeric keyboard.
+     * @return an alphabetic keyboard
+     */
     public Keyboard constructAlphabeticKeyboard() {
         // Create first keyboard:
 		ArrayList<PrefabButton> keyboard1Buttons = new ArrayList<PrefabButton>();
@@ -42,6 +56,11 @@ public class WhereToModel {
 		return new Keyboard(keyboard1Buttons, 7, 4);
     }
 
+    /**
+     * Construct and return a numeric keyboard.
+     * A numeric keyboard contains the digits 0-9, a delete button, and a button to switch to an alphabetic keyboard.
+     * @return a numeric keyboard
+     */
     public Keyboard constructNumericKeyboard() {
         // Create second keyboard:
 		ArrayList<PrefabButton> keyboard2Buttons = new ArrayList<PrefabButton>();
@@ -52,14 +71,9 @@ public class WhereToModel {
 			keyboard2Buttons.add(new CharacterButton(number));
 		}
 
-		// Create button to switch to first keyboard.
-		keyboard2Buttons.add(new SwitchKeyboardButton("<="));
-
-		// Create zero button.
-		keyboard2Buttons.add(new CharacterButton('0'));
-
-		// Create delete button.
-		keyboard2Buttons.add(new DeleteButton());
+		keyboard2Buttons.add(new SwitchKeyboardButton("<=")); // Create button to switch to first keyboard.
+		keyboard2Buttons.add(new CharacterButton('0')); // Create zero button.
+		keyboard2Buttons.add(new DeleteButton()); // Create delete button.
 
 		return new Keyboard(keyboard2Buttons, 5, 3);
     }
@@ -115,6 +129,7 @@ public class WhereToModel {
             if (controller != null) {
                 String destination = controller.getDestination();
                 if (destination.length() >= 1) {
+                    // Remove the last character from the destination string.
                     String newDestination = controller.getDestination().substring(0, destination.length() - 1);
                     controller.setDestination(newDestination);
                 }
