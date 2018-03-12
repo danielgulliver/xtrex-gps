@@ -5,6 +5,7 @@ package aprogrammerisneverlate.xtrex;
  * 
  * @author Daniel Gulliver
  * @author Adam Griffiths
+ * @author Connor Harris
  * 
  * @version 0.1
  */
@@ -12,11 +13,12 @@ package aprogrammerisneverlate.xtrex;
  public class UpdateThread implements Runnable {
 
     private static UpdateThread updateThread;
-    private Thread t;
+    
+    private Thread gpsThread;
     private boolean running = true;
 
     private UpdateThread() {
-
+    	
     }
 
     /**
@@ -24,52 +26,65 @@ package aprogrammerisneverlate.xtrex;
      * @return the single instance of UpdateThread
      */
     public static UpdateThread getInstance() {
-        if (updateThread == null)
+    	
+        if (updateThread == null) {
             updateThread = new UpdateThread();
+            updateThread.gpsThread = xtrex.getGpsThread();
+        }
+            
+        
         return updateThread;
     }
 
     public void run() {
-        MapScreen mapScreen = MapScreen.getInstance();
+        Maps.MapController mapController = Maps.getController();
         TripComputer tripComputer = TripComputer.getInstance();
+        SatelliteView satView = SatelliteView.getInstance();
+        GPSspoofer spoof = GPSspoofer.getInstance();
 
+        mapController.updateMap();
+        System.out.println("Updated map");
+        
         while (running) {
             
-            // Wait for the GPS Thread to notify us to update.
-            /*try {
-                gpsThread.wait();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }*/
-            mapScreen.getMap();
+        	if (xtrex.gpsEnabled) {
+	        	synchronized(this) {
+		            try {
+		                gpsThread.wait();
+		                System.out.println("Notifed");
+		            } catch (Exception e) {
+		                e.printStackTrace();
+		            }
+	        	}
+        	} else {
+        		try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+        	}
+        	
+            if (!xtrex.gpsEnabled) {
+            	spoof.update();
+            }
+            
+            mapController.updateMap();
 
             // Update odometer - calculate new values
             Odometer.update();
 
             // Update Trip Computer display - display new values
-            tripComputer.setDistance((int) Math.round(Odometer.getDistanceTravelled()));
-            tripComputer.setSpeed((int) Math.round(Odometer.getCurrentSpeed()));
-            tripComputer.setTime(Odometer.getMovingTime());
-            tripComputer.repaint();
-
-            // FIXME: Temporary hack to sleep the thread. Should wait for gpsThread instead.
-            try {
-                Thread.sleep(1000);
-            } catch (Exception e) {
-                e.printStackTrace();
+            if (XTrexDisplay.getInstance().getCurrentScreen() instanceof TripComputer) {
+                tripComputer.setDistance((int) Math.round(Odometer.getDistanceTravelled()));
+                tripComputer.setSpeed((int) Math.round(Odometer.getCurrentSpeed()));
+                tripComputer.setTime(Odometer.getMovingTime());
+                tripComputer.repaint();
             }
+            
+            satView.update();
+            
         }
 
-    }
-
-    public void start() {
-        if (t == null)
-            t = new Thread(this);
-        t.start();
-    }
-
-    public void stopRunning(){
-        this.running = false;
     }
 
  }
