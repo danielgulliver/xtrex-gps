@@ -38,13 +38,13 @@ public class SpeechModel {
 		SPANISH("Español", "es-ES", "Female", "(es-ES, HelenaRUS)");
 
 		private String name;
-		private String locale;
+		private String code;
 		private String gender;
 		private String artist; 
 
-		private LanguageEnum(String name, String locale, String gender, String artist) {
+		private LanguageEnum(String name, String code, String gender, String artist) {
 			this.name = name;
-			this.locale = locale;
+			this.code = code;
 			this.gender = gender;
 			this.artist = artist;
 		}
@@ -53,8 +53,8 @@ public class SpeechModel {
 			return name;
 		}
 
-		public String getLocale() {
-			return locale;
+		public String getCode() {
+			return code;
 		}
 
 		public String getGender() {
@@ -120,7 +120,7 @@ public class SpeechModel {
         if (directions == null) return;
 		if (this.getLanguage() != null) {
 			for (int i = 0; i < directions.length; i++) {
-				byte[] speech = generateSpeech(getAccessToken(), directions[i], language.getLocale(), 
+				byte[] speech = generateSpeech(getAccessToken(), directions[i], language.getCode(), 
 						language.getGender(), language.getArtist(), 
 						FORMAT);
 				writeData(speech, String.valueOf(i) + ".wav");
@@ -274,5 +274,14 @@ public class SpeechModel {
             speechModel = new SpeechModel();
         }
         return speechModel;
-    }
+	}
+	
+	/**
+     * Get the language code of the language the speech is currently set to.
+     * 
+     * @return language code of the current language.
+     */
+	public String getLanguageCode() {
+		return language.getCode();
+	}
 }
