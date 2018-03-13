@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import org.json.*;
 
 /**
  * Deals with the map screen and google maps API calls
@@ -155,18 +156,23 @@ public class Maps {
 	
 	private class MapModel {
 		
-		private final static String API_BASE = "https://maps.googleapis.com/maps/api/staticmap";
-		private final static String API_KEY = "AIzaSyDv8abU01v40-krRiApS1w-zr5Kkcxb0zI";
-		private final static String DEFAULT_LAT = "50.77730";
-		private final static String DEFAULT_LONG = "-3.52626";
+		private final static String STATIC_API_BASE = "https://maps.googleapis.com/maps/api/staticmap";
+		private final static String DIRECTIONS_API_BASE = "https://maps.googleapis.com/maps/api/directions/json";
+		private final static String STATIC_API_KEY = "AIzaSyA4kRpdpRTRbVsTJZTP4-CE0Gi4W67v--A";
+		private final static String DIRECTIONS_API_KEY = "AIzaSyB_Xb021JnC9W3SwpD8tqD2ZBcAdxAuP9M";
 		private final static String IMG_SIZE = "540x540";
 		
-		
 		private GPSparser gps;
+		private WhereToController whereTo;
+		private SpeechView speech;
 		private int zoom = 18;
+		private double[] directionLats = null;
+		private double[] directionLongs = null;
 		
 		private MapModel() {
 			this.gps = GPSparser.getInstance();
+			this.whereTo = WhereToController.getInstance();
+			this.speech = SpeechView.getInstance();
 		}
 		
 		public int getZoom() {
@@ -188,16 +194,56 @@ public class Maps {
 			
 			final String method = "GET";
 		    final String url
-		      = ( MapModel.API_BASE
+		      = ( MapModel.STATIC_API_BASE
 		        + "?center=" + latStr + "," + longStr
 		        + "&zoom=" + zoom
 		        + "&size=" + MapModel.IMG_SIZE
-		        + "&key=" + MapModel.API_KEY );
+		        + "&key=" + MapModel.STATIC_API_KEY );
 		    
 		    final byte[] body = {};
 		    final String[][] headers = {};
 		   
-		    return HttpConnect.httpConnect( method, url, headers, body );
+		    return HttpConnect.httpConnect(method, url, headers, body);
+			
+		}
+		
+		public String[] getDirections() {
+			
+			String destination = whereTo.getDestination();
+			String latStr  = Double.toString(gps.Latitude());
+			String longStr = Double.toString(gps.Longitude());
+			
+			final String method = "GET";
+		    final String url
+		      = ( MapModel.DIRECTIONS_API_BASE
+		        + "?origin=" + latStr + "," + longStr
+		        + "&destination=" + destination
+		        + "&mode=walking"
+		        + "&language=" + speech.getLanguageCode();
+		        + "&key=" + MapModel.DIRECTIONS_API_KEY );
+		    
+		    final byte[] body = {};
+		    final String[][] headers = {};
+			
+		    byte[] response = HttpConnect.httpConnect(method, url, headers, body);
+		    
+		    JSONObject json = new JSONObject(new String(response));
+		    JSONArray directionArr = json.getJSONArray("routes")[0].getJSONArray("legs")[0].getJSONArray("steps");
+		    
+		    this.directionLats = new double[directionArr.length];
+		    this.directionLongs = new double[directionArr.length];
+		    String[] directions = new String[directionArr.length];
+		    
+		    for (int i = 0; i < directions.length; i++) {
+		    	
+		    	JSONObject startLoc = directionArr[i].getJSONObject("start_location");
+		    	this.directionLats[i]  = startLoc.getDouble("lat");
+		    	this.directionLongs[i] = startLoc.getDouble("lng");
+		    	directions[i]          = directionArr[i].getString("html_instructions");
+		    	
+		    }
+		    
+		    return directions;
 			
 		}
 		
