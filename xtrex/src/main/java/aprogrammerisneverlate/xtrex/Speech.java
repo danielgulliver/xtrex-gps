@@ -46,4 +46,13 @@ public class Speech {
         }
         return view;
     }
+
+    /**
+     * Get the language code of the language the speech is currently set to.
+     * 
+     * @return language code of the current language.
+     */
+    public String getLanguageCode() {
+        return model.getLanguageCode();
+    }
 }
