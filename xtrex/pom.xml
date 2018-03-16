@@ -31,7 +31,7 @@
     </dependency>
 
     <dependency>
-      <groupId>json</groupId>
+      <groupId>xtrex.json</groupId>
       <artifactId>json</artifactId>
       <version>1</version>
       <scope>system</scope>
