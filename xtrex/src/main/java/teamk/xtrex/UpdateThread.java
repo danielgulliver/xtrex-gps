@@ -37,7 +37,7 @@ package teamk.xtrex;
     }
 
     public void run() {
-        Maps.MapController mapController = Maps.getController();
+        MapController mapController = Maps.getController();
         TripComputer tripComputer = TripComputer.getInstance();
         SatelliteView satView = SatelliteView.getInstance();
         GPSspoofer spoof = GPSspoofer.getInstance();
