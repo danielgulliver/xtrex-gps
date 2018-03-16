@@ -31,12 +31,14 @@
     </dependency>
 
     <dependency>
-      <groupId>json</groupId>
+      <groupId>xtrex.json</groupId>
       <artifactId>json</artifactId>
       <version>1</version>
       <scope>system</scope>
-      <systemPath>${project.basedir}/src/main/java/java-json.jar</systemPath>
+      <systemPath>${project.basedir}/src/main/java/json.jar</systemPath>
     </dependency>
+
+    
   </dependencies>
 
   <build>
