@@ -47,6 +47,13 @@ public class Speech {
         return view;
     }
 
+    public static SpeechModel getSpeehModel() {
+        if (model == null) {
+            model = new SpeechModel();
+        }
+        return model;
+    }
+
     /**
      * Get the language code of the language the speech is currently set to.
      * 
