@@ -2,18 +2,18 @@ package teamk.xtrex;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
+
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import org.json.*;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Deals with the map screen and google maps API calls
@@ -207,8 +207,7 @@ public class Maps {
 			
 		}
 		
-		public String[] getDirections() {
-			
+		public String[] getDirections() throws JSONException {
 			String destination = whereTo.getDestination();
 			String latStr  = Double.toString(gps.Latitude());
 			String longStr = Double.toString(gps.Longitude());
@@ -226,25 +225,26 @@ public class Maps {
 		    final String[][] headers = {};
 			
 		    byte[] response = HttpConnect.httpConnect(method, url, headers, body);
-		    
-		    JSONObject json = new JSONObject(new String(response));
-		    JSONArray directionArr = json.getJSONArray("routes")[0].getJSONArray("legs")[0].getJSONArray("steps");
-		    
-		    this.directionLats = new double[directionArr.length];
-		    this.directionLongs = new double[directionArr.length];
-		    String[] directions = new String[directionArr.length];
+		
+			JSONObject jsonObject = new JSONObject(response);
+			// routesArray contains ALL routes
+			JSONArray routesArray = jsonObject.getJSONArray("routes");
+			// Grab the first route
+			JSONObject route = routesArray.getJSONObject(0);
+			// Take all legs from the route
+			JSONArray legs = route.getJSONArray("legs");
+
+		    this.directionLats = new double[legs.length()];
+		    this.directionLongs = new double[legs.length()];
+		    String[] directions = new String[legs.length()];
 		    
 		    for (int i = 0; i < directions.length; i++) {
-		    	
-		    	JSONObject startLoc = directionArr[i].getJSONObject("start_location");
+		    	JSONObject startLoc = legs.getJSONObject(0).getJSONObject("start_location");
 		    	this.directionLats[i]  = startLoc.getDouble("lat");
 		    	this.directionLongs[i] = startLoc.getDouble("lng");
-		    	directions[i]          = directionArr[i].getString("html_instructions");
-		    	
+		    	directions[i]          = legs.getJSONObject(0).getString("html_instructions");
 		    }
-		    
 		    return directions;
-			
 		}
 		
 	}
