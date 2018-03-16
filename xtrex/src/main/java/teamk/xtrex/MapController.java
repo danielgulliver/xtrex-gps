@@ -10,13 +10,9 @@ public class MapController {
     private MapModel mapModel;
     private MapView mapView;
     
-    public MapController() {
-        this.mapModel = new MapModel();
-        this.mapView = new MapView(this);
-    }
-    
-    public MapView getScreen() {
-        return this.mapView;
+    public MapController(MapView mapView, MapModel mapModel) {
+        this.mapModel = mapModel;
+        this.mapView = mapView;
     }
     
     public void updateMap() {
