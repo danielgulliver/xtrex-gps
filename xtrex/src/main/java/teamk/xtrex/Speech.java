@@ -47,7 +47,7 @@ public class Speech {
         return view;
     }
 
-    public static SpeechModel getSpeehModel() {
+    public static SpeechModel getSpeechModel() {
         if (model == null) {
             model = new SpeechModel();
         }

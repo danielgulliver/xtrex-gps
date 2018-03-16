@@ -10,7 +10,7 @@ public class SpeechMain {
         MapModel mapModel = map.getMapModel();
         String[] directions = mapModel.getDirections();
         Speech speech = Speech.getInstance();
-        SpeechModel speechModel = speech.getSpeehModel();
+        SpeechModel speechModel = speech.getSpeechModel();
         speechModel.parseDirections(directions);
     }
 }
