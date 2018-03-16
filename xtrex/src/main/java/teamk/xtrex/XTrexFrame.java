@@ -19,7 +19,7 @@ public class XTrexFrame extends JPanel {
         //this.setBackground(new Color(1,1,1,0));
         //this.setPreferredSize(new Dimension(662, 1275));
         this.setPreferredSize(new Dimension(460, 886));
-        constraints.insets = new Insets(40,0,0,3);
+        constraints.insets = new Insets(40,0,0,3); // Offsets to position the display correctly in the xtrex frame.
 
         try{
             BufferedImage img = ImageIO.read(new File("bg.png"));
@@ -50,7 +50,7 @@ public class XTrexFrame extends JPanel {
         currentScreen.setMinimumSize(new Dimension(342,418));
         //currentScreen.setAlignmentX(0.49f);
         //currentScreen.setAlignmentY(0.56f);
-        currentScreen.setBackground(new Color(237,237,237));
+        currentScreen.setBackground(Style.colour.BACKGROUND);
         label.add(currentScreen, constraints);
         
         currentScreen.setVisible(true);
