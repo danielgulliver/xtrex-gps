@@ -80,23 +80,24 @@ public class MapModel {
     
         JSONObject jsonObject = new JSONObject(response);
 
-        JSONArray routesArray = jsonObject.getJSONArray("routes");
+        JSONArray routesArray;
 
-        JSONObject route = routesArray.getJSONObject(0);
+            routesArray = jsonObject.getJSONArray("routes");
+            JSONObject route = routesArray.getJSONObject(0);
 
-        JSONArray legs = route.getJSONArray("legs");
+            JSONArray legs = route.getJSONArray("legs");
 
-        this.directionLats = new double[legs.length()];
-        this.directionLongs = new double[legs.length()];
-        String[] directions = new String[legs.length()];
-        
-        for (int i = 0; i < directions.length; i++) {
-            JSONObject startLoc = legs.getJSONObject(0).getJSONObject("start_location");
-            this.directionLats[i]  = startLoc.getDouble("lat");
-            this.directionLongs[i] = startLoc.getDouble("lng");
-            directions[i]          = legs.getJSONObject(0).getString("html_instructions");
-        }
-        return directions;
+            this.directionLats = new double[legs.length()];
+            this.directionLongs = new double[legs.length()];
+            String[] directions = new String[legs.length()];
+            
+            for (int i = 0; i < directions.length; i++) {
+                JSONObject startLoc = legs.getJSONObject(0).getJSONObject("start_location");
+                this.directionLats[i]  = startLoc.getDouble("lat");
+                this.directionLongs[i] = startLoc.getDouble("lng");
+                directions[i]          = legs.getJSONObject(0).getString("html_instructions");
+            }
+            return directions;        
     }
     
 }

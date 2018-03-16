@@ -107,5 +107,4 @@ public class MapView extends Screen {
         // The select button is disabled for the map screen so we simply return
         return;
     }
-    
 }
