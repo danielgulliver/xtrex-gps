@@ -50,7 +50,7 @@ public class XTrexFrame extends JPanel {
         currentScreen.setMinimumSize(new Dimension(342,418));
         //currentScreen.setAlignmentX(0.49f);
         //currentScreen.setAlignmentY(0.56f);
-        currentScreen.setBackground(Style.colour.BACKGROUND);
+        currentScreen.setBackground(Style.ColorScheme.BACKGROUND);
         label.add(currentScreen, constraints);
         
         currentScreen.setVisible(true);

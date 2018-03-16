@@ -1,6 +1,8 @@
 package teamk.xtrex;
 
 import javax.swing.JButton;
+import java.awt.Color;
+import java.awt.Font;
 
 import javax.swing.BorderFactory;
 
@@ -20,20 +22,20 @@ public class PrefabButton extends JButton {
     	this.displayedString = displayString;
     	setText(displayedString);
     	
-    	setBackground(Style.colour.CONTENT_BACK);
-        setForeground(Style.colour.FONT);
+    	setBackground(Style.ColorScheme.CONTENT_BACK);
+        setForeground(Style.ColorScheme.FONT);
         setFont(Style.uiFont);
-        setBorder(BorderFactory.createLineBorder(Style.colour.BACKGROUND, 5));
-        setBorder(BorderFactory.createCompoundBorder(getBorder(), BorderFactory.createLineBorder(Style.colour.CONTENT_BORDER, 2)));
+        setBorder(BorderFactory.createLineBorder(Style.ColorScheme.BACKGROUND, 5));
+        setBorder(BorderFactory.createCompoundBorder(getBorder(), BorderFactory.createLineBorder(Style.ColorScheme.CONTENT_BORDER, 2)));
     }
 
     public void selected(boolean isSelected) {
         if (isSelected) {
-            setBackground(Style.colour.ACCENT);
-            setForeground(Style.colour.SELECTED_FONT);
+            setBackground(Style.ColorScheme.ACCENT);
+            setForeground(Style.ColorScheme.SELECTED_FONT);
         } else {
-            setBackground(Style.colour.CONTENT_BACK);
-            setForeground(Style.colour.FONT);
+            setBackground(Style.ColorScheme.CONTENT_BACK);
+            setForeground(Style.ColorScheme.FONT);
         }
     }
 
