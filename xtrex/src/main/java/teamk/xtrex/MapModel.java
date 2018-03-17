@@ -102,10 +102,11 @@ public class MapModel {
 
             System.out.println(obj.toString());
 
-             array1= (JSONObject) obj.get(0);
+           
 
              
-             routesArray = (JSONArray) array1.get("routes");
+            routesArray =  (JSONArray) obj.get("routes");
+
             JSONObject route = (JSONObject) routesArray.get(0);
             JSONArray legs = (JSONArray) route.get("legs");
 
