@@ -39,10 +39,11 @@ package teamk.xtrex;
     public void run() {
         MapController mapController = Maps.getMapController();
         TripComputer tripComputer = TripComputer.getInstance();
+        TripComputerView tripComputerView = tripComputer.getView();
         SatelliteView satView = SatelliteView.getInstance();
         GPSspoofer spoof = GPSspoofer.getInstance();
 
-        mapController.updateMap();
+        //mapController.updateMap();
         System.out.println("Updated map");
         
         while (running) {
@@ -68,17 +69,13 @@ package teamk.xtrex;
             	spoof.update();
             }
             
-            mapController.updateMap();
-
-            // Update odometer - calculate new values
-            Odometer.update();
+            //mapController.updateMap();
 
             // Update Trip Computer display - display new values
-            if (XTrexDisplay.getInstance().getCurrentScreen() instanceof TripComputer) {
-                tripComputer.setDistance((int) Math.round(Odometer.getDistanceTravelled()));
-                tripComputer.setSpeed((int) Math.round(Odometer.getCurrentSpeed()));
-                tripComputer.setTime(Odometer.getMovingTime());
-                tripComputer.repaint();
+            if (XTrexDisplay.getInstance().getCurrentScreen() instanceof TripComputerView) {
+                // Update the trip computer.
+                tripComputer.update();
+                tripComputerView.repaint();
             }
             
             satView.update();
