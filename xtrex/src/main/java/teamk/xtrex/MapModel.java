@@ -109,7 +109,7 @@ public class MapModel {
 
             JSONObject route = (JSONObject) routesArray.get(0);
             JSONArray legs = (JSONArray) route.get("legs");
-            JSONObject step = (JSONObject) legs.get(1);
+            JSONObject step = (JSONObject) legs.get(0);
             JSONArray steps = (JSONArray) step.get("steps");
 
             this.directionLats = new double[steps.size()];
