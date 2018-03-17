@@ -77,7 +77,7 @@ public class MapModel {
         final String url
           = ( MapModel.DIRECTIONS_API_BASE
             + "?origin=" + latStr + "," + longStr
-            + "&destination=" + destination
+            + "&destination" + "Harrison+Building,+Exeter"
             + "&mode=walking"
             + "&language=" + speech.getLanguageCode()
             + "&key=" + MapModel.DIRECTIONS_API_KEY );
