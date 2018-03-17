@@ -2,9 +2,7 @@ package teamk.xtrex;
 
 import java.util.Arrays;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.json.simple.*;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
@@ -72,7 +70,7 @@ public class MapModel {
         
     }
     
-    public String[] getDirections() throws JSONException, ParseException {
+    public String[] getDirections() throws ParseException {
         String destination = whereTo.getDestination();
         String latStr  = Double.toString(gps.Latitude());
         String longStr = Double.toString(gps.Longitude());
@@ -98,20 +96,22 @@ public class MapModel {
         JSONParser parser = new JSONParser();
             Object obj = parser.parse(Arrays.toString(response));
             JSONObject jb = (JSONObject) obj;
-            routesArray = jb.getJSONArray("routes");
-            JSONObject route = routesArray.getJSONObject(0);
+            routesArray = (JSONArray) jb.get("routes");
+            JSONObject route = (JSONObject) routesArray.get(0);
 
-            JSONArray legs = route.getJSONArray("legs");
+            JSONArray legs = (JSONArray) route.get("legs");
 
-            this.directionLats = new double[legs.length()];
-            this.directionLongs = new double[legs.length()];
-            String[] directions = new String[legs.length()];
+            this.directionLats = new double[legs.size()];
+            this.directionLongs = new double[legs.size()];
+            String[] directions = new String[legs.size()];
             
             for (int i = 0; i < directions.length; i++) {
-                JSONObject startLoc = legs.getJSONObject(0).getJSONObject("start_location");
-                this.directionLats[i]  = startLoc.getDouble("lat");
-                this.directionLongs[i] = startLoc.getDouble("lng");
-                directions[i]          = legs.getJSONObject(0).getString("html_instructions");
+                JSONObject startLoc = (JSONObject) legs.get(0);
+                startLoc = (JSONObject) startLoc.get("start_location");
+                this.directionLats[i]  = (Double) startLoc.get("lat");
+                this.directionLongs[i] = (Double) startLoc.get("lng");
+                JSONObject tmp = (JSONObject) legs.get(0);
+                directions[i]          = (String) tmp.get("html_instructions");
             }
             return directions;        
     }
