@@ -94,11 +94,20 @@ public class MapModel {
         JSONObject array1;
         JSONArray routesArray;
         JSONParser parser = new JSONParser();
+
+
+        System.out.println(Arrays.toString(response));
+
+
             JSONArray obj = (JSONArray) parser.parse(Arrays.toString(response));
+
+            System.out.println(obj.toString());
+
              array1= (JSONObject) obj.get(0);
+
+             
              routesArray = (JSONArray) array1.get("routes");
             JSONObject route = (JSONObject) routesArray.get(0);
-
             JSONArray legs = (JSONArray) route.get("legs");
 
             this.directionLats = new double[legs.size()];
