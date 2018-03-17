@@ -7,17 +7,17 @@ package teamk.xtrex;
  */
 public class TripComputerModel {
 
-    private TripComputerModel tripComputerModel = null;
+    private static TripComputerModel tripComputerModel = null;
 
     private static double distanceTravelled = 0.0;
     private static double currentSpeed = 0.0;
-    private static double movingTime = 0.0;
+    private static long movingTime = 0;
 
     private static GPSparser gps = GPSparser.getInstance();
     private static double prevLat = gps.Latitude();
     private static double prevLong = gps.Longitude();
 
-    private static final double startTime = System.currentTimeMillis();
+    private static final long startTime = System.currentTimeMillis();
 
     private TripComputerModel() {
 
@@ -27,7 +27,7 @@ public class TripComputerModel {
      * Return the single instance of TripComputerModel held by this class.
      * @return the single instance of TripComputerModel held by this class
      */
-    public TripComputerModel getInstance() {
+    public static TripComputerModel getInstance() {
         if (tripComputerModel == null) {
             tripComputerModel = new TripComputerModel();
         }
@@ -53,7 +53,7 @@ public class TripComputerModel {
                    Math.cos(phi1) * Math.cos(phi2) *
                    Math.sin(delta_lambda / 2) * Math.sin(delta_lambda / 2);
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        double d = R * c;
+        double d = RADIUS_OF_EARTH * c;
 
         return (int) Math.round(d);
     }
@@ -95,8 +95,8 @@ public class TripComputerModel {
      * Remember to call <code>calculateCurrentSpeed()</code> first to get the latest value.
      * @return the current speed of the XTrex device
      */
-    public int getCurrentSpeed() {
-        return (int) currentSpeed;
+    public double getCurrentSpeed() {
+        return currentSpeed;
     }
 
     /**
@@ -104,13 +104,8 @@ public class TripComputerModel {
      * Remember to call <code>calculateMovingTime()</code> first to get the latest value.
      * @return the moving time of the XTrex device
      */
-    public double getMovingTime() {
+    public long getMovingTime() {
         return movingTime;
     }
 
-    public static void main(String[] args) {
-        System.out.println("Distance travelled: " + getDistanceTravelled());
-        setDistanceTravelled();
-        System.out.println("Distance travelled: " + getDistanceTravelled());
-    }
 }

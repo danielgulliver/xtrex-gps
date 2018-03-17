@@ -1,3 +1,5 @@
+package teamk.xtrex;
+
 public class TripComputer {
 
     private static TripComputer tripComputer = null;
@@ -29,7 +31,7 @@ public class TripComputer {
         return tripComputer;
     }
 
-    public void getView() {
+    public TripComputerView getView() {
         return this.view;
     }
 }

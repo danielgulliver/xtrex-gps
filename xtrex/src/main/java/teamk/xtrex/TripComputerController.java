@@ -1,3 +1,8 @@
+package teamk.xtrex;
+
+/**
+ * @author Daniel Gulliver
+ */
 public class TripComputerController {
     
     private static TripComputerController tripComputerController = null;
@@ -16,7 +21,7 @@ public class TripComputerController {
      */
     public static TripComputerController getInstance() {
         if (tripComputerController == null) {
-            tripComputerController = new TripComputerController();
+            tripComputerController = new TripComputerController(TripComputerView.getInstance(), TripComputerModel.getInstance());
         }
         return tripComputerController;
     }
@@ -27,8 +32,8 @@ public class TripComputerController {
     }
 
     public void updateDistance() {
-        model.setDistanceTravelledInTimeSlice();
-        view.setDistance(model.getDistanceTravelledInTimeSlice());
+        model.setDistanceTravelled();
+        view.setDistance(model.getDistanceTravelled());
     }
 
     public void updateTime() {
