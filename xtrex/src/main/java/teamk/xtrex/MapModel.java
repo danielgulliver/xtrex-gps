@@ -7,8 +7,8 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 /**
- * @author Conor Spilsbury
  * @author Adam Griffiths
+ * @author Conor Spilsbury
  */
 public class MapModel {
 		
@@ -112,11 +112,7 @@ public class MapModel {
             JSONObject route = (JSONObject) routesArray.get(0);
             JSONArray legs = (JSONArray) route.get("legs");
             JSONObject step = (JSONObject) legs.get(0);
-            System.out.println("----------------------------------");
-            System.out.println(step.toString());
             JSONArray steps = (JSONArray) step.get("steps");
-
-            System.out.println(steps.size());
 
 
             this.directionLats = new double[steps.size()];

@@ -20,7 +20,9 @@ public class Maps {
 		mapModel = MapModel.getInstance();
         mapView = MapView.getInstance();
 		mapController = MapController.getInstance();
-        mapView.setController(mapController);
+		mapController.updateMap();
+		mapView.setController(mapController);
+		mapController.updateMap();
 	}
 
 	public static MapController getMapController() {
@@ -32,7 +34,11 @@ public class Maps {
 
 	public static MapView getMapViewInstance() {
 		if (mapView == null) {
-			maps = new Maps();
+			mapView = MapView.getInstance();
+			mapController = MapController.getInstance();
+			mapController.updateMap();
+			mapView.setController(mapController);
+			mapController.updateMap();
 		}
 		return mapView;
 	}
