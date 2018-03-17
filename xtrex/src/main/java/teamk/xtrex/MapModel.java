@@ -98,7 +98,7 @@ public class MapModel {
         JSONParser parser = new JSONParser();
 
 
-            JSONArray obj = (JSONArray) parser.parse(s);
+            JSONObject obj = (JSONObject) parser.parse(s);
 
             System.out.println(obj.toString());
 
