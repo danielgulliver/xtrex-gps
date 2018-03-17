@@ -29,9 +29,7 @@ public class Maps {
 
 	public static MapView getMapViewInstance() {
 		if (mapView == null) {
-			mapView = MapView.getInstance();
-			mapController = MapController.getInstance();
-        	mapView.setController(mapController);
+			maps = new Maps();
 		}
 		return mapView;
 	}
