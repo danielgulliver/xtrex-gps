@@ -17,52 +17,29 @@ public class Maps {
 	 * Constructor
 	 */
 	public Maps() {
-		mapModel = new MapModel();
-		mapController = new MapController(mapView, mapModel);
-		mapView = new MapView(mapController);
+		mapModel = MapModel.getInstance();
+        mapView = MapView.getInstance();
+		mapController = MapController.getInstance();
+        mapView.setController(mapController);
 	}
-	
-	public static MapController getController() {
+
+	public static MapController getMapController() {
 		if (mapController == null) {
-			mapController = new MapController(mapView, mapModel);
+			maps = new Maps();
 		}
 		return mapController;
 	}
-	
-	public static MapView getView() {
-		if (mapView == null) {
-			mapView = new MapView(getController());
-		}
-        return mapView;
-	}
-	
-	/**
-     * Lazy instantiation of the Speech class.
-     * 
-     * @return instance of the Speech class.
-     */
-    public static Maps getInstance() {
-        if (maps == null) {
-            maps = new Maps();
-        }
-        return maps;
-    }
 
-    /**
-     * Lazy instantiation of the Speech class.
-     * 
-     * @return instance of the SpeechView class.
-     */
-    public static MapView getMapViewInstance() {
-        if (mapView == null) {
-            mapView = new MapView(getController());
-        }
-        return mapView;
+	public static MapView getMapViewInstance() {
+		if (mapView == null) {
+			maps = new Maps();
+		}
+		return mapView;
 	}
-	
-	public static MapModel getMapModel() {
+
+	public static MapModel getMapModelInstance() {
 		if (mapModel == null) {
-			mapModel = new MapModel();
+			maps = new Maps();
 		}
 		return mapModel;
 	}

@@ -37,7 +37,7 @@ package teamk.xtrex;
     }
 
     public void run() {
-        MapController mapController = Maps.getController();
+        MapController mapController = Maps.getMapController();
         TripComputer tripComputer = TripComputer.getInstance();
         TripComputerView tripComputerView = tripComputer.getView();
         SatelliteView satView = SatelliteView.getInstance();

@@ -31,20 +31,22 @@ public class SpeechModel {
     private static String accessToken = null;
     private static final int MICROSECONDS_IN_MILISECOND = 1000;
     private enum LanguageEnum {
-		ENGLISH("English", "en-GB", "Female", "(en-GB, Susan, Apollo)"),
-		FRENCH("Français", "fr-FR", "Male", "(fr-FR, Paul, Apollo)"),
-		GERMAN("Deutsch", "de-DE", "Male", "(de-DE, Stefan, Apollo)"),
-		ITALIAN("Italiano", "it-IT",	"Male",	"(it-IT, Cosimo, Apollo)"),
-		SPANISH("Español", "es-ES", "Female", "(es-ES, HelenaRUS)");
+		ENGLISH("English", "en-GB", "en-GB", "Female", "(en-GB, Susan, Apollo)"),
+		FRENCH("Français", "fr-FR", "fr", "Male", "(fr-FR, Paul, Apollo)"),
+		GERMAN("Deutsch", "de-DE", "de", "Male", "(de-DE, Stefan, Apollo)"),
+		ITALIAN("Italiano", "it-IT", "it","Male",	"(it-IT, Cosimo, Apollo)"),
+		SPANISH("Español", "es-ES","es", "Female", "(es-ES, HelenaRUS)");
 
 		private String name;
-		private String code;
+		private String microsoftLanguageCode;
+		private String googleLanguageCode;
 		private String gender;
 		private String artist; 
 
-		private LanguageEnum(String name, String code, String gender, String artist) {
+		private LanguageEnum(String name, String microsoftLanguageCode, String googleLanguageCode, String gender, String artist) {
 			this.name = name;
-			this.code = code;
+			this.microsoftLanguageCode = microsoftLanguageCode;
+			this.googleLanguageCode = googleLanguageCode;
 			this.gender = gender;
 			this.artist = artist;
 		}
@@ -53,8 +55,12 @@ public class SpeechModel {
 			return name;
 		}
 
-		public String getCode() {
-			return code;
+		public String getGoogleCode() {
+			return googleLanguageCode;
+		}
+
+		public String getMicrosoftCode() {
+			return microsoftLanguageCode;
 		}
 
 		public String getGender() {
@@ -120,7 +126,7 @@ public class SpeechModel {
         if (directions == null) return;
 		if (this.getLanguage() != null) {
 			for (int i = 0; i < directions.length; i++) {
-				byte[] speech = generateSpeech(getAccessToken(), directions[i], language.getCode(), 
+				byte[] speech = generateSpeech(getAccessToken(), directions[i], language.getMicrosoftCode(), 
 						language.getGender(), language.getArtist(), 
 						FORMAT);
 				writeData(speech, String.valueOf(i) + ".wav");
@@ -230,25 +236,36 @@ public class SpeechModel {
 	}
 
 	/**
-	 * Play the audio file
+	 * Play the audio file in a new thread
 	 * 
 	 * @param File is the file name of the audio file to play
 	 */
 	public static void playAudio(File file) {
-		AudioInputStream audioIn;
 		try {
-			audioIn = AudioSystem.getAudioInputStream(file);
-			Clip clip = AudioSystem.getClip();
-			clip.open(audioIn);
-			clip.start();
-			Thread.sleep(clip.getMicrosecondLength()/MICROSECONDS_IN_MILISECOND);
+			final AudioInputStream audioIn = AudioSystem.getAudioInputStream(file);
+			Thread thread = new Thread(new Runnable() {
+				AudioInputStream ais = audioIn;
+				public void run() { 
+					Clip clip;
+					try {
+						clip = AudioSystem.getClip();
+						clip.open(audioIn);
+						clip.start();
+						Thread.sleep(clip.getMicrosecondLength()/MICROSECONDS_IN_MILISECOND);
+					} catch (LineUnavailableException e1) {
+						// TODO Auto-generated catch block
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			});
+			thread.start();
 		} catch (UnsupportedAudioFileException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (LineUnavailableException e) {
-			e.printStackTrace();
-		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
     }
@@ -282,6 +299,6 @@ public class SpeechModel {
      * @return language code of the current language.
      */
 	public String getLanguageCode() {
-		return language.getCode();
+		return language.getGoogleCode();
 	}
 }

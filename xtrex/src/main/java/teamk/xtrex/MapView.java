@@ -23,19 +23,22 @@ public class MapView extends Screen {
     private MapController mapController;
     private GPSparser gps;
     private BufferedImage cursorImg = null;
+    private static MapView mapView;
     
     /* When we construct we read the cursor image to save multiple reads (it needs to be drawn
     * each time the map is refreshed and multiple reads would be ineffcent);
     */
-    public MapView(MapController mapController) {
-        this.mapController = mapController;
+    public MapView() {
         this.gps = GPSparser.getInstance();
-        
         try {
             this.cursorImg = ImageIO.read(new File("cursor.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void setController(MapController mapController) {
+        this.mapController = mapController;
     }
     
     /**
@@ -106,5 +109,12 @@ public class MapView extends Screen {
     public void onSelectButtonPressed() {
         // The select button is disabled for the map screen so we simply return
         return;
+    }
+
+    public static MapView getInstance() {
+        if (mapView == null) {
+            mapView = new MapView();
+        }
+        return mapView;
     }
 }

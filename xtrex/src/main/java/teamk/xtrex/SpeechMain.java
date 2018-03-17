@@ -6,8 +6,8 @@ public class SpeechMain {
     public static void main(String[] args) throws JSONException {
         WhereToController where = WhereToController.getInstance();
         where.getDestination();
-        Maps map = Maps.getInstance();
-        MapModel mapModel = map.getMapModel();
+        Maps map = new Maps();
+        MapModel mapModel = map.getMapModelInstance();
         String[] directions = mapModel.getDirections();
         Speech speech = Speech.getInstance();
         SpeechModel speechModel = speech.getSpeechModel();
