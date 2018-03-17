@@ -91,12 +91,12 @@ public class MapModel {
     
         //JSONObject jsonObject = new JSONObject(response);
 
+        JSONObject array1;
         JSONArray routesArray;
-
         JSONParser parser = new JSONParser();
-            Object obj = parser.parse(Arrays.toString(response));
-            JSONObject jb = (JSONObject) obj;
-            routesArray = (JSONArray) jb.get("routes");
+            JSONArray obj = (JSONArray) parser.parse(Arrays.toString(response));
+             array1= (JSONObject) obj.get(0);
+             routesArray = (JSONArray) array1.get("routes");
             JSONObject route = (JSONObject) routesArray.get(0);
 
             JSONArray legs = (JSONArray) route.get("legs");
