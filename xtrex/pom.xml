@@ -38,6 +38,14 @@
       <systemPath>${project.basedir}/src/main/java/json.jar</systemPath>
     </dependency>
 
+    <dependency>
+      <groupId>xtrex.json-simple-1.1</groupId>
+      <artifactId>json-simple-1.1</artifactId>
+      <version>1</version>
+      <scope>system</scope>
+      <systemPath>${project.basedir}/src/main/java/json-simple-1.1.jar</systemPath>
+    </dependency>
+
     
   </dependencies>
 

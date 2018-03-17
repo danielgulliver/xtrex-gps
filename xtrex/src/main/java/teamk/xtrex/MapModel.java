@@ -1,8 +1,12 @@
 package teamk.xtrex;
 
+import java.util.Arrays;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 /**
  * @author Conor Spilsbury
@@ -68,7 +72,7 @@ public class MapModel {
         
     }
     
-    public String[] getDirections() throws JSONException {
+    public String[] getDirections() throws JSONException, ParseException {
         String destination = whereTo.getDestination();
         String latStr  = Double.toString(gps.Latitude());
         String longStr = Double.toString(gps.Longitude());
@@ -77,7 +81,7 @@ public class MapModel {
         final String url
           = ( MapModel.DIRECTIONS_API_BASE
             + "?origin=" + latStr + "," + longStr
-            + "&destination" + "Harrison+Building,+Exeter"
+            + "&destination=" + "Harrison+Building,+Exeter"
             + "&mode=walking"
             + "&language=" + speech.getLanguageCode()
             + "&key=" + MapModel.DIRECTIONS_API_KEY );
@@ -87,11 +91,14 @@ public class MapModel {
         
         byte[] response = HttpConnect.httpConnect(method, url, headers, body);
     
-        JSONObject jsonObject = new JSONObject(response);
+        //JSONObject jsonObject = new JSONObject(response);
 
         JSONArray routesArray;
 
-            routesArray = jsonObject.getJSONArray("routes");
+        JSONParser parser = new JSONParser();
+            Object obj = parser.parse(Arrays.toString(response));
+            JSONObject jb = (JSONObject) obj;
+            routesArray = jb.getJSONArray("routes");
             JSONObject route = routesArray.getJSONObject(0);
 
             JSONArray legs = route.getJSONArray("legs");
