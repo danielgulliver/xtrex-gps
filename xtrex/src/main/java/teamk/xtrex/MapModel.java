@@ -83,6 +83,8 @@ public class MapModel {
             + "&mode=walking"
             + "&language=" + speech.getLanguageCode()
             + "&key=" + MapModel.DIRECTIONS_API_KEY );
+
+        System.out.println(url);
         
         final byte[] body = {};
         final String[][] headers = {};
@@ -110,19 +112,25 @@ public class MapModel {
             JSONObject route = (JSONObject) routesArray.get(0);
             JSONArray legs = (JSONArray) route.get("legs");
             JSONObject step = (JSONObject) legs.get(0);
+            System.out.println("----------------------------------");
+            System.out.println(step.toString());
             JSONArray steps = (JSONArray) step.get("steps");
+
+            System.out.println(steps.size());
+
 
             this.directionLats = new double[steps.size()];
             this.directionLongs = new double[steps.size()];
             String[] directions = new String[steps.size()];
             
             for (int i = 0; i < directions.length; i++) {
-                JSONObject startLoc = (JSONObject) steps.get(0);
+                JSONObject startLoc = (JSONObject) steps.get(i);
                 startLoc = (JSONObject) startLoc.get("start_location");
                 this.directionLats[i]  = (Double) startLoc.get("lat");
                 this.directionLongs[i] = (Double) startLoc.get("lng");
-                JSONObject tmp = (JSONObject) steps.get(0);
+                JSONObject tmp = (JSONObject) steps.get(i);
                 directions[i]          = (String) tmp.get("html_instructions");
+                System.out.println(directions[i]);
             }
             return directions;        
     }
