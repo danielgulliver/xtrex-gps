@@ -24,6 +24,9 @@ public class Maps {
 	}
 
 	public static MapController getMapController() {
+		if (mapController == null) {
+			maps = new Maps();
+		}
 		return mapController;
 	}
 
@@ -32,5 +35,12 @@ public class Maps {
 			maps = new Maps();
 		}
 		return mapView;
+	}
+
+	public static MapModel getMapModelInstance() {
+		if (mapModel == null) {
+			maps = new Maps();
+		}
+		return mapModel;
 	}
 }
