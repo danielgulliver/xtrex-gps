@@ -109,17 +109,19 @@ public class MapModel {
 
             JSONObject route = (JSONObject) routesArray.get(0);
             JSONArray legs = (JSONArray) route.get("legs");
+            JSONObject step = (JSONObject) legs.get(1);
+            JSONArray steps = (JSONArray) step.get("steps");
 
-            this.directionLats = new double[legs.size()];
-            this.directionLongs = new double[legs.size()];
-            String[] directions = new String[legs.size()];
+            this.directionLats = new double[steps.size()];
+            this.directionLongs = new double[steps.size()];
+            String[] directions = new String[steps.size()];
             
             for (int i = 0; i < directions.length; i++) {
-                JSONObject startLoc = (JSONObject) legs.get(0);
+                JSONObject startLoc = (JSONObject) steps.get(0);
                 startLoc = (JSONObject) startLoc.get("start_location");
                 this.directionLats[i]  = (Double) startLoc.get("lat");
                 this.directionLongs[i] = (Double) startLoc.get("lng");
-                JSONObject tmp = (JSONObject) legs.get(0);
+                JSONObject tmp = (JSONObject) steps.get(0);
                 directions[i]          = (String) tmp.get("html_instructions");
             }
             return directions;        
