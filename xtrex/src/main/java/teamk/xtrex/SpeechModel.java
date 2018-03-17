@@ -30,7 +30,7 @@ public class SpeechModel {
     private static LanguageEnum language;
     private static String accessToken = null;
     private static final int MICROSECONDS_IN_MILISECOND = 1000;
-    private enum LanguageEnum {
+    public enum LanguageEnum {
 		ENGLISH("English", "en-GB", "en-GB", "Female", "(en-GB, Susan, Apollo)"),
 		FRENCH("Français", "fr-FR", "fr", "Male", "(fr-FR, Paul, Apollo)"),
 		GERMAN("Deutsch", "de-DE", "de", "Male", "(de-DE, Stefan, Apollo)"),
@@ -90,30 +90,8 @@ public class SpeechModel {
 	 * 
 	 * @param index of the the language in the list of supported languages.
 	 */
-	public void setLanguage(Integer index) {
-		if (index == null) {
-			language = null;
-			return;
-		}
-		switch(index) {
-		case 1:
-			language = LanguageEnum.ENGLISH;
-			break;
-		case 2:
-			language = LanguageEnum.FRENCH;
-			break;
-		case 3:
-			language = LanguageEnum.GERMAN;
-			break;
-		case 4:
-			language = LanguageEnum.ITALIAN;
-			break;
-		case 5: 
-			language = LanguageEnum.SPANISH;
-			break;	
-		default:
-			language = null;
-		}
+	public void setLanguage(LanguageEnum lang) {
+		language = lang;
     }
     
     /**
@@ -253,20 +231,20 @@ public class SpeechModel {
 						clip.start();
 						Thread.sleep(clip.getMicrosecondLength()/MICROSECONDS_IN_MILISECOND);
 					} catch (LineUnavailableException e1) {
-						// TODO Auto-generated catch block
+						speechError(null);
 					} catch (InterruptedException e) {
-						e.printStackTrace();
+						speechError(null);
 					}
 					catch (IOException e) {
-						e.printStackTrace();
+						speechError("InternetConnectionOffline");
 					}
 				}
 			});
 			thread.start();
 		} catch (UnsupportedAudioFileException e) {
-			e.printStackTrace();
+			speechError();
 		} catch (IOException e) {
-			e.printStackTrace();
+			speechError("InternetConnectionOffline");
 		}
     }
     
@@ -300,5 +278,19 @@ public class SpeechModel {
      */
 	public String getLanguageCode() {
 		return language.getGoogleCode();
+	}
+
+	/**
+	 * Notify the user via speech, that speech is offline
+	 */
+	private static void speechError(String error) {
+		playAudio(new File("SpeechError" + error));
+	}
+
+	/**
+	 * Notify the user via speech, that speech is offline
+	 */
+	private static void speechError() {
+		playAudio(new File("SpeechError"));
 	}
 }

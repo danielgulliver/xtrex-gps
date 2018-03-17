@@ -1,9 +1,10 @@
 package teamk.xtrex;
 
 import java.awt.GridLayout;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import teamk.xtrex.SpeechModel.LanguageEnum;
+
 import java.util.ArrayList;
 
 /**
@@ -21,13 +22,16 @@ public class SpeechView extends Screen {
     private MenuButton Spanish;
     private SpeechController controller;
     private SelectionController Selector;
+    private static LanguageEnum language;
+    
+
 
     /**
      * Inner class extends the PrefabButton class, which extends the JButton class. 
      * Used to create each button in the menu for setting the language. 
      */
     class MenuButton extends PrefabButton {
-        private Integer language;
+        private LanguageEnum language;
 
         /**
          * Instantiate a new MenuButton.
@@ -36,9 +40,8 @@ public class SpeechView extends Screen {
          * @param language is the integer corresponding to the position of the specified 
          * language in the default list of languages.
          */
-
-        public MenuButton(String displayString, Integer language){
-            super(displayString);
+        public MenuButton(LanguageEnum language){
+            super(language.getName());
             this.language = language;
         }
 
@@ -63,12 +66,12 @@ public class SpeechView extends Screen {
         setLayout(new GridLayout(6,1));
         
         // define all the buttons to be used as part of the menu.
-        Off = new MenuButton("Off", null);
-        English = new MenuButton("English", 1);
-        French = new MenuButton("Français", 2);
-        German = new MenuButton("Deutsch", 3);
-        Italian = new MenuButton("Italiano", 4);
-        Spanish = new MenuButton("Español", 5);
+        Off = new MenuButton(null);
+        English = new MenuButton(LanguageEnum.ENGLISH);
+        French = new MenuButton(LanguageEnum.FRENCH);
+        German = new MenuButton(LanguageEnum.GERMAN);
+        Italian = new MenuButton(LanguageEnum.ITALIAN);
+        Spanish = new MenuButton(LanguageEnum.SPANISH);
 
         // add the buttons to a list used be the selector to cycle through the buttons using the
         // hardware buttons on the side of the device.

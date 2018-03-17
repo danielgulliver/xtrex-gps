@@ -1,9 +1,8 @@
 package teamk.xtrex;
 
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.json.JSONException;
 import org.json.simple.parser.ParseException;
+import teamk.xtrex.SpeechModel.LanguageEnum;
 
 public class SpeechMain {
     public static void main(String[] args) throws JSONException, ParseException{
@@ -13,7 +12,7 @@ public class SpeechMain {
         MapModel mapModel = map.getMapModelInstance();
         Speech speech = Speech.getInstance();
         SpeechModel speechModel = speech.getSpeechModel();
-        speechModel.setLanguage(1);
+        speechModel.setLanguage(LanguageEnum.ENGLISH);
         String[] directions = mapModel.getDirections();
         speechModel.parseDirections(directions);
     }

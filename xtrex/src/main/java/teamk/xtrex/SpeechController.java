@@ -1,7 +1,7 @@
 package teamk.xtrex;
 
 import java.io.File;
-import java.io.IOException;
+import teamk.xtrex.SpeechModel.LanguageEnum;
 
 /**
  * The controller class that is part of the MVC design behind the speech elements of the GPS. 
@@ -28,9 +28,8 @@ public class SpeechController {
      * 
      * @param language as an integer corresponding to the position of the language in the default list:
      * <Off, English, French, German, Italian, Spanish>.
-     * @throws IOException
      */
-    public void selected(Integer language) {
+    public void selected(LanguageEnum language) {
         // use the integer representation of the language to set the language for the device.
         model.setLanguage(language);
 
