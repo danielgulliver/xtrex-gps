@@ -91,15 +91,14 @@ public class MapModel {
     
         //JSONObject jsonObject = new JSONObject(response);
 
+        String s = new String(response);
+
         JSONObject array1;
         JSONArray routesArray;
         JSONParser parser = new JSONParser();
 
 
-        System.out.println(Arrays.toString(response));
-
-
-            JSONArray obj = (JSONArray) parser.parse(Arrays.toString(response));
+            JSONArray obj = (JSONArray) parser.parse(s);
 
             System.out.println(obj.toString());
 
