@@ -1,10 +1,7 @@
 package teamk.xtrex;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 
 /**
  * The controller class that is part of the MVC design behind the speech elements of the GPS. 

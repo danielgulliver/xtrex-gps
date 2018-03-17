@@ -22,11 +22,19 @@ public class MapModel {
     private int zoom = 18;
     private double[] directionLats = null;
     private double[] directionLongs = null;
+    private static MapModel mapModel;
     
     public MapModel() {
         this.gps = GPSparser.getInstance();
         this.whereTo = WhereToController.getInstance();
         this.speech = Speech.getInstance();
+    }
+
+    public static MapModel getInstance() {
+        if (mapModel == null) {
+            mapModel = new MapModel();
+        }
+        return mapModel;
     }
     
     public int getZoom() {
@@ -55,7 +63,8 @@ public class MapModel {
         final byte[] body = {};
         final String[][] headers = {};
        
-        return HttpConnect.httpConnect(method, url, headers, body);
+        byte[] response = HttpConnect.httpConnect(method, url, headers, body);
+        return response;
         
     }
     

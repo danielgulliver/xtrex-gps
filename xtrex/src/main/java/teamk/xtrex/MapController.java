@@ -1,20 +1,22 @@
 package teamk.xtrex;
 
-/**
- * @author Conor Spilsbury
- * @author Adam Griffiths
- */
-
 public class MapController {
 		
-    private MapModel mapModel;
-    private MapView mapView;
+    private static MapModel mapModel;
+    private static MapView mapView;
+    private static MapController mapController;
     
-    public MapController(MapView mapView, MapModel mapModel) {
+    public MapController(MapModel mapModel, MapView mapView) { 
         this.mapModel = mapModel;
         this.mapView = mapView;
     }
     
+    public static MapController getInstance() {
+        if (mapController == null) {
+            mapController = new MapController(MapModel.getInstance(), MapView.getInstance());
+        }
+        return mapController;
+    }
     public void updateMap() {
         this.mapView.setMapData(this.mapModel.getMapData());
     }
@@ -27,7 +29,5 @@ public class MapController {
     public void decreaseZoom() {
         this.mapModel.setZoom(this.mapModel.getZoom() - 1);
         this.updateMap();
-    }
-    
-    
+    }   
 }

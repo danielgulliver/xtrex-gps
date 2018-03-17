@@ -230,25 +230,36 @@ public class SpeechModel {
 	}
 
 	/**
-	 * Play the audio file
+	 * Play the audio file in a new thread
 	 * 
 	 * @param File is the file name of the audio file to play
 	 */
 	public static void playAudio(File file) {
-		AudioInputStream audioIn;
 		try {
-			audioIn = AudioSystem.getAudioInputStream(file);
-			Clip clip = AudioSystem.getClip();
-			clip.open(audioIn);
-			clip.start();
-			Thread.sleep(clip.getMicrosecondLength()/MICROSECONDS_IN_MILISECOND);
+			final AudioInputStream audioIn = AudioSystem.getAudioInputStream(file);
+			Thread thread = new Thread(new Runnable() {
+				AudioInputStream ais = audioIn;
+				public void run() { 
+					Clip clip;
+					try {
+						clip = AudioSystem.getClip();
+						clip.open(audioIn);
+						clip.start();
+						Thread.sleep(clip.getMicrosecondLength()/MICROSECONDS_IN_MILISECOND);
+					} catch (LineUnavailableException e1) {
+						// TODO Auto-generated catch block
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			});
+			thread.start();
 		} catch (UnsupportedAudioFileException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (LineUnavailableException e) {
-			e.printStackTrace();
-		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
     }
