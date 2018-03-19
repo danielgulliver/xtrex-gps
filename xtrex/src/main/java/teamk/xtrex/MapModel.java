@@ -129,7 +129,7 @@ public class MapModel {
         //If the distance to the next point is less than 10 meters its time to play the audio for the next direction
         else if (GPSutil.latLongToDistance(this.directionLats[directionIndex], this.directionLongs[directionIndex], gps.Latitude(), gps.Longitude()) < 10) {
             
-            Speech.playAudio(new File(new String(new Integer(this.directionIndex).toString())+".wav"));
+            Speech.playAudio(new File(Integer.toString(this.directionIndex).toString()+".wav"));
             this.directionIndex++;
 
         }
