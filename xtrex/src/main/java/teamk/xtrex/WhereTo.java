@@ -10,8 +10,6 @@ public class WhereTo {
     private WhereToView view;
     private WhereToController controller;
 
-    private String prevDestination;
-
     private WhereTo() {
         this.model = WhereToModel.getInstance();
         this.view = WhereToView.getInstance();
@@ -39,14 +37,4 @@ public class WhereTo {
         return view;
     }
 
-    /**
-     * Return the destination that was typed by the user into the destination field on the Where To screen.
-     */
-    public String getDestination() {
-        return this.view.getDestination();       
-    }
-
-    public boolean destinationUpdated() {
-        return (this.getDestination().equals(prevDestination));
-    }
 }
