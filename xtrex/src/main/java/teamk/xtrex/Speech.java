@@ -1,5 +1,14 @@
 package teamk.xtrex;
 
+import java.io.File;
+import java.io.IOException;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
 /**
  * Used to instantiate all the elements of the Speech MVC and provide access
  * to the SpeechView, for the system front end.
@@ -8,7 +17,8 @@ package teamk.xtrex;
  * @version Sprint 2.
  */
 public class Speech {
-    private static Speech speech = null;
+    private static final int MICROSECONDS_IN_MILISECOND = 1000;
+	private static Speech speech = null;
     private static SpeechModel model;
     private static SpeechController controller;
     private static SpeechView view;
@@ -55,11 +65,56 @@ public class Speech {
     }
 
     /**
+     * parse the directions
+     */
+    public void parseDirections(String[] directions) {
+        model.parseDirections(directions);
+    }
+
+    /**
      * Get the language code of the language the speech is currently set to.
      * 
      * @return language code of the current language.
      */
     public String getLanguageCode() {
         return model.getLanguageCode();
+    }
+
+    /**
+     * play the audio
+     */
+    /**
+	 * Play the audio file in a new thread
+	 * 
+	 * @param File is the file name of the audio file to play
+	 */
+	public static void playAudio(File file) {
+		try {
+			final AudioInputStream audioIn = AudioSystem.getAudioInputStream(file);
+			Thread thread = new Thread(new Runnable() {
+				AudioInputStream ais = audioIn;
+				public void run() { 
+					Clip clip;
+					try {
+						clip = AudioSystem.getClip();
+						clip.open(audioIn);
+						clip.start();
+						Thread.sleep(clip.getMicrosecondLength()/MICROSECONDS_IN_MILISECOND);
+					} catch (LineUnavailableException e1) {
+						
+					} catch (InterruptedException e) {
+						
+					}
+					catch (IOException e) {
+						
+					}
+				}
+			});
+			thread.start();
+		} catch (UnsupportedAudioFileException e) {
+			
+		} catch (IOException e) {
+			
+		}
     }
 }
