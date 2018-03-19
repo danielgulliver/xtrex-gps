@@ -29,7 +29,7 @@ public class MapModel {
     public MapModel() {
         this.gps     = GPSparser.getInstance();
         this.whereTo = WhereToController.getInstance();
-        this.speech  = Speech.getInstance();
+        this.speech  = Speech.getSpeechInstance();
     }
 
     public static MapModel getInstance() {
