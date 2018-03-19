@@ -41,26 +41,34 @@ public class GPSutil {
         }
     }
 
+    /**
+     * Given target coordinates, claculates if the device is apraoching the target
+     * over the previous data points
+     * 
+     * @param double latitude -- latitude of target
+     * @param double longitude -- longitude of target
+     * 
+     * @return true if getting closser, false if not.
+     * 
+     * @author Connor Harris
+     */
     public Boolean approaching(double latitude, double longitude) {
-        Boolean apex = false;
         ArrayList<Integer> distLog = new ArrayList<Integer>();
         ListIterator<Integer> iterate = distLog.listIterator();
-        int prevDistance = 0;
+        int count = 0;
+
         for (int i = 0; i < log.size(); i++ ){
             distLog.add( latLongToDistance( log.get(i).latitude, log.get(i).longitude, latitude, longitude) );
         }
         while(iterate.hasNext()){
-            if (iterate.next() - iterate.previous() > prevDistance ){
-                prevDistance = iterate.next() - iterate.previous();
-                apex = false;
+            if (iterate.next() < iterate.previous()){
+                count += 1; 
             }
-            else {
-                prevDistance = iterate.next() - iterate.previous();
-                apex = true;
-            }
+            else { count -= 1; }
         }
-
-        return apex; 
+        
+        if (count > 0){ return true; }
+        else { return false; }
     }
 
     /**
