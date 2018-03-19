@@ -132,7 +132,12 @@ public class SpeechModel {
 		, { "Content-Length"           , String.valueOf( body.length ) }
 		};
 		byte[] response = HttpConnect.httpConnect(method, url, headers, body);
-		return new String(response); 
+		if (response != null) {
+			return new String(response); 
+		} else {
+			playAudio(new File("InternetConnectionOffline"));
+			return null;
+		}
     }
     
     /**
