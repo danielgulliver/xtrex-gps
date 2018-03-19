@@ -114,9 +114,13 @@ public class MapModel {
         if (this.directionLats == null || this.directionIndex >= this.directionLats.length)
             return;
 
+        System.out.println("Next audio play: "+Double.toString(gps.Latitude())+","+Double.toString(gps.Longitude()));
+        System.out.println("Distance to next audio play: "+new Integer(GPSutil.latLongToDistance(this.directionLats[directionIndex], this.directionLongs[directionIndex], gps.Latitude(), gps.Longitude())).toString());
         //If we are moving away from the next point in the journey we are lost and need to recalculate the journey
-        if (!gpsUtil.approaching(directionLats[directionIndex], directionLongs[directionIndex]))
+        if (!gpsUtil.approaching(directionLats[directionIndex], directionLongs[directionIndex])) {
             this.getDirections(whereTo.getDestination());
+            System.out.println("Recalculation route");
+        }
 
         //If the distance to the next point is less than 10 meters its time to play the audio for the next direction
         else if (GPSutil.latLongToDistance(this.directionLats[directionIndex], this.directionLongs[directionIndex], gps.Latitude(), gps.Longitude()) < 10) {
