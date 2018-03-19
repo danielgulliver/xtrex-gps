@@ -1,6 +1,7 @@
 package teamk.xtrex;
 
 import java.util.ArrayList;
+import java.util.ListIterator;
 
 /**
  * Creates a PVT log to allow historic tracking
@@ -16,7 +17,7 @@ public class GPSutil {
     double latitude = 0.0d;
     double longitude= 0.0d;
     float gpsTime = 0;
-    
+
     private GPSutil(){}
     /**
 	 * Return the single instance of GPSparser held by this class
@@ -38,6 +39,28 @@ public class GPSutil {
         if (log.size() < 200){
             log.remove(log.size() - 1);
         }
+    }
+
+    public Boolean approaching(double latitude, double longitude) {
+        Boolean apex = false;
+        ArrayList<Integer> distLog = new ArrayList<Integer>();
+        ListIterator<Integer> iterate = distLog.listIterator();
+        int prevDistance = 0;
+        for (int i = 0; i < log.size(); i++ ){
+            distLog.add( latLongToDistance( log.get(i).latitude, log.get(i).longitude, latitude, longitude) );
+        }
+        while(iterate.hasNext()){
+            if (iterate.next() - iterate.previous() > prevDistance ){
+                prevDistance = iterate.next() - iterate.previous();
+                apex = false;
+            }
+            else {
+                prevDistance = iterate.next() - iterate.previous();
+                apex = true;
+            }
+        }
+
+        return apex; 
     }
 
     /**
