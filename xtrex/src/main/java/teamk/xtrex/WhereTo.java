@@ -1,7 +1,7 @@
 package teamk.xtrex;
 
 /**
- * Set up MVC for the Where To screen.
+ * Provides an abstraction on top of the WhereToController.
  */
 public class WhereTo {
     private static WhereTo whereTo = null;
@@ -37,11 +37,4 @@ public class WhereTo {
         return view;
     }
 
-    /**
-     * Return the destination that was typed by the user into the destination field on the Where To screen.
-     */
-    public String getDestination() {
-        return this.view.getDestination();       
-    }
-    
 }

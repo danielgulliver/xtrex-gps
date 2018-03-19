@@ -36,7 +36,7 @@ public class MapController {
         this.updateMap();
     }   
 
-    public void getDirections(String locaton) {
+    public void getDirections(String location) {
         this.mapModel.getDirections(location);
     }
 }
