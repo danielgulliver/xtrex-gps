@@ -1,7 +1,7 @@
 package teamk.xtrex;
 
 /**
- * Set up MVC for the Where To screen.
+ * Provides an abstraction on top of the WhereToController.
  */
 public class WhereTo {
     private static WhereTo whereTo = null;
@@ -9,6 +9,8 @@ public class WhereTo {
     private WhereToModel model;
     private WhereToView view;
     private WhereToController controller;
+
+    private String prevDestination;
 
     private WhereTo() {
         this.model = WhereToModel.getInstance();
@@ -43,5 +45,8 @@ public class WhereTo {
     public String getDestination() {
         return this.view.getDestination();       
     }
-    
+
+    public boolean destinationUpdated() {
+        return (this.getDestination().equals(prevDestination));
+    }
 }
