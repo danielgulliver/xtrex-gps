@@ -9,6 +9,7 @@ import java.net.HttpURLConnection;
  * Make an HTTP connection.
  *
  * David Wakeling, 2018.
+ * Modified by Adam Grififths, 2018
  */
 public class HttpConnect {
   final static int TIMEOUT  = 5000; /* ms  */
@@ -72,7 +73,9 @@ public class HttpConnect {
 
       return response;
     } catch ( Exception ex ) {
-      System.out.println( ex ); System.exit( 1 ); return null;
+      //We don't want to exit on failure and instead we will deal with it in the calling function
+      System.out.println( ex );
+      return null;
     }
   }
 }

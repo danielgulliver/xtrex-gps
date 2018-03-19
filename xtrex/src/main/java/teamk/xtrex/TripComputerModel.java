@@ -42,20 +42,7 @@ public class TripComputerModel {
         double currLat = gps.Latitude();
         double currLong = gps.Longitude();
 
-        final double RADIUS_OF_EARTH = 6371E3D;
-        double phi1 = Math.toRadians(prevLat);
-        double phi2 = Math.toRadians(currLat);
-        double delta_phi = Math.toRadians(prevLat - currLat);
-        double delta_lambda = Math.toRadians(prevLong - currLong);
-
-        // Haversine formula for calculating the distance between two points on a sphere given their latitude and longitude.
-        double a = Math.sin(delta_phi / 2) * Math.sin(delta_phi / 2) +
-                   Math.cos(phi1) * Math.cos(phi2) *
-                   Math.sin(delta_lambda / 2) * Math.sin(delta_lambda / 2);
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        double d = RADIUS_OF_EARTH * c;
-
-        return (int) Math.round(d);
+        return GPSutil.latLongToDistance(prevLat, prevLong, currLat, currLong);
     }
 
     /**

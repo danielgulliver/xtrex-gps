@@ -45,7 +45,6 @@ package teamk.xtrex;
         GPSutil gpsUtil = GPSutil.getInstance();
 
         mapController.updateMap();
-        System.out.println("Updated map");
         
         while (running) {
             

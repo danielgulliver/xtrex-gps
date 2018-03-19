@@ -27,9 +27,9 @@ public class MapModel {
     private static MapModel mapModel;
     
     public MapModel() {
-        this.gps = GPSparser.getInstance();
+        this.gps     = GPSparser.getInstance();
         this.whereTo = WhereToController.getInstance();
-        this.speech = Speech.getInstance();
+        this.speech  = Speech.getInstance();
     }
 
     public static MapModel getInstance() {
@@ -72,8 +72,8 @@ public class MapModel {
     
     public String[] getDirections() throws ParseException {
         String destination = whereTo.getDestination();
-        String latStr  = Double.toString(gps.Latitude());
-        String longStr = Double.toString(gps.Longitude());
+        String latStr      = Double.toString(gps.Latitude());
+        String longStr     = Double.toString(gps.Longitude());
         
         final String method = "GET";
         final String url
@@ -83,15 +83,11 @@ public class MapModel {
             + "&mode=walking"
             + "&language=" + speech.getLanguageCode()
             + "&key=" + MapModel.DIRECTIONS_API_KEY );
-
-        System.out.println(url);
         
         final byte[] body = {};
         final String[][] headers = {};
         
         byte[] response = HttpConnect.httpConnect(method, url, headers, body);
-    
-        //JSONObject jsonObject = new JSONObject(response);
 
         String s = new String(response);
 
@@ -99,36 +95,30 @@ public class MapModel {
         JSONArray routesArray;
         JSONParser parser = new JSONParser();
 
+        JSONObject obj = (JSONObject) parser.parse(s);
 
-            JSONObject obj = (JSONObject) parser.parse(s);
+        routesArray =  (JSONArray) obj.get("routes");
 
-            System.out.println(obj.toString());
-
-           
-
-             
-            routesArray =  (JSONArray) obj.get("routes");
-
-            JSONObject route = (JSONObject) routesArray.get(0);
-            JSONArray legs = (JSONArray) route.get("legs");
-            JSONObject step = (JSONObject) legs.get(0);
-            JSONArray steps = (JSONArray) step.get("steps");
+        JSONObject route = (JSONObject) routesArray.get(0);
+        JSONArray legs   = (JSONArray) route.get("legs");
+        JSONObject step  = (JSONObject) legs.get(0);
+        JSONArray steps  = (JSONArray) step.get("steps");
 
 
-            this.directionLats = new double[steps.size()];
-            this.directionLongs = new double[steps.size()];
-            String[] directions = new String[steps.size()];
-            
-            for (int i = 0; i < directions.length; i++) {
-                JSONObject startLoc = (JSONObject) steps.get(i);
-                startLoc = (JSONObject) startLoc.get("start_location");
-                this.directionLats[i]  = (Double) startLoc.get("lat");
-                this.directionLongs[i] = (Double) startLoc.get("lng");
-                JSONObject tmp = (JSONObject) steps.get(i);
-                directions[i]          = (String) tmp.get("html_instructions");
-                System.out.println(directions[i]);
-            }
-            return directions;        
+        this.directionLats  = new double[steps.size()];
+        this.directionLongs = new double[steps.size()];
+        String[] directions = new String[steps.size()];
+        
+        for (int i = 0; i < directions.length; i++) {
+            JSONObject startLoc    = (JSONObject) steps.get(i);
+            startLoc               = (JSONObject) startLoc.get("start_location");
+            this.directionLats[i]  = (Double) startLoc.get("lat");
+            this.directionLongs[i] = (Double) startLoc.get("lng");
+            JSONObject tmp         = (JSONObject) steps.get(i);
+            directions[i]          = (String) tmp.get("html_instructions");
+
+        }
+        return directions;        
     }
     
 }
