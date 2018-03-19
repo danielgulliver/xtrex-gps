@@ -3,6 +3,8 @@ package teamk.xtrex;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -20,10 +22,13 @@ public class SpeechModel {
     private final static String APIKEY2 = "524ef33fdf7447a2a64cb38e0d70d1f6";
 	private final static String APIKEY = "7d6100f349c24081906cae7f4cb1d0d9";
 	private final static String FORMAT = "riff-16khz-16bit-mono-pcm";
-    private static LanguageEnum language;
+	private static LanguageEnum language;
+  final static String LANG   = "en-US";
+  final static String GENDER = "Female";
+  final static String ARTIST = "(en-GB, Susan, Apollo)";
     private static String accessToken = null;
     public enum LanguageEnum {
-		OFF("Off","en-GB","en-GB","",""),
+		OFF("Off","en-GB","en-GB","en-GB",""),
 		ENGLISH("English", "en-GB", "en-GB", "Female", "(en-GB, Susan, Apollo)"),
 		FRENCH("Français", "fr-FR", "fr", "Male", "(fr-FR, Paul, Apollo)"),
 		GERMAN("Deutsch", "de-DE", "de", "Male", "(de-DE, Stefan, Apollo)"),
@@ -98,9 +103,10 @@ public class SpeechModel {
         if (directions == null) return;
 		if (this.getLanguage() != null) {
 			for (int i = 0; i < directions.length; i++) {
-				byte[] speech = generateSpeech(getAccessToken(), directions[i], language.getMicrosoftCode(), 
-						language.getGender(), language.getArtist(), 
-						FORMAT);
+				System.out.println(directions[i]);
+				final byte[] speech = generateSpeech( getAccessToken(),  directions[i],   LANG
+                                        , GENDER, ARTIST, FORMAT );
+
 				writeData(speech, String.valueOf(i) + ".wav");
 			}
 		}
@@ -127,7 +133,9 @@ public class SpeechModel {
 		byte[] response = HttpConnect.httpConnect(method, url, headers, body);
 		if (response != null) {
 			System.out.println("Access token ok");
-			return new String(response); 
+		
+				return new String(response);
+			
 		} else {
 			System.out.println("error renewing token");
 			//Speech.playAudio(new File("InternetConnectionOffline"));
@@ -168,29 +176,27 @@ public class SpeechModel {
 	 * 
 	 * @return byte[] of the generated speech
 	 */
-	private static byte[] generateSpeech(String token, String text
-			, String locale, String gender
-			, String artist, String format ) {
-		final String method = "POST";
-		final String url = "https://speech.platform.bing.com/synthesize";
-		final byte[] body
-		= ( "<speak version='1.0' xml:lang='en-us'>"
-				+ "<voice xml:lang='" + locale   + "' "
-				+ "xml:gender='"      + gender + "' "
-				+ "name='Microsoft Server Speech Text to Speech Voice "
-				+ artist + "'>"
-				+ text
-				+ "</voice></speak>" ).getBytes(); 
-		final String[][] headers
-		= { { "Content-Type"             , "application/ssml+xml"      }
-		, { "Content-Length"           , String.valueOf( body.length ) }
-		, { "Authorization"            , "Bearer " + token             }
-		, { "X-Microsoft-OutputFormat" , format                        }
-		};
-		byte[] response = HttpConnect.httpConnect(method, url, headers, body);
-		if (response == null) System.out.println("response null");
-		System.out.println(response.toString());
-		return response;
+	static byte[] generateSpeech( String token,  String text
+                              , String lang,   String gender
+                              , String artist, String format ) {
+    final String method = "POST";
+    final String url = "https://speech.platform.bing.com/synthesize";
+    final byte[] body
+      = ( "<speak version='1.0' xml:lang='en-us'>"
+        + "<voice xml:lang='" + lang   + "' "
+        + "xml:gender='"      + gender + "' "
+        + "name='Microsoft Server Speech Text to Speech Voice "
+        + artist + "'>"
+        + text
+        + "</voice></speak>" ).getBytes(); 
+    final String[][] headers
+      = { { "Content-Type"             , "application/ssml+xml"        }
+        , { "Content-Length"           , String.valueOf( body.length ) }
+        , { "Authorization"            , "Bearer " + token             }
+        , { "X-Microsoft-OutputFormat" , format                        }
+        };
+    byte[] response = HttpConnect.httpConnect( method, url, headers, body );
+    return response;
 	} 
 
 	/**

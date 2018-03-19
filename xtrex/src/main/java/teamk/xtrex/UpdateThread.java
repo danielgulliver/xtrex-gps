@@ -44,6 +44,7 @@ package teamk.xtrex;
         GPSutil gpsUtil = GPSutil.getInstance();
 
         mapController.updateMap();
+        mapController.checkLocation();
         
         while (running) {
             

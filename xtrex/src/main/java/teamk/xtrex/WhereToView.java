@@ -96,7 +96,7 @@ public class WhereToView extends Screen {
 	public void onMenuButtonPressed() {
 		super.onMenuButtonPressed();
 		// Update the directions upon leaving the Where To screen, as long as the destination has changed.
-		if (!this.getDestination().equals("") || !this.getDestination().equals(this.prevDestination)) {
+		if (!this.getDestination().equals("") && !this.getDestination().equals(this.prevDestination)) {
 			MapController.getInstance().getDirections(destination);
 			this.prevDestination = getDestination();
 		}
