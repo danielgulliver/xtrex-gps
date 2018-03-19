@@ -75,7 +75,8 @@ public class SpeechModel {
             public void run() {
                 setAccessToken();
             }
-        },0,10,TimeUnit.MINUTES);
+		},0,10,TimeUnit.MINUTES);
+		language = LanguageEnum.OFF;
     }
     
     /**
