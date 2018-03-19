@@ -87,7 +87,7 @@ public class MapModel {
         if (!gpsUtil.approaching(directionLats[directionIndex], directionLongs[directionIndex]))
             this.getDirections(whereTo.getDestination());
 
-        else if (GPSutil.latLongToDistance(this.directionLats[directionIndex], this.directionLongs[directionIndex], gps.Latitude(), gps.Longitude()) < 100) {
+        else if (GPSutil.latLongToDistance(this.directionLats[directionIndex], this.directionLongs[directionIndex], gps.Latitude(), gps.Longitude()) < 10) {
             
             Speech.playAudio(new File(new Integer(this.directionIndex).toString()));
             this.directionIndex++;
