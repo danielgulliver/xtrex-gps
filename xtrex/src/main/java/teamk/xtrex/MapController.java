@@ -21,6 +21,10 @@ public class MapController {
     public void updateMap() {
         this.mapView.setMapData(this.mapModel.getMapData());
     }
+
+    public void checkLocation() {
+        //mapModel.checkLocation();
+    }
     
     public void increaseZoom() {
         this.mapModel.setZoom(this.mapModel.getZoom() + 1);
@@ -32,7 +36,7 @@ public class MapController {
         this.updateMap();
     }   
 
-    public void getDirections() {
-        this.mapModel.getDirections();
+    public void getDirections(String location) {
+        this.mapModel.getDirections(location);
     }
 }

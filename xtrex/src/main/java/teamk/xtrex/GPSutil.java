@@ -1,6 +1,7 @@
 package teamk.xtrex;
 
 import java.util.ArrayList;
+import java.util.ListIterator;
 
 /**
  * Creates a PVT log to allow historic tracking
@@ -16,7 +17,7 @@ public class GPSutil {
     double latitude = 0.0d;
     double longitude= 0.0d;
     float gpsTime = 0;
-    
+
     private GPSutil(){}
     /**
 	 * Return the single instance of GPSparser held by this class
@@ -38,6 +39,36 @@ public class GPSutil {
         if (log.size() < 200){
             log.remove(log.size() - 1);
         }
+    }
+
+    /**
+     * Given target coordinates, claculates if the device is apraoching the target
+     * over the previous data points
+     * 
+     * @param double latitude -- latitude of target
+     * @param double longitude -- longitude of target
+     * 
+     * @return true if getting closser, false if not.
+     * 
+     * @author Connor Harris
+     */
+    public Boolean approaching(double latitude, double longitude) {
+        ArrayList<Integer> distLog = new ArrayList<Integer>();
+        ListIterator<Integer> iterate = distLog.listIterator();
+        int count = 0;
+
+        for (int i = 0; i < log.size(); i++ ){
+            distLog.add( latLongToDistance( log.get(i).latitude, log.get(i).longitude, latitude, longitude) );
+        }
+        while(iterate.hasNext()){
+            if (iterate.next() < iterate.previous()){
+                count += 1; 
+            }
+            else { count -= 1; }
+        }
+        
+        if (count > 0){ return true; }
+        else { return false; }
     }
 
     /**
