@@ -39,7 +39,6 @@ package teamk.xtrex;
     public void run() {
         MapController mapController = Maps.getMapController();
         TripComputer tripComputer = TripComputer.getInstance();
-        TripComputerView tripComputerView = tripComputer.getView();
         SatelliteView satView = SatelliteView.getInstance();
         GPSspoofer spoof = GPSspoofer.getInstance();
         GPSutil gpsUtil = GPSutil.getInstance();
@@ -77,7 +76,6 @@ package teamk.xtrex;
             if (XTrexDisplay.getInstance().getCurrentScreen() instanceof TripComputerView) {
                 // Update the trip computer.
                 tripComputer.update();
-                tripComputerView.repaint();
             }
             
             satView.update();
