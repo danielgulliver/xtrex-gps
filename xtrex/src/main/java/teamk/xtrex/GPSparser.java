@@ -13,11 +13,11 @@ import java.lang.Math;
 
 public class GPSparser implements Runnable {  
     
-    final String gLLpre = "$GPGLL,";
-    final String positionPre = "$GPGGA,";
-    final String velocityPre = "$GPRMC,";
-    final String gSVpre = "$GPGSV,";
-    final float convertRate = 1.852f; // Convertion factor for Knots to Km/h
+    final String GLLPRE = "$GPGLL,";
+    final String POSITION_PRE = "$GPGGA,";
+    final String VELOCITY_PRE = "$GPRMC,";
+    final String GSV_PRE = "$GPGSV,";
+    final float CONVERT_RATE = 1.852f; // Convertion factor for Knots to Km/h
     private LocalTime localTime;
     private String OS = null;
     private static Boolean gpsEnabled = false;
@@ -180,8 +180,8 @@ public class GPSparser implements Runnable {
         int nGSV;
         localTime = LocalTime.now();
 
-        if ( input.contains(gSVpre) ) {
-            noPreSat = input.substring(input.indexOf(gSVpre) + gSVpre.length());
+        if ( input.contains(GSV_PRE) ) {
+            noPreSat = input.substring(input.indexOf(GSV_PRE) + GSV_PRE.length());
             tokenSat = noPreSat.split(",");
             nGSV = Integer.parseInt(tokenSat[0]);
             if (Integer.parseInt(tokenSat[1])  == 1){
@@ -190,8 +190,8 @@ public class GPSparser implements Runnable {
             }
         }
         
-        if ( input.contains(positionPre) ) {
-          noPre = input.substring(input.indexOf(positionPre) + positionPre.length());
+        if ( input.contains(POSITION_PRE) ) {
+          noPre = input.substring(input.indexOf(POSITION_PRE) + POSITION_PRE.length());
           tokens = noPre.split(",");
           if (tokens.length >= 5 ){
             if ( /* Integer.parseInt(tokens[5]) == 0 || */ tokens[1].length() == 0 ){ 
@@ -199,7 +199,7 @@ public class GPSparser implements Runnable {
                 logs.Logger( "--  NO GPS ACQUIRED  --" + "  at time: " + localTime );
             } else { 
                 gPStime = Float.parseFloat(tokens[0]);
-                System.out.println("-----   GPS ACQUIRED   -----");
+                System.out.println("-----   GPS ACQUIRED " + aGPS + "   -----");
                 logs.Logger("GPS LOCATION: ");
                 logs.Logger( "    GPS aquired at: " + tokens[0]  );
                             
@@ -235,13 +235,13 @@ public class GPSparser implements Runnable {
             }
           }
         }
-        if ( input.contains(velocityPre) ) {
-            noPreV = input.substring(input.indexOf(velocityPre) + velocityPre.length());
+        if ( input.contains(VELOCITY_PRE) ) {
+            noPreV = input.substring(input.indexOf(VELOCITY_PRE) + VELOCITY_PRE.length());
             tokenV = noPreV.split(",");
             if (tokenV.length >= 8 ){
                 //if (tokenV[1].contains("A")) {
                     if (tokenV[6].length() > 0) {
-                        velocity = convertRate * Float.parseFloat(tokenV[6]);
+                        velocity = CONVERT_RATE * Float.parseFloat(tokenV[6]);
                         logs.Logger( "    Velocity: " + Float.toString(velocity) );
                     }
                     if (tokenV[7].length() > 0) {
