@@ -1,5 +1,12 @@
 package teamk.xtrex;
 
+/**
+ * Creates a PVT object to allow historic tracking
+ * 
+ * @author Connor Harris
+ * @version Sprint 3 
+ */
+
 public class PositionVelocityTime {
     public float gpsTime;
     public double latitude;
