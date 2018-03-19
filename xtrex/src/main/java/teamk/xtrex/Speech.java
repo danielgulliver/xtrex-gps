@@ -55,6 +55,13 @@ public class Speech {
     }
 
     /**
+     * parse the directions
+     */
+    public void parseDirections(String[] directions) {
+        model.parseDirections(directions);
+    }
+
+    /**
      * Get the language code of the language the speech is currently set to.
      * 
      * @return language code of the current language.
