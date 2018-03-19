@@ -66,7 +66,7 @@ public class SpeechView extends Screen {
         setLayout(new GridLayout(6,1));
         
         // define all the buttons to be used as part of the menu.
-        Off = new MenuButton(null);
+        Off = new MenuButton(LanguageEnum.OFF);
         English = new MenuButton(LanguageEnum.ENGLISH);
         French = new MenuButton(LanguageEnum.FRENCH);
         German = new MenuButton(LanguageEnum.GERMAN);
