@@ -134,6 +134,11 @@ public class MapModel {
      * @param destination A string of the destination to navigate to
      */
     public void getDirections(String destination) {
+
+        //If the language is off then there's no need to download the directions
+        if (speech.getLanguage().equals(new String("Off")))
+            return;
+
         destination        = destination.replace(' ', '+');
         String latStr      = Double.toString(gps.Latitude());
         String longStr     = Double.toString(gps.Longitude());
