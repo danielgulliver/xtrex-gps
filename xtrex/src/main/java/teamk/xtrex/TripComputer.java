@@ -6,18 +6,18 @@ public class TripComputer {
 
     private TripComputerController controller = null;
     private TripComputerView view = null;
-    private TripComputerModel model = null;
+    // Note: We do not need a reference to the model.
 
     public TripComputer() {
         this.controller = TripComputerController.getInstance();
         this.view = TripComputerView.getInstance();
-        this.model = TripComputerModel.getInstance();
     }
 
     public void update() {
         this.controller.updateSpeed();
         this.controller.updateDistance();
         this.controller.updateTime();
+        this.view.repaint(); // Update the display
     }
 
     /**
