@@ -3,8 +3,6 @@ package teamk.xtrex;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.UnsupportedEncodingException;
-import java.util.Arrays;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -23,9 +21,9 @@ public class SpeechModel {
 	private final static String APIKEY = "7d6100f349c24081906cae7f4cb1d0d9";
 	private final static String FORMAT = "riff-16khz-16bit-mono-pcm";
 	private static LanguageEnum language;
-  final static String LANG   = "en-US";
-  final static String GENDER = "Female";
-  final static String ARTIST = "(en-GB, Susan, Apollo)";
+  	final static String LANG   = "en-US";
+  	final static String GENDER = "Female";
+  	final static String ARTIST = "(en-GB, Susan, Apollo)";
     private static String accessToken = null;
     public enum LanguageEnum {
 		OFF("Off","en-GB","en-GB","en-GB",""),
@@ -81,7 +79,7 @@ public class SpeechModel {
                 setAccessToken();
             }
 		},0,10,TimeUnit.MINUTES);
-		language = LanguageEnum.OFF;
+		language = LanguageEnum.ENGLISH;
     }
     
     /**
@@ -100,14 +98,14 @@ public class SpeechModel {
 	 * @param directions is an array of strings containing all the directions that need to have speech generated for.
 	 */
 	public void parseDirections(String[] directions) {
-        if (directions == null) return;
+		if (directions == null) return;
 		if (this.getLanguage() != null) {
 			for (int i = 0; i < directions.length; i++) {
 				System.out.println(directions[i]);
-				final byte[] speech = generateSpeech( getAccessToken(),  directions[i],   LANG
-                                        , GENDER, ARTIST, FORMAT );
+				final byte[] speech = generateSpeech( getAccessToken(),  directions[i],  language.getMicrosoftCode()
+									, language.getGender(), language.getArtist(), FORMAT);
 
-				writeData(speech, String.valueOf(i) + ".wav");
+			writeData(speech, String.valueOf(i) + ".wav");
 			}
 		}
 	}
