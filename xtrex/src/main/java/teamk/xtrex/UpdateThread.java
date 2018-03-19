@@ -42,6 +42,7 @@ package teamk.xtrex;
         TripComputerView tripComputerView = tripComputer.getView();
         SatelliteView satView = SatelliteView.getInstance();
         GPSspoofer spoof = GPSspoofer.getInstance();
+        GPSutil gpsUtil = GPSutil.getInstance();
 
         mapController.updateMap();
         System.out.println("Updated map");
@@ -68,6 +69,8 @@ package teamk.xtrex;
             if (!xtrex.gpsEnabled) {
             	spoof.update();
             }
+            
+            gpsUtil.update();
             
             mapController.updateMap();
 
