@@ -111,8 +111,15 @@ public class MapModel {
     public void checkLocation() {
 
         // If the journey points are unitnitalised we don't need to check the location
-        if (this.directionLats == null || this.directionIndex >= this.directionLats.length)
+        if (this.directionLats == null || this.directionIndex >= this.directionLats.length) {
+
+            if (this.directionLats == null)
+                System.out.println("Direction lats is null");
+            else {
+                System.out.println("Direction index is "+new Integer(directionIndex).toString()+" and direction lat length is "+new Integer(this.directionLats.length).toString())
+            }
             return;
+        }
 
         System.out.println("Next audio play: "+Double.toString(directionLats[directionIndex])+","+Double.toString(directionLongs[directionIndex]));
         System.out.println("Distance to next audio play: "+new Integer(GPSutil.latLongToDistance(this.directionLats[directionIndex], this.directionLongs[directionIndex], gps.Latitude(), gps.Longitude())).toString());
