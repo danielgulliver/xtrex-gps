@@ -25,7 +25,7 @@ public class WhereToView extends Screen {
 
 	private static final int DESTINATION_FIELD_CHARACTER_LIMIT = 20;
 
-	private String prevDestination = null;
+	private String prevDestination = "";
 	private JTextPaneLimit destinationField;
 	private String destination = "";
 	private Keyboard currentKeyboard = null;
@@ -96,7 +96,7 @@ public class WhereToView extends Screen {
 	public void onMenuButtonPressed() {
 		super.onMenuButtonPressed();
 		// Update the directions upon leaving the Where To screen, as long as the destination has changed.
-		if (!this.getDestination().equals(this.prevDestination)) {
+		if (!this.getDestination().equals("") || !this.getDestination().equals(this.prevDestination)) {
 			MapController.getInstance().getDirections(destination);
 			this.prevDestination = getDestination();
 		}
