@@ -9,6 +9,11 @@ import java.util.concurrent.TimeUnit;
 
 
 /**
+ * ************* CHANGE MAGIC NUMBERS
+ */
+
+
+/**
  * The model class behind turning the directions from text to speech, 
  * and playing that generated audio file.
  * 
@@ -20,10 +25,11 @@ public class SpeechModel {
     private final static String APIKEY2 = "524ef33fdf7447a2a64cb38e0d70d1f6";
 	private final static String APIKEY = "7d6100f349c24081906cae7f4cb1d0d9";
 	private final static String FORMAT = "riff-16khz-16bit-mono-pcm";
+	private final static Integer RENEW_RATE = 10;
+	private final static Integer RENEW_PERIOD = 0;
+	private final static Integer BING_API_SLEEPTIME_MILLISECONDS = 100;
 	private static LanguageEnum language;
-  	final static String LANG   = "en-US";
-  	final static String GENDER = "Female";
-  	final static String ARTIST = "(en-GB, Susan, Apollo)";
+	
     private static String accessToken = null;
     public enum LanguageEnum {
 		OFF("Off","en-GB","en-GB","en-GB",""),
@@ -78,7 +84,7 @@ public class SpeechModel {
             public void run() {
                 setAccessToken();
             }
-		},0,10,TimeUnit.MINUTES);
+		},RENEW_PERIOD,RENEW_RATE,TimeUnit.MINUTES);
 		// default the language to english
 		language = LanguageEnum.ENGLISH;
     }
@@ -106,8 +112,14 @@ public class SpeechModel {
 				for (int i = 0; i < directionsFinal.length; i++) {
 					System.out.println(directionsFinal[i]);
 					final byte[] speech = generateSpeech( getAccessToken(),  directionsFinal[i],  language.getMicrosoftCode()
-										, language.getGender(), language.getArtist(), FORMAT);
+						, language.getGender(), language.getArtist(), FORMAT);
 					writeData(speech, String.valueOf(i) + ".wav");
+					try {
+						Thread.sleep(BING_API_SLEEPTIME_MILLISECONDS); // sleep 10 miliseconds
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} 
 				}
 			}
 		});
