@@ -70,7 +70,7 @@ public class MapModel {
         
     }
     
-    public String[] getDirections() throws ParseException {
+    public void getDirections() throws ParseException {
         String destination = whereTo.getDestination();
         String latStr      = Double.toString(gps.Latitude());
         String longStr     = Double.toString(gps.Longitude());
@@ -118,7 +118,8 @@ public class MapModel {
             directions[i]          = (String) tmp.get("html_instructions");
 
         }
-        return directions;        
+        
+        speech.parseDirections(directions);
     }
     
 }
