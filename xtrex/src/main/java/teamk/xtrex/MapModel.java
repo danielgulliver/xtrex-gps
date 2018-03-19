@@ -115,6 +115,9 @@ public class MapModel {
         
         byte[] response = HttpConnect.httpConnect(method, url, headers, body);
 
+        if (response == null)
+            return;
+
         String s = new String(response);
 
         JSONArray routesArray;
@@ -127,6 +130,11 @@ public class MapModel {
             e.printStackTrace();
             return;
         }
+
+        String status = (String) obj.get("status");
+
+        if (status.equals(new String("ZERO_RESULTS")) || status.equals(new String("NOT_FOUND")))
+            return;
 
         routesArray =  (JSONArray) obj.get("routes");
 
