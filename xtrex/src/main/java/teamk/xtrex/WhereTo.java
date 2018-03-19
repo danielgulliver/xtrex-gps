@@ -36,5 +36,12 @@ public class WhereTo {
     public WhereToView getView() {
         return view;
     }
+
+    /**
+     * Return the destination that was typed by the user into the destination field on the Where To screen.
+     */
+    public String getDestination() {
+        return this.view.getDestination();       
+    }
     
 }

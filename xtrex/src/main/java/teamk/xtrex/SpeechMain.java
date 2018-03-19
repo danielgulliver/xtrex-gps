@@ -10,7 +10,7 @@ public class SpeechMain {
 
         Maps map = new Maps();
         MapModel mapModel = map.getMapModelInstance();
-        Speech speech = Speech.getInstance();
+        Speech speech = Speech.getSpeechInstance();
         SpeechModel speechModel = speech.getSpeechModel();
         speechModel.setLanguage(LanguageEnum.ENGLISH);
         String[] directions = mapModel.getDirections();
