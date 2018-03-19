@@ -1,6 +1,7 @@
 package teamk.xtrex;
 
 import java.util.Arrays;
+import java.io.File;
 
 import org.json.simple.*;
 import org.json.simple.parser.JSONParser;
@@ -19,17 +20,22 @@ public class MapModel {
     private final static String IMG_SIZE = "540x540";
     
     private GPSparser gps;
-    private WhereTo whereTo;
     private Speech speech;
+    private GPSutil gpsUtil;
+    private WhereTo whereTo;
     private int zoom = 18;
+
     private double[] directionLats = null;
     private double[] directionLongs = null;
+    private int directionIndex = 0;
+
     private static MapModel mapModel;
     
     public MapModel() {
         this.gps     = GPSparser.getInstance();
-        this.whereTo = WhereTo.getInstance();
         this.speech  = Speech.getSpeechInstance();
+        this.gpsUtil = GPSutil.getInstance();
+        this.whereTo = WhereTo.getInstance();
     }
 
     public static MapModel getInstance() {
@@ -69,6 +75,23 @@ public class MapModel {
         return response;
         
     }
+
+    public void checkLocation() {
+
+        if (this.directionLats == null || this.directionIndex >= this.directionLats.length)
+            return;
+
+        if (!gpsUtil.approaching(directionLats[directionIndex], directionLongs[directionIndex]))
+            this.getDirections(whereTo.getDestination());
+
+        else if (GPSutil.latLongToDistance(this.directionLats[directionIndex], this.directionLongs[directionIndex], gps.Latitude(), gps.Longitude()) < 100) {
+            
+            Speech.playAudio(new File(new Integer(this.directionIndex).toString()));
+            this.directionIndex++;
+
+        }
+    
+    }
     
     public void getDirections(String destination) {
         String latStr      = Double.toString(gps.Latitude());
@@ -90,7 +113,6 @@ public class MapModel {
 
         String s = new String(response);
 
-        JSONObject array1;
         JSONArray routesArray;
         JSONParser parser = new JSONParser();
         JSONObject obj;
@@ -110,6 +132,7 @@ public class MapModel {
         JSONArray steps  = (JSONArray) step.get("steps");
 
 
+        this.directionIndex = 0;
         this.directionLats  = new double[steps.size()];
         this.directionLongs = new double[steps.size()];
         String[] directions = new String[steps.size()];
