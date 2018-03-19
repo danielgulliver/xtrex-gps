@@ -17,6 +17,7 @@ public class MapController {
         }
         return mapController;
     }
+
     public void updateMap() {
         this.mapView.setMapData(this.mapModel.getMapData());
     }
@@ -30,4 +31,8 @@ public class MapController {
         this.mapModel.setZoom(this.mapModel.getZoom() - 1);
         this.updateMap();
     }   
+
+    public void getDirections() {
+        this.mapModel.getDirections();
+    }
 }

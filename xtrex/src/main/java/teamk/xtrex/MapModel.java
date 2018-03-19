@@ -19,7 +19,7 @@ public class MapModel {
     private final static String IMG_SIZE = "540x540";
     
     private GPSparser gps;
-    private WhereToController whereTo;
+    private WhereTo whereTo;
     private Speech speech;
     private int zoom = 18;
     private double[] directionLats = null;
@@ -28,7 +28,7 @@ public class MapModel {
     
     public MapModel() {
         this.gps     = GPSparser.getInstance();
-        this.whereTo = WhereToController.getInstance();
+        this.whereTo = WhereTo.getInstance();
         this.speech  = Speech.getSpeechInstance();
     }
 
@@ -70,7 +70,7 @@ public class MapModel {
         
     }
     
-    public void getDirections() throws ParseException {
+    public void getDirections() {
         String destination = whereTo.getDestination();
         String latStr      = Double.toString(gps.Latitude());
         String longStr     = Double.toString(gps.Longitude());
@@ -79,7 +79,7 @@ public class MapModel {
         final String url
           = ( MapModel.DIRECTIONS_API_BASE
             + "?origin=" + latStr + "," + longStr
-            + "&destination=" + "Harrison+Building,+Exeter"
+            + "&destination=" + destination
             + "&mode=walking"
             + "&language=" + speech.getLanguageCode()
             + "&key=" + MapModel.DIRECTIONS_API_KEY );
@@ -94,8 +94,14 @@ public class MapModel {
         JSONObject array1;
         JSONArray routesArray;
         JSONParser parser = new JSONParser();
+        JSONObject obj;
 
-        JSONObject obj = (JSONObject) parser.parse(s);
+        try {
+            obj = (JSONObject) parser.parse(s);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
 
         routesArray =  (JSONArray) obj.get("routes");
 
