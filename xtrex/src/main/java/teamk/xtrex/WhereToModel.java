@@ -9,7 +9,9 @@ public class WhereToModel {
 
     private static WhereToModel whereToModel = null;
 
-    private WhereToController controller = null;
+	private WhereToController controller = null;
+	
+	private ControllerNotPairedException notPairedException = new ControllerNotPairedException("The model does not have a paired controller");
 
     private WhereToModel() {
         
@@ -103,13 +105,13 @@ public class WhereToModel {
 
 		@Override
 		public void action() {
-            // Add the relevant character to the display.
-            if (controller != null)
-                controller.setDestination(controller.getDestination() + keyValue);
-            else {
-                System.out.println("The model does not have a paired controller");
-                //throw new ControllerNotPairedException("The model does not have a paired controller");
-            }
+			try {
+				// Add the relevant character to the display.
+				if (controller == null) throw notPairedException;
+				controller.setDestination(controller.getDestination() + keyValue);
+			} catch (ControllerNotPairedException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -125,18 +127,18 @@ public class WhereToModel {
 
 		@Override
 		public void action() {
-            // Remove the last character from the display.
-            if (controller != null) {
-                String destination = controller.getDestination();
-                if (destination.length() >= 1) {
-                    // Remove the last character from the destination string.
-                    String newDestination = controller.getDestination().substring(0, destination.length() - 1);
-                    controller.setDestination(newDestination);
-                }
-            } else {
-                System.out.println("The model does not have a paired controller");
-                //throw new ControllerNotPairedException("The model does not have a paired controller");
-            }
+			try {
+				// Remove the last character from the display.
+				if (controller == null) throw notPairedException;
+				String destination = controller.getDestination();
+				if (destination.length() >= 1) {
+					// Remove the last character from the destination string.
+					String newDestination = controller.getDestination().substring(0, destination.length() - 1);
+					controller.setDestination(newDestination);
+				}
+			} catch (ControllerNotPairedException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -156,13 +158,13 @@ public class WhereToModel {
 
 		@Override
 		public void action() {
-            if (controller != null) {
-                // Toggle the current keyboard.
-                controller.toggleKeyboard();
-            } else {
-                System.out.println("The model does not have a paired controller");
-                //throw new ControllerNotPairedException("The model does not have a paired controller");
-            }
+			try {
+				if (controller == null) throw notPairedException;
+				// Toggle the current keyboard.
+				controller.toggleKeyboard();
+			} catch (ControllerNotPairedException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }
