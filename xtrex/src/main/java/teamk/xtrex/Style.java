@@ -1,12 +1,15 @@
 package teamk.xtrex;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 
 public class Style {
 
     public static final int FONT_SIZE = 20;
     public static final Font uiFont = new Font("Arial", Font.PLAIN, FONT_SIZE);
+    public static final Dimension DEVICE_SIZE = new Dimension(460,886);
+    public static final Dimension SCREEN_SIZE = new Dimension(342,418);
 
     public static class ColorScheme{
         public static final Color BACKGROUND = new Color(237,237,237); //Light grey background
