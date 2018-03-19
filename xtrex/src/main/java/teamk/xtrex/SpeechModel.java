@@ -23,7 +23,7 @@ public class SpeechModel {
     private static LanguageEnum language;
     private static String accessToken = null;
     public enum LanguageEnum {
-		OFF("Off","","","",""),
+		OFF("Off","en-GB","en-GB","",""),
 		ENGLISH("English", "en-GB", "en-GB", "Female", "(en-GB, Susan, Apollo)"),
 		FRENCH("Français", "fr-FR", "fr", "Male", "(fr-FR, Paul, Apollo)"),
 		GERMAN("Deutsch", "de-DE", "de", "Male", "(de-DE, Stefan, Apollo)"),
