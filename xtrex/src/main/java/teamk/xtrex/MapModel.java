@@ -109,6 +109,7 @@ public class MapModel {
      * we are close to the coordinate for the next step of the journey (and need to play the audio for it)
      */
     public void checkLocation() {
+        System.out.println("running check location");
 
         // If the journey points are unitnitalised we don't need to check the location
         if (this.directionLats == null || this.directionIndex >= this.directionLats.length) {
