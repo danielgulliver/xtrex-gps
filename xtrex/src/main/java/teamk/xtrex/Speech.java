@@ -72,6 +72,13 @@ public class Speech {
     }
 
     /**
+     * get the language of the device
+     */
+    public String getLanguage() {
+        return model.getLanguage();
+    }
+
+    /**
      * Get the language code of the language the speech is currently set to.
      * 
      * @return language code of the current language.
@@ -80,9 +87,6 @@ public class Speech {
         return model.getLanguageCode();
     }
 
-    /**
-     * play the audio
-     */
     /**
 	 * Play the audio file in a new thread
 	 * 
@@ -103,7 +107,7 @@ public class Speech {
 					} catch (LineUnavailableException e1) {
 						
 					} catch (InterruptedException e) {
-						
+
 					}
 					catch (IOException e) {
 						

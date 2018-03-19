@@ -3,16 +3,9 @@ package teamk.xtrex;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 
 
 /**
@@ -20,7 +13,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
  * and playing that generated audio file.
  * 
  * @author ConorSpilsbury, 2018.
- * @version Sprint 2.
+ * @version Sprint 3.
  */
 public class SpeechModel {
     private static SpeechModel speechModel = null;
@@ -219,18 +212,13 @@ public class SpeechModel {
 	}
 
 	
-    
     /**
 	 * get the current language of the system
 	 * 
 	 * @return the current language of the system
 	 */
 	public String getLanguage() {
-		if (language != null) {
-			return language.getName();
-		} else {
-			return null;
-		}
+		return language.getName();
 	}
 
     /**
@@ -250,19 +238,5 @@ public class SpeechModel {
      */
 	public String getLanguageCode() {
 		return language.getGoogleCode();
-	}
-
-	/**
-	 * Notify the user via speech, that speech is offline
-	 */
-	private static void speechError(String error) {
-		Speech.playAudio(new File("SpeechError" + error));
-	}
-
-	/**
-	 * Notify the user via speech, that speech is offline
-	 */
-	private static void speechError() {
-		Speech.playAudio(new File("SpeechError"));
 	}
 }
