@@ -36,7 +36,7 @@ public class WhereToView extends Screen {
 
 		// Create destination field.
 		destinationField = new JTextPaneLimit(DESTINATION_FIELD_CHARACTER_LIMIT);
-		destinationField.setEnabled(false);
+		//destinationField.setEnabled(false);
 		destinationField.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 22));
 		destinationField.setForeground(Color.BLACK);
 		add(destinationField, BorderLayout.PAGE_START);
