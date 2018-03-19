@@ -12,8 +12,8 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 /**
- * @author Conor Spilsbury
  * @author Adam Griffiths
+ * @author Conor Spilsbury
  * 
  * The view part of the map MVC, deals with displaying the map, cursor and button presses
  */

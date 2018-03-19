@@ -44,7 +44,6 @@ package teamk.xtrex;
         GPSspoofer spoof = GPSspoofer.getInstance();
 
         mapController.updateMap();
-        System.out.println("Updated map");
         
         while (running) {
             
