@@ -41,6 +41,6 @@ public class SpeechController {
 
         // play the audio to say the specific language has been selected.
         File openFile = new File(lang + "Selected.wav");
-        SpeechModel.playAudio(openFile);
+        Speech.playAudio(openFile);
     }
 }

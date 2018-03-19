@@ -29,8 +29,8 @@ public class SpeechModel {
 	private final static String FORMAT = "riff-16khz-16bit-mono-pcm";
     private static LanguageEnum language;
     private static String accessToken = null;
-    private static final int MICROSECONDS_IN_MILISECOND = 1000;
     public enum LanguageEnum {
+		OFF("Off","","","",""),
 		ENGLISH("English", "en-GB", "en-GB", "Female", "(en-GB, Susan, Apollo)"),
 		FRENCH("Français", "fr-FR", "fr", "Male", "(fr-FR, Paul, Apollo)"),
 		GERMAN("Deutsch", "de-DE", "de", "Male", "(de-DE, Stefan, Apollo)"),
@@ -131,7 +131,12 @@ public class SpeechModel {
 		, { "Content-Length"           , String.valueOf( body.length ) }
 		};
 		byte[] response = HttpConnect.httpConnect(method, url, headers, body);
-		return new String(response); 
+		if (response != null) {
+			return new String(response); 
+		} else {
+			Speech.playAudio(new File("InternetConnectionOffline"));
+			return null;
+		}
     }
     
     /**
@@ -213,40 +218,7 @@ public class SpeechModel {
 		}
 	}
 
-	/**
-	 * Play the audio file in a new thread
-	 * 
-	 * @param File is the file name of the audio file to play
-	 */
-	public static void playAudio(File file) {
-		try {
-			final AudioInputStream audioIn = AudioSystem.getAudioInputStream(file);
-			Thread thread = new Thread(new Runnable() {
-				AudioInputStream ais = audioIn;
-				public void run() { 
-					Clip clip;
-					try {
-						clip = AudioSystem.getClip();
-						clip.open(audioIn);
-						clip.start();
-						Thread.sleep(clip.getMicrosecondLength()/MICROSECONDS_IN_MILISECOND);
-					} catch (LineUnavailableException e1) {
-						speechError(null);
-					} catch (InterruptedException e) {
-						speechError(null);
-					}
-					catch (IOException e) {
-						speechError("InternetConnectionOffline");
-					}
-				}
-			});
-			thread.start();
-		} catch (UnsupportedAudioFileException e) {
-			speechError();
-		} catch (IOException e) {
-			speechError("InternetConnectionOffline");
-		}
-    }
+	
     
     /**
 	 * get the current language of the system
@@ -284,13 +256,13 @@ public class SpeechModel {
 	 * Notify the user via speech, that speech is offline
 	 */
 	private static void speechError(String error) {
-		playAudio(new File("SpeechError" + error));
+		Speech.playAudio(new File("SpeechError" + error));
 	}
 
 	/**
 	 * Notify the user via speech, that speech is offline
 	 */
 	private static void speechError() {
-		playAudio(new File("SpeechError"));
+		Speech.playAudio(new File("SpeechError"));
 	}
 }
