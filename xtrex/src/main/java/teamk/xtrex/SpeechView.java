@@ -23,6 +23,8 @@ public class SpeechView extends Screen {
     private SpeechController controller;
     private SelectionController Selector;
     private static LanguageEnum language;
+
+    private final int ICON_SCALE = 40;
     
 
 
@@ -30,7 +32,7 @@ public class SpeechView extends Screen {
      * Inner class extends the PrefabButton class, which extends the JButton class. 
      * Used to create each button in the menu for setting the language. 
      */
-    class MenuButton extends PrefabButton {
+    class MenuButton extends IconButton {
         private LanguageEnum language;
 
         /**
@@ -40,8 +42,8 @@ public class SpeechView extends Screen {
          * @param language is the integer corresponding to the position of the specified 
          * language in the default list of languages.
          */
-        public MenuButton(LanguageEnum language){
-            super(language.getName());
+        public MenuButton(LanguageEnum language, String iconName, String selectedIconName){
+            super(language.getName(), ICON_SCALE, IconButton.iconPosition.ICON_LEFT, iconName, selectedIconName);
             this.language = language;
         }
 
@@ -66,12 +68,12 @@ public class SpeechView extends Screen {
         setLayout(new GridLayout(6,1));
         
         // define all the buttons to be used as part of the menu.
-        Off = new MenuButton(LanguageEnum.OFF);
-        English = new MenuButton(LanguageEnum.ENGLISH);
-        French = new MenuButton(LanguageEnum.FRENCH);
-        German = new MenuButton(LanguageEnum.GERMAN);
-        Italian = new MenuButton(LanguageEnum.ITALIAN);
-        Spanish = new MenuButton(LanguageEnum.SPANISH);
+        Off = new MenuButton(LanguageEnum.OFF, "mute.png", "muteSelected.png");
+        English = new MenuButton(LanguageEnum.ENGLISH, "english.png", "englishSelected.png");
+        French = new MenuButton(LanguageEnum.FRENCH, "french.png", "frenchSelected.png");
+        German = new MenuButton(LanguageEnum.GERMAN, "german.png", "germanSelected.png");
+        Italian = new MenuButton(LanguageEnum.ITALIAN, "italian.png", "italianSelected.png");
+        Spanish = new MenuButton(LanguageEnum.SPANISH, "spanish.png", "spanishSelected.png");
 
         // add the buttons to a list used be the selector to cycle through the buttons using the
         // hardware buttons on the side of the device.

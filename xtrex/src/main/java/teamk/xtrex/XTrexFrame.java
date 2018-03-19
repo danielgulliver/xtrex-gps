@@ -16,9 +16,7 @@ public class XTrexFrame extends JPanel {
     GridBagConstraints constraints = new GridBagConstraints();
 
     public XTrexFrame(){
-        //this.setBackground(new Color(1,1,1,0));
-        //this.setPreferredSize(new Dimension(662, 1275));
-        this.setPreferredSize(new Dimension(460, 886));
+        this.setPreferredSize(Style.DEVICE_SIZE);
         constraints.insets = new Insets(40,0,0,3); // Offsets to position the display correctly in the xtrex frame.
 
         try{
@@ -47,7 +45,7 @@ public class XTrexFrame extends JPanel {
     public void setScreen(Screen screen) {
 		if (currentScreen != null) label.remove(currentScreen);
         currentScreen = screen;
-        currentScreen.setMinimumSize(new Dimension(342,418));
+        currentScreen.setMinimumSize(Style.SCREEN_SIZE);
         //currentScreen.setAlignmentX(0.49f);
         //currentScreen.setAlignmentY(0.56f);
         currentScreen.setBackground(Style.ColorScheme.BACKGROUND);
