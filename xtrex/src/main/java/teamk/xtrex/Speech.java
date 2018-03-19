@@ -58,7 +58,7 @@ public class Speech {
         return view;
     }
 
-    public static SpeechModel getSpeechModel() {
+    public static SpeechModel getSpeechModelInstance() {
         if (model == null) {
             model = new SpeechModel();
         }
@@ -68,7 +68,7 @@ public class Speech {
     /**
      * parse the directions
      */
-    public void parseDirections(String[] directions) {
+    public static void parseDirections(String[] directions) {
         model.parseDirections(directions);
     }
 

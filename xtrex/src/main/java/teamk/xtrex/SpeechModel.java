@@ -17,8 +17,8 @@ import java.util.concurrent.TimeUnit;
  */
 public class SpeechModel {
     private static SpeechModel speechModel = null;
-    private final static String APIKEY = "524ef33fdf7447a2a64cb38e0d70d1f6";
-	private final static String APIKEY2 = "7d6100f349c24081906cae7f4cb1d0d9";
+    private final static String APIKEY2 = "524ef33fdf7447a2a64cb38e0d70d1f6";
+	private final static String APIKEY = "7d6100f349c24081906cae7f4cb1d0d9";
 	private final static String FORMAT = "riff-16khz-16bit-mono-pcm";
     private static LanguageEnum language;
     private static String accessToken = null;
@@ -125,9 +125,11 @@ public class SpeechModel {
 		};
 		byte[] response = HttpConnect.httpConnect(method, url, headers, body);
 		if (response != null) {
+			System.out.println("Access token ok");
 			return new String(response); 
 		} else {
-			Speech.playAudio(new File("InternetConnectionOffline"));
+			System.out.println("error renewing token");
+			//Speech.playAudio(new File("InternetConnectionOffline"));
 			return null;
 		}
     }
@@ -185,6 +187,8 @@ public class SpeechModel {
 		, { "X-Microsoft-OutputFormat" , format                        }
 		};
 		byte[] response = HttpConnect.httpConnect(method, url, headers, body);
+		if (response == null) System.out.println("response null");
+		System.out.println(response.toString());
 		return response;
 	} 
 
