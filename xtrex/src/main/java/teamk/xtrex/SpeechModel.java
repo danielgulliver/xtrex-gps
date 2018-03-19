@@ -79,7 +79,7 @@ public class SpeechModel {
                 setAccessToken();
             }
 		},0,10,TimeUnit.MINUTES);
-		language = LanguageEnum.OFF;
+		language = LanguageEnum.ENGLISH;
     }
     
     /**
