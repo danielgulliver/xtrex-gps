@@ -63,7 +63,7 @@ public class GPSparser implements Runnable {
                 Win7Ublox7 Ublox = new Win7Ublox7();
                 Ublox.listPorts();
                 System.out.println("\nStarting GPS Read \n");
-                Ublox.reader("COM3");
+                Ublox.reader("COM6");
             } else if (OS.startsWith("Linux")) {
                 LinuxUblox7 Ublox = new LinuxUblox7();
                 System.out.println("\nStarting GPS Read \n");
