@@ -9,6 +9,7 @@ import java.util.ArrayList;
  * @version Sprint 3 
  */
 
+
 public class GPSutil {
     GPSparser gps =  GPSparser.getInstance();
     ArrayList<PositionVelocityTime> log = new ArrayList<PositionVelocityTime>();
@@ -16,6 +17,19 @@ public class GPSutil {
     double longitude= 0.0d;
     float gpsTime = 0;
     
+    private GPSutil(){}
+    /**
+	 * Return the single instance of GPSparser held by this class
+     * in a thread safe manner.
+	 * @return the single instance of GPSparser
+	 */
+    private static class Loader {
+        static final GPSutil instance = new GPSutil();
+    }
+	public static GPSutil getInstance() {
+        return Loader.instance;
+	}
+
     public void update(){
         latitude = gps.Latitude();
         longitude = gps.Longitude();
