@@ -116,7 +116,7 @@ public class MapModel {
             if (this.directionLats == null)
                 System.out.println("Direction lats is null");
             else {
-                System.out.println("Direction index is "+new Integer(directionIndex).toString()+" and direction lat length is "+new Integer(this.directionLats.length).toString())
+                System.out.println("Direction index is "+new Integer(directionIndex).toString()+" and direction lat length is "+new Integer(this.directionLats.length).toString());
             }
             return;
         }
