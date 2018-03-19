@@ -70,8 +70,7 @@ public class MapModel {
         
     }
     
-    public void getDirections() {
-        String destination = whereTo.getDestination();
+    public void getDirections(String destination) {
         String latStr      = Double.toString(gps.Latitude());
         String longStr     = Double.toString(gps.Longitude());
         
