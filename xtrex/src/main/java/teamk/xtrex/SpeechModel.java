@@ -79,6 +79,7 @@ public class SpeechModel {
                 setAccessToken();
             }
 		},0,10,TimeUnit.MINUTES);
+		// default the language to english
 		language = LanguageEnum.ENGLISH;
     }
     
@@ -99,15 +100,18 @@ public class SpeechModel {
 	 */
 	public void parseDirections(String[] directions) {
 		if (directions == null) return;
-		if (this.getLanguage() != null) {
-			for (int i = 0; i < directions.length; i++) {
-				System.out.println(directions[i]);
-				final byte[] speech = generateSpeech( getAccessToken(),  directions[i],  language.getMicrosoftCode()
-									, language.getGender(), language.getArtist(), FORMAT);
-
-			writeData(speech, String.valueOf(i) + ".wav");
+		final String[] directionsFinal = directions;
+		Thread thread = new Thread(new Runnable() {
+			public void run() {
+				for (int i = 0; i < directionsFinal.length; i++) {
+					System.out.println(directionsFinal[i]);
+					final byte[] speech = generateSpeech( getAccessToken(),  directionsFinal[i],  language.getMicrosoftCode()
+										, language.getGender(), language.getArtist(), FORMAT);
+					writeData(speech, String.valueOf(i) + ".wav");
+				}
 			}
-		}
+		});
+		thread.start();
 	}
 
 	/**
@@ -136,7 +140,6 @@ public class SpeechModel {
 			
 		} else {
 			System.out.println("error renewing token");
-			//Speech.playAudio(new File("InternetConnectionOffline"));
 			return null;
 		}
     }
@@ -177,24 +180,24 @@ public class SpeechModel {
 	static byte[] generateSpeech( String token,  String text
                               , String lang,   String gender
                               , String artist, String format ) {
-    final String method = "POST";
-    final String url = "https://speech.platform.bing.com/synthesize";
-    final byte[] body
-      = ( "<speak version='1.0' xml:lang='en-us'>"
-        + "<voice xml:lang='" + lang   + "' "
-        + "xml:gender='"      + gender + "' "
-        + "name='Microsoft Server Speech Text to Speech Voice "
-        + artist + "'>"
-        + text
-        + "</voice></speak>" ).getBytes(); 
-    final String[][] headers
-      = { { "Content-Type"             , "application/ssml+xml"        }
-        , { "Content-Length"           , String.valueOf( body.length ) }
-        , { "Authorization"            , "Bearer " + token             }
-        , { "X-Microsoft-OutputFormat" , format                        }
-        };
-    byte[] response = HttpConnect.httpConnect( method, url, headers, body );
-    return response;
+		final String method = "POST";
+		final String url = "https://speech.platform.bing.com/synthesize";
+		final byte[] body
+		= ( "<speak version='1.0' xml:lang='en-us'>"
+			+ "<voice xml:lang='" + lang   + "' "
+			+ "xml:gender='"      + gender + "' "
+			+ "name='Microsoft Server Speech Text to Speech Voice "
+			+ artist + "'>"
+			+ text
+			+ "</voice></speak>" ).getBytes(); 
+		final String[][] headers
+		= { { "Content-Type"             , "application/ssml+xml"        }
+			, { "Content-Length"           , String.valueOf( body.length ) }
+			, { "Authorization"            , "Bearer " + token             }
+			, { "X-Microsoft-OutputFormat" , format                        }
+			};
+		byte[] response = HttpConnect.httpConnect( method, url, headers, body );
+		return response;
 	} 
 
 	/**
