@@ -44,7 +44,6 @@ package teamk.xtrex;
         GPSutil gpsUtil = GPSutil.getInstance();
 
         mapController.updateMap();
-        mapController.checkLocation();
         
         while (running) {
             
@@ -72,6 +71,7 @@ package teamk.xtrex;
             gpsUtil.update();
             
             mapController.updateMap();
+            mapController.checkLocation();
 
             // Update Trip Computer display - display new values
             if (XTrexDisplay.getInstance().getCurrentScreen() instanceof TripComputerView) {

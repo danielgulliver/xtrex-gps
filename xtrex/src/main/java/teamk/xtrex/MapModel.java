@@ -114,11 +114,7 @@ public class MapModel {
         // If the journey points are unitnitalised we don't need to check the location
         if (this.directionLats == null || this.directionIndex >= this.directionLats.length) {
 
-            if (this.directionLats == null)
-                System.out.println("Direction lats is null");
-            else {
-                System.out.println("Direction index is "+new Integer(directionIndex).toString()+" and direction lat length is "+new Integer(this.directionLats.length).toString());
-            }
+            
             return;
         }
 
@@ -126,7 +122,7 @@ public class MapModel {
         System.out.println("Distance to next audio play: "+new Integer(GPSutil.latLongToDistance(this.directionLats[directionIndex], this.directionLongs[directionIndex], gps.Latitude(), gps.Longitude())).toString());
         //If we are moving away from the next point in the journey we are lost and need to recalculate the journey
         if (!gpsUtil.approaching(directionLats[directionIndex], directionLongs[directionIndex])) {
-            this.getDirections(whereTo.getDestination());
+            //this.getDirections(whereTo.getDestination());
             System.out.println("Recalculation route");
         }
 
