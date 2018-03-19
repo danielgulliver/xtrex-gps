@@ -1,6 +1,9 @@
 package teamk.xtrex;
 
 import java.util.Arrays;
+
+import javax.management.Descriptor;
+
 import java.io.File;
 
 import org.json.simple.*;
@@ -94,6 +97,7 @@ public class MapModel {
     }
     
     public void getDirections(String destination) {
+        destination        = destination.replace(' ', '+');
         String latStr      = Double.toString(gps.Latitude());
         String longStr     = Double.toString(gps.Longitude());
         
