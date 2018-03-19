@@ -108,18 +108,18 @@ public class Speech {
 					} catch (LineUnavailableException e1) {
 						
 					} catch (InterruptedException e) {
-
+                        System.out.println("Interrupted");
 					}
 					catch (IOException e) {
-						
+						System.out.println("Wrong file name");
 					}
 				}
 			});
 			thread.start();
 		} catch (UnsupportedAudioFileException e) {
-			
+			System.out.println("Unsupported audio file");
 		} catch (IOException e) {
-			
+			System.out.println("Wrong file name");
 		}
     }
 }
