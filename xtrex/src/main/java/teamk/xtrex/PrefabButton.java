@@ -1,8 +1,6 @@
 package teamk.xtrex;
 
 import javax.swing.JButton;
-import java.awt.Color;
-import java.awt.Font;
 
 import javax.swing.BorderFactory;
 

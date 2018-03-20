@@ -34,21 +34,21 @@ public class MapController {
      * Redraws the map screen
      */
     public void updateMap() {
-        MapController.mapView.setMapData(MapController.mapModel.getMapData());
+        mapView.setMapData(mapModel.getMapData());
     }
 
     /**
      * Checks the current location to see if anything needs to be done (see mapModel for more info)
      */
     public void checkLocation() {
-        MapController.mapModel.checkLocation();
+        mapModel.checkLocation();
     }
     
     /**
      * Increases the zoom level of the map and redraws it
      */
     public void increaseZoom() {
-        MapController.mapModel.setZoom(MapController.mapModel.getZoom() + 1);
+        mapModel.setZoom(mapModel.getZoom() + 1);
         this.updateMap();
     }
     
@@ -56,7 +56,7 @@ public class MapController {
      * Decreases the zoom level of the map and redraws it
      */
     public void decreaseZoom() {
-        MapController.mapModel.setZoom(MapController.mapModel.getZoom() - 1);
+        mapModel.setZoom(mapModel.getZoom() - 1);
         this.updateMap();
     }   
 
@@ -64,6 +64,6 @@ public class MapController {
      * Gets the directions from the currnet location to the provided destination (see mapModel for more info)
      */
     public void getDirections(String location) {
-        MapController.mapModel.getDirections(location);
+        mapModel.getDirections(location);
     }
 }

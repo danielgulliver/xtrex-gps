@@ -229,8 +229,8 @@ public class GPSparser implements Runnable {
                         logs.Logger( "    Altitude: " + Float.toString(altitude) );
                     }
                 }
-                synchronized(this){
-                    notify(); // Notifys the update thread new Data is availiable 
+                synchronized(UpdateThread.getInstance()){
+                    UpdateThread.getInstance().notify(); // Notifys the update thread new Data is availiable 
                 }
             }
           }

@@ -22,12 +22,8 @@ public class SpeechView extends Screen {
     private MenuButton Spanish;
     private SpeechController controller;
     private SelectionController Selector;
-    private static LanguageEnum language;
-
     private final int ICON_SCALE = 40;
     
-
-
     /**
      * Inner class extends the PrefabButton class, which extends the JButton class. 
      * Used to create each button in the menu for setting the language. 

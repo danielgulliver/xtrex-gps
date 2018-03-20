@@ -6,15 +6,10 @@ import teamk.xtrex.SpeechModel.LanguageEnum;
 
 public class SpeechMain {
     public static void main(String[] args) {
-        WhereToController where = WhereToController.getInstance();
-
-        Maps map = new Maps();
-       MapModel mapModel = map.getMapModelInstance();
-        Speech speech = Speech.getSpeechInstance();
-        SpeechModel speechModel = speech.getSpeechModelInstance();
+		SpeechModel speechModel = Speech.getSpeechModelInstance();
         speechModel.setLanguage(LanguageEnum.ENGLISH);
-        //String[] directions = mapModel.getDirections();
-        Speech.parseDirections(new String[] {"Turn left on southampton Rd."});
+        Speech.parseDirections(new String[] {"Internet Connection Offline", "Internet Connection Re established", "G P S Connection Acquired", "G P S Connection Lost", "Invalid Destination"});
         Speech.playAudio(new File("0.wav"));
     }
+
 }

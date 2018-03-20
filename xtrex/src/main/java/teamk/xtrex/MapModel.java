@@ -1,14 +1,8 @@
 package teamk.xtrex;
 
-import java.util.Arrays;
-
-import javax.management.Descriptor;
-
 import java.io.File;
-
 import org.json.simple.*;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 /**
  * The model part of the map screen. Contains the data for the map and tracks state
@@ -28,8 +22,6 @@ public class MapModel {
     
     private GPSparser gps;
     private Speech speech;
-    private GPSutil gpsUtil;
-    private WhereTo whereTo;
     private int zoom = 18;
 
     // Stores the lats, longs and current point in the list of points for the current jorney
@@ -42,8 +34,8 @@ public class MapModel {
     public MapModel() {
         this.gps     = GPSparser.getInstance();
         this.speech  = Speech.getSpeechInstance();
-        this.gpsUtil = GPSutil.getInstance();
-        this.whereTo = WhereTo.getInstance();
+        GPSutil.getInstance();
+        WhereTo.getInstance();
     }
 
     public static MapModel getInstance() {

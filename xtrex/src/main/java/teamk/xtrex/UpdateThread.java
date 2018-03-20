@@ -50,23 +50,24 @@ package teamk.xtrex;
         	if (xtrex.gpsEnabled) {
 	        	synchronized(this) {
 		            try {
-		                gpsThread.wait();
-		                System.out.println("Notifed");
+                        System.out.println("Waiting");
+		                wait();
+		                
 		            } catch (Exception e) {
+                        System.out.println("Wait failed");
 		                e.printStackTrace();
 		            }
 	        	}
         	} else {
         		try {
-					Thread.sleep(1000);
+                    Thread.sleep(1000);
+                    spoof.update();
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-        	}
-        	
-            if (!xtrex.gpsEnabled) {
-            	spoof.update();
             }
+            
+            System.out.println("Updating!!");
             
             gpsUtil.update();
             
