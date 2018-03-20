@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 
 /**
- * ************* ADD MORE COMMENTS
+ * ************* SANITISE DIRECTIONS
  */
 
 
@@ -22,12 +22,12 @@ import java.util.concurrent.TimeUnit;
  */
 public class SpeechModel {
     private static SpeechModel speechModel = null;
-    private final static String APIKEY2 = "524ef33fdf7447a2a64cb38e0d70d1f6";
+    //private final static String APIKEY = "524ef33fdf7447a2a64cb38e0d70d1f6";
 	private final static String APIKEY = "7d6100f349c24081906cae7f4cb1d0d9";
 	private final static String FORMAT = "riff-16khz-16bit-mono-pcm";
 	private final static Integer RENEW_RATE = 10;
 	private final static Integer RENEW_PERIOD = 0;
-	private final static Integer BING_API_SLEEPTIME_MILLISECONDS = 100;
+	private final static Integer BING_API_SLEEPTIME_MILLISECONDS = 1000;
 	private static LanguageEnum language;
 	
     private static String accessToken = null;

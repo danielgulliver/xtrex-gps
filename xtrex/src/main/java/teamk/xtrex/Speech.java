@@ -97,7 +97,6 @@ public class Speech {
 		try {
 			final AudioInputStream audioIn = AudioSystem.getAudioInputStream(file);
 			Thread thread = new Thread(new Runnable() {
-				AudioInputStream ais = audioIn;
 				public void run() { 
 					Clip clip;
 					try {
