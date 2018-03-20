@@ -3,7 +3,7 @@ package teamk.xtrex;
 * Win7 Ublox7 reader.
 */   
 public class xtrex {
-    public static Boolean gpsEnabled = true;
+    public static Boolean gpsEnabled = false;
     private static Thread gpsThread = null;
 
 
