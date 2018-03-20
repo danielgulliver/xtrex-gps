@@ -1,14 +1,8 @@
 package teamk.xtrex;
 
-import java.util.Arrays;
-
-import javax.management.Descriptor;
-
 import java.io.File;
-
 import org.json.simple.*;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 /**
  * The model part of the map screen. Contains the data for the map and tracks state
