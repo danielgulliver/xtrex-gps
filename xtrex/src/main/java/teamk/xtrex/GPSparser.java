@@ -13,7 +13,7 @@ import java.lang.Math;
 
 public class GPSparser implements Runnable {  
     
-    final String GLLPRE = "$GPGLL,";
+    final String GLL_PRE = "$GPRMC,";
     final String POSITION_PRE = "$GPGGA,";
     final String VELOCITY_PRE = "$GPRMC,";
     final String GSV_PRE = "$GPGSV,";
@@ -56,12 +56,10 @@ public class GPSparser implements Runnable {
         System.out.println(OS);
         logs.Logger(OS);
         if (gpsEnabled == true) {
-            spoof = null;
-            gpsEnabled = true;
             if (OS.startsWith("Windows")) {
                 System.err.close();
                 Win7Ublox7 Ublox = new Win7Ublox7();
-                Ublox.listPorts();
+                // Ublox.listPorts();
                 System.out.println("\nStarting GPS Read \n");
                 Ublox.reader("COM6");
             } else if (OS.startsWith("Linux")) {
@@ -189,52 +187,81 @@ public class GPSparser implements Runnable {
             // System.out.println("-- Number of GSV messages: " + tokenSat[0] + "  --");
             }
         }
-        
-        if ( input.contains(POSITION_PRE) ) {
-          noPre = input.substring(input.indexOf(POSITION_PRE) + POSITION_PRE.length());
-          tokens = noPre.split(",");
-          if (tokens.length >= 5 ){
-            if ( /* Integer.parseInt(tokens[5]) == 0 || */ tokens[1].length() == 0 ){ 
-                aGPS = Integer.parseInt(tokens[5]);
-                logs.Logger( "--  NO GPS ACQUIRED  --" + "  at time: " + localTime );
-            } else { 
-                gPStime = Float.parseFloat(tokens[0]);
+        if ( input.contains(GLL_PRE) ) {
+            noPre = input.substring(input.indexOf(GLL_PRE) + POSITION_PRE.length());
+            tokens = noPre.split(",");
+            if (tokens.length >= 6 ){ 
+                gPStime = Float.parseFloat(tokens[4]);
                 System.out.println("-----   GPS ACQUIRED " + aGPS + "   -----");
                 logs.Logger("GPS LOCATION: ");
                 logs.Logger( "    GPS aquired at: " + tokens[0]  );
                             
-                if ( tokens[2].contains("N") ){ 
-                    latitude = SexagesimalToDecimal(tokens[1]);
+                if ( tokens[3].contains("N") ){ 
+                    latitude = SexagesimalToDecimal(tokens[2]);
                     logs.Logger( "    Latitude: " + Double.toString(latitude) );
-                } else if ( tokens[2].contains("S") ){
-                    latitude = -(SexagesimalToDecimal(tokens[1]));
+                } else if ( tokens[3].contains("S") ){
+                    latitude = -(SexagesimalToDecimal(tokens[2]));
                     logs.Logger( "    Latitude: " + Double.toString(latitude) );
                 }
-                if ( tokens[4].contains("E") ){ 
-                    longitude = SexagesimalToDecimal(tokens[3]);
+                if ( tokens[5].contains("E") ){ 
+                    longitude = SexagesimalToDecimal(tokens[4]);
                     logs.Logger( "    Longitude: " + Double.toString(longitude) );
-                } else if ( tokens[4].contains("W") ){ 
-                    longitude = -(SexagesimalToDecimal(tokens[3]));
+                } else if ( tokens[5].contains("W") ){ 
+                    longitude = -(SexagesimalToDecimal(tokens[4]));
                     logs.Logger( "    Longitude: " + Double.toString(longitude) );
-                }
-                if (tokens.length >= 8 ){
-                    if (tokens[5].length() > 0) {
-                        aGPS = Integer.parseInt(tokens[5]);
-                    }
-                    if (tokens[6].length() > 0) {
-                        nGPS = Integer.parseInt(tokens[6]);
-                    }
-                    if (tokens[7].length() > 0) {
-                        altitude = Float.parseFloat(tokens[7]);
-                        logs.Logger( "    Altitude: " + Float.toString(altitude) );
-                    }
                 }
                 synchronized(UpdateThread.getInstance()){
                     UpdateThread.getInstance().notify(); // Notifys the update thread new Data is availiable 
                 }
             }
-          }
         }
+        
+        // if ( input.contains(POSITION_PRE) ) {
+        //   System.out.println("Lat Long update");
+        //   noPre = input.substring(input.indexOf(POSITION_PRE) + POSITION_PRE.length());
+        //   tokens = noPre.split(",");
+        //   if (tokens.length >= 5 ){
+        //     if ( /* Integer.parseInt(tokens[5]) == 0 || */ tokens[1].length() == 0 ){ 
+        //         aGPS = Integer.parseInt(tokens[5]);
+        //         logs.Logger( "--  NO GPS ACQUIRED  --" + "  at time: " + localTime );
+        //     } else { 
+        //         gPStime = Float.parseFloat(tokens[0]);
+        //         System.out.println("-----   GPS ACQUIRED " + aGPS + "   -----");
+        //         logs.Logger("GPS LOCATION: ");
+        //         logs.Logger( "    GPS aquired at: " + tokens[0]  );
+                            
+        //         if ( tokens[2].contains("N") ){ 
+        //             latitude = SexagesimalToDecimal(tokens[1]);
+        //             logs.Logger( "    Latitude: " + Double.toString(latitude) );
+        //         } else if ( tokens[2].contains("S") ){
+        //             latitude = -(SexagesimalToDecimal(tokens[1]));
+        //             logs.Logger( "    Latitude: " + Double.toString(latitude) );
+        //         }
+        //         if ( tokens[4].contains("E") ){ 
+        //             longitude = SexagesimalToDecimal(tokens[3]);
+        //             logs.Logger( "    Longitude: " + Double.toString(longitude) );
+        //         } else if ( tokens[4].contains("W") ){ 
+        //             longitude = -(SexagesimalToDecimal(tokens[3]));
+        //             logs.Logger( "    Longitude: " + Double.toString(longitude) );
+        //         }
+        //         if (tokens.length >= 8 ){
+        //             if (tokens[5].length() > 0) {
+        //                 aGPS = Integer.parseInt(tokens[5]);
+        //             }
+        //             if (tokens[6].length() > 0) {
+        //                 nGPS = Integer.parseInt(tokens[6]);
+        //             }
+        //             if (tokens[7].length() > 0) {
+        //                 altitude = Float.parseFloat(tokens[7]);
+        //                 logs.Logger( "    Altitude: " + Float.toString(altitude) );
+        //             }
+        //         }
+        //         synchronized(UpdateThread.getInstance()){
+        //             UpdateThread.getInstance().notify(); // Notifys the update thread new Data is availiable 
+        //         }
+        //     }
+        //   }
+        // }
         if ( input.contains(VELOCITY_PRE) ) {
             noPreV = input.substring(input.indexOf(VELOCITY_PRE) + VELOCITY_PRE.length());
             tokenV = noPreV.split(",");

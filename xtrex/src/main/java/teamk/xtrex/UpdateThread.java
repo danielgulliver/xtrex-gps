@@ -14,7 +14,6 @@ package teamk.xtrex;
 
     private static UpdateThread updateThread;
     
-    private Thread gpsThread;
     private boolean running = true;
 
     private UpdateThread() {
@@ -29,10 +28,7 @@ package teamk.xtrex;
     	
         if (updateThread == null) {
             updateThread = new UpdateThread();
-            updateThread.gpsThread = xtrex.getGpsThread();
-        }
-            
-        
+        }        
         return updateThread;
     }
 
@@ -79,9 +75,9 @@ package teamk.xtrex;
                 // Update the trip computer.
                 tripComputer.update();
             }
-            
-            satView.update();
-            
+            if (XTrexDisplay.getInstance().getCurrentScreen() instanceof SatelliteView) {
+                satView.update();
+            }
         }
 
     }

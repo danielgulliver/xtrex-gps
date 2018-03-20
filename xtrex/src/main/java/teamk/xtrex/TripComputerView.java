@@ -92,7 +92,7 @@ public class TripComputerView extends Screen {
         g2d.setFont(new Font(Font.SANS_SERIF, Font.BOLD, textSize));
         g2d.setColor(Color.BLACK);
         g2d.drawString("trip odem", 50, 100);
-        g2d.drawString(this.distance + " KM", 50, 100 + textSize + textMargin);
+        g2d.drawString(this.distance + " M", 50, 100 + textSize + textMargin);
         g2d.drawString("speed", 50, 200);
         g2d.drawString(formattedSpeed + " KM/H", 50, 200 + textSize + textMargin);
         g2d.drawString("moving time", 50, 300);

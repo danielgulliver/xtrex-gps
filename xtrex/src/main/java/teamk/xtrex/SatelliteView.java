@@ -67,4 +67,5 @@ public class SatelliteView extends Screen {
         g2d.drawString(satView, 50, 300);
         
     }
+    
 }
