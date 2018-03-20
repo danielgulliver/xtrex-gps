@@ -1,7 +1,6 @@
 package teamk.xtrex;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.InputStream;
 
 /* 
  * Linux Ublox7 reader.
