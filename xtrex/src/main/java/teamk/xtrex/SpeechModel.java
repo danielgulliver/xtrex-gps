@@ -27,7 +27,7 @@ public class SpeechModel {
 	private final static String FORMAT = "riff-16khz-16bit-mono-pcm";
 	private final static Integer RENEW_RATE = 10;
 	private final static Integer RENEW_PERIOD = 0;
-	private final static Integer BING_API_SLEEPTIME_MILLISECONDS = 1000;
+	private final static Integer BING_API_SLEEPTIME_MILLISECONDS = 200;
 	private static LanguageEnum language;
 	
     private static String accessToken = null;
