@@ -68,12 +68,12 @@ public class SpeechView extends Screen {
         setLayout(new GridLayout(6,1));
         
         // define all the buttons to be used as part of the menu.
-        Off = new MenuButton(LanguageEnum.OFF, "mute.png", "muteSelected.png");
-        English = new MenuButton(LanguageEnum.ENGLISH, "english.png", "englishSelected.png");
-        French = new MenuButton(LanguageEnum.FRENCH, "french.png", "frenchSelected.png");
-        German = new MenuButton(LanguageEnum.GERMAN, "german.png", "germanSelected.png");
-        Italian = new MenuButton(LanguageEnum.ITALIAN, "italian.png", "italianSelected.png");
-        Spanish = new MenuButton(LanguageEnum.SPANISH, "spanish.png", "spanishSelected.png");
+        Off = new MenuButton(LanguageEnum.OFF, "icons/mute.png", "icons/muteSelected.png");
+        English = new MenuButton(LanguageEnum.ENGLISH, "icons/english.png", "icons/englishSelected.png");
+        French = new MenuButton(LanguageEnum.FRENCH, "icons/french.png", "icons/frenchSelected.png");
+        German = new MenuButton(LanguageEnum.GERMAN, "icons/german.png", "icons/germanSelected.png");
+        Italian = new MenuButton(LanguageEnum.ITALIAN, "icons/italian.png", "icons/italianSelected.png");
+        Spanish = new MenuButton(LanguageEnum.SPANISH, "icons/spanish.png", "icons/spanishSelected.png");
 
         // add the buttons to a list used be the selector to cycle through the buttons using the
         // hardware buttons on the side of the device.
