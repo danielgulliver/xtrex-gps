@@ -15,7 +15,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
  * to the SpeechView and SpeechModel for the system front end.
  * 
  * @author Conor Spilsbury, 2018.
- * @version Sprint 2.
+ * @version Sprint 3.
  */
 public class Speech {
     private static final int MICROSECONDS_IN_MILISECOND = 1000;

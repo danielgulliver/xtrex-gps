@@ -206,12 +206,14 @@ public class MapModel {
         }
         
         for (int i = 0; i < directions.length; i++) {
+            System.out.println(directions[i]);
             directions[i] = TextProcessor.removeHTMLTags(directions[i]);
             directions[i] = TextProcessor.expandAbbreviations(directions[i]);
+            System.out.println("|" + directions[i] + "|");
         }
 
         //Getting the audio for the array of directions
-        Speech.parseDirections(directions);
+        //Speech.parseDirections(directions);
     }
     
 }

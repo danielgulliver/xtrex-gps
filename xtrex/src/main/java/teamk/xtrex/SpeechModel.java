@@ -21,7 +21,7 @@ public class SpeechModel {
 	private final static String FORMAT = "riff-16khz-16bit-mono-pcm";
 	private final static Integer RENEW_RATE = 10;
 	private final static Integer RENEW_PERIOD = 0;
-	private final static Integer BING_API_SLEEPTIME_MILLISECONDS = 200;
+	private final static Integer BING_API_SLEEPTIME_MILLISECONDS = 3750;
 	private static LanguageEnum language;
 	
     private static String accessToken = null;
@@ -103,11 +103,15 @@ public class SpeechModel {
 		if (directions == null) return;
 		// create new thread to generate speech for all the directions
 		Thread thread = new Thread(new Runnable() {
+
 			public void run() {
+
 				for (int i = 0; i < directions.length; i++) {
+
 					// synthesise speech for each direction
-					final byte[] speech = generateSpeech( getAccessToken(),  directions[i],  language.getMicrosoftCode()
-						, language.getGender(), language.getArtist(), FORMAT);
+					final byte[] speech = generateSpeech(getAccessToken(), directions[i], 
+						language.getMicrosoftCode(), language.getGender(), language.getArtist(), 
+						FORMAT);
 
 					// write the audio file of the speech to a file
 					writeData(speech, String.valueOf(i) + ".wav");
@@ -115,7 +119,7 @@ public class SpeechModel {
 						// sleep thread to avoid hitting maximum rate for bing api 
 						Thread.sleep(BING_API_SLEEPTIME_MILLISECONDS); 
 					} catch (InterruptedException e) {
-						e.printStackTrace();
+						
 					} 
 				}
 			}
@@ -142,12 +146,7 @@ public class SpeechModel {
 		, { "Content-Length"           , String.valueOf( body.length ) }
 		};
 		byte[] response = HttpConnect.httpConnect(method, url, headers, body);
-		if (response != null) {
-			return new String(response);
-		} else {
-			System.out.println("error renewing token");
-			return null;
-		}
+		return new String(response);
     }
     
     /**
