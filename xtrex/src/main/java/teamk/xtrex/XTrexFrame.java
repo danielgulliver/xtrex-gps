@@ -6,11 +6,12 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 
 public class XTrexFrame extends JLayeredPane {
 
-    private Screen currentScreen;
+    private static final long serialVersionUID = 913883001958811801L;
+    
+	private Screen currentScreen;
     private JLabel label = new JLabel();
     private JPanel deviceOverlayPane;
     private JPanel screenOverlayPane;

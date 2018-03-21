@@ -1,7 +1,6 @@
 package teamk.xtrex;
 
 import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -143,7 +142,6 @@ public class TripComputerView extends Screen {
             TimeUnit.MILLISECONDS.toSeconds(this.millis) % TimeUnit.MINUTES.toSeconds(1)
         );
 
-<<<<<<< HEAD
         // Draw the strings on the screen.
         g2d.drawString(distanceLabel, textMarginLeft, distanceLabelMarginTop);
         g2d.drawString(this.distance + " km", textMarginLeft, distanceMarginTop);
@@ -151,17 +149,5 @@ public class TripComputerView extends Screen {
         g2d.drawString(formattedSpeed + " km/h", textMarginLeft, speedMarginTop);
         g2d.drawString(timeLabel, textMarginLeft, timeLabelMarginTop);
         g2d.drawString(formattedTime, textMarginLeft, timeMarginTop);
-=======
-        g2d.clearRect(0, 0, Screen.SCREEN_WIDTH, Screen.SCREEN_HEIGHT);
-        g2d.clearRect(0, 0, Screen.WIDTH, Screen.HEIGHT);
-        g2d.setFont(new Font(Font.SANS_SERIF, Font.BOLD, textSize));
-        g2d.setColor(Color.BLACK);
-        g2d.drawString("trip odem", 50, 100);
-        g2d.drawString(this.distance + " M", 50, 100 + textSize + textMargin);
-        g2d.drawString("speed", 50, 200);
-        g2d.drawString(formattedSpeed + " KM/H", 50, 200 + textSize + textMargin);
-        g2d.drawString("moving time", 50, 300);
-        g2d.drawString(formattedTime, 50, 300 + textSize + textMargin);
->>>>>>> 827916f12036429b0914831d526cdc6057f162dd
     }
 }

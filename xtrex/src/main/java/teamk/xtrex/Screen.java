@@ -16,6 +16,8 @@ import javax.swing.JPanel;
  * @author Daniel Gulliver
  */
 public abstract class Screen extends JPanel {
+	private static final long serialVersionUID = -2576431224929795091L;
+	
 	public static final int SCREEN_HEIGHT = 600;
 	public static final int SCREEN_WIDTH = 490;
 	

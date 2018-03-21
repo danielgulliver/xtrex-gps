@@ -5,7 +5,10 @@ import javax.swing.JButton;
 import javax.swing.BorderFactory;
 
 public class PrefabButton extends JButton {
-    public String displayedString = "";
+
+    private static final long serialVersionUID = -5302854073581656523L;
+    
+	public String displayedString = "";
 
     /*public PrefabButton(String displayString, int x, int y, int width, int height){
         displayString = displayString == null ? "" : displayString;

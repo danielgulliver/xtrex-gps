@@ -14,7 +14,9 @@ import java.util.ArrayList;
  * @version Sprint 3 
  */
 public class SpeechView extends Screen {
-    private MenuButton Off;
+    private static final long serialVersionUID = -4113657758897412185L;
+    
+	private MenuButton Off;
     private MenuButton English;
     private MenuButton French;
     private MenuButton German;
@@ -29,7 +31,9 @@ public class SpeechView extends Screen {
      * Used to create each button in the menu for setting the language. 
      */
     class MenuButton extends IconButton {
-        private LanguageEnum language;
+        private static final long serialVersionUID = 1141516483155095514L;
+        
+		private LanguageEnum language;
 
         /**
          * Instantiate a new MenuButton.
