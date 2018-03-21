@@ -32,10 +32,7 @@ public class Maps {
 
 	public static MapView getMapViewInstance() {
 		if (mapView == null) {
-			mapView = MapView.getInstance();
-			mapController = MapController.getInstance();
-			mapView.setController(mapController);
-			mapController.updateMap();
+			maps = new Maps();
 		}
 		return mapView;
 	}
