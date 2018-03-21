@@ -14,8 +14,8 @@ public class TripComputerModel {
     private static long movingTime = 0;
 
     private static GPSparser gps = GPSparser.getInstance();
-    private static double prevLat = gps.Latitude();
-    private static double prevLong = gps.Longitude();
+    private static double prevLat = 0.0D;
+    private static double prevLong;
 
     private static final long startTime = System.currentTimeMillis();
 
@@ -37,12 +37,23 @@ public class TripComputerModel {
     /**
      * Calculate the distance travelled by the GPS device since the last GPS poll. This function is to be called after each GPS poll.
      * @return the distance travelled by the GPS device since the last GPS poll
+     * 
+     * @author Connor Harris
+     *          Fixed it - now updated bassed on GPS data properly
      */
     private int distanceTravelledInTimeSlice() {
         double currLat = gps.Latitude();
         double currLong = gps.Longitude();
+        if (prevLat == 0.0D){
+            prevLat = currLat;
+            prevLong = currLong; 
+        }
+        int dist = GPSutil.latLongToDistance(prevLat, prevLong, currLat, currLong);
+        prevLat = currLat;
+        prevLong = currLong;
+        System.out.println(dist);
 
-        return GPSutil.latLongToDistance(prevLat, prevLong, currLat, currLong);
+        return dist;
     }
 
     /**

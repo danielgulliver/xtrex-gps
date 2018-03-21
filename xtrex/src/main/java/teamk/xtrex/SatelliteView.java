@@ -1,7 +1,5 @@
 package teamk.xtrex;
 
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
@@ -69,4 +67,5 @@ public class SatelliteView extends Screen {
         g2d.drawString(satView, 50, 300);
         
     }
+    
 }

@@ -1,14 +1,9 @@
 package teamk.xtrex;
 
-import java.util.Arrays;
-
-import javax.management.Descriptor;
-
 import java.io.File;
-
 import org.json.simple.*;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import org.w3c.dom.Text;
 
 /**
  * The model part of the map screen. Contains the data for the map and tracks state
@@ -22,14 +17,12 @@ public class MapModel {
 		
     private final static String STATIC_API_BASE = "https://maps.googleapis.com/maps/api/staticmap";
     private final static String DIRECTIONS_API_BASE = "https://maps.googleapis.com/maps/api/directions/json";
-    private final static String STATIC_API_KEY = "AIzaSyA4kRpdpRTRbVsTJZTP4-CE0Gi4W67v--A";
+    private final static String STATIC_API_KEY = "AIzaSyDv8abU01v40-krRiApS1w-zr5Kkcxb0zI";
     private final static String DIRECTIONS_API_KEY = "AIzaSyB_Xb021JnC9W3SwpD8tqD2ZBcAdxAuP9M";
     private final static String IMG_SIZE = "540x540";
     
     private GPSparser gps;
     private Speech speech;
-    private GPSutil gpsUtil;
-    private WhereTo whereTo;
     private int zoom = 18;
 
     // Stores the lats, longs and current point in the list of points for the current jorney
@@ -42,8 +35,8 @@ public class MapModel {
     public MapModel() {
         this.gps     = GPSparser.getInstance();
         this.speech  = Speech.getSpeechInstance();
-        this.gpsUtil = GPSutil.getInstance();
-        this.whereTo = WhereTo.getInstance();
+        GPSutil.getInstance();
+        WhereTo.getInstance();
     }
 
     public static MapModel getInstance() {
@@ -121,15 +114,15 @@ public class MapModel {
         System.out.println("Next audio play: "+Double.toString(directionLats[directionIndex])+","+Double.toString(directionLongs[directionIndex]));
         System.out.println("Distance to next audio play: "+new Integer(GPSutil.latLongToDistance(this.directionLats[directionIndex], this.directionLongs[directionIndex], gps.Latitude(), gps.Longitude())).toString());
         //If we are moving away from the next point in the journey we are lost and need to recalculate the journey
-        if (!gpsUtil.approaching(directionLats[directionIndex], directionLongs[directionIndex])) {
+        /* if (!gpsUtil.approaching(directionLats[directionIndex], directionLongs[directionIndex])) {
             //this.getDirections(whereTo.getDestination());
             System.out.println("Recalculation route");
-        }
+        } */
 
         //If the distance to the next point is less than 10 meters its time to play the audio for the next direction
-        else if (GPSutil.latLongToDistance(this.directionLats[directionIndex], this.directionLongs[directionIndex], gps.Latitude(), gps.Longitude()) < 10) {
+        if (GPSutil.latLongToDistance(this.directionLats[directionIndex], this.directionLongs[directionIndex], gps.Latitude(), gps.Longitude()) < 15) {
             
-            Speech.playAudio(new File(new String(new Integer(this.directionIndex).toString())+".wav"));
+            Speech.playAudio(new File(Integer.toString(this.directionIndex).toString()+".wav"));
             this.directionIndex++;
 
         }
@@ -212,6 +205,11 @@ public class MapModel {
 
         }
         
+        for (int i = 0; i < directions.length; i++) {
+            directions[i] = TextProcessor.removeHTMLTags(directions[i]);
+            directions[i] = TextProcessor.expandAbbreviations(directions[i]);
+        }
+
         //Getting the audio for the array of directions
         Speech.parseDirections(directions);
     }

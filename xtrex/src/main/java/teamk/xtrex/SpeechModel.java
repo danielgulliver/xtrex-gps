@@ -7,7 +7,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-
 /**
  * The model class behind turning the directions from text to speech, 
  * and playing that generated audio file.
@@ -17,13 +16,14 @@ import java.util.concurrent.TimeUnit;
  */
 public class SpeechModel {
     private static SpeechModel speechModel = null;
-    private final static String APIKEY2 = "524ef33fdf7447a2a64cb38e0d70d1f6";
+    //private final static String APIKEY = "524ef33fdf7447a2a64cb38e0d70d1f6";
 	private final static String APIKEY = "7d6100f349c24081906cae7f4cb1d0d9";
 	private final static String FORMAT = "riff-16khz-16bit-mono-pcm";
+	private final static Integer RENEW_RATE = 10;
+	private final static Integer RENEW_PERIOD = 0;
+	private final static Integer BING_API_SLEEPTIME_MILLISECONDS = 200;
 	private static LanguageEnum language;
-  	final static String LANG   = "en-US";
-  	final static String GENDER = "Female";
-  	final static String ARTIST = "(en-GB, Susan, Apollo)";
+	
     private static String accessToken = null;
     public enum LanguageEnum {
 		OFF("Off","en-GB","en-GB","en-GB",""),
@@ -70,21 +70,22 @@ public class SpeechModel {
 
     /**
      * Initialise the speech Model and set a schedule execution service to 
-     * renew a new access token to the Bingg Speech API once every 10 minutes.
+     * renew a new access token to the Bing Speech API once every 10 minutes.
      */
     public SpeechModel() {
+		// create a Scheduled Executer Service to renew API Key every 10 mins
         final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
         executorService.scheduleAtFixedRate(new Runnable(){
             public void run() {
                 setAccessToken();
             }
-		},0,10,TimeUnit.MINUTES);
+		},RENEW_PERIOD,RENEW_RATE,TimeUnit.MINUTES);
 		// default the language to english
 		language = LanguageEnum.ENGLISH;
     }
     
     /**
-	 * Set the language of the speech. Default is that there is no speech and language is set to null.
+	 * Set the language of the speech. Default is English.
 	 * 
 	 * @param index of the the language in the list of supported languages.
 	 */
@@ -98,16 +99,24 @@ public class SpeechModel {
 	 * 
 	 * @param directions is an array of strings containing all the directions that need to have speech generated for.
 	 */
-	public void parseDirections(String[] directions) {
+	public void parseDirections(final String[] directions) {
 		if (directions == null) return;
-		final String[] directionsFinal = directions;
+		// create new thread to generate speech for all the directions
 		Thread thread = new Thread(new Runnable() {
 			public void run() {
-				for (int i = 0; i < directionsFinal.length; i++) {
-					System.out.println(directionsFinal[i]);
-					final byte[] speech = generateSpeech( getAccessToken(),  directionsFinal[i],  language.getMicrosoftCode()
-										, language.getGender(), language.getArtist(), FORMAT);
+				for (int i = 0; i < directions.length; i++) {
+					// synthesise speech for each direction
+					final byte[] speech = generateSpeech( getAccessToken(),  directions[i],  language.getMicrosoftCode()
+						, language.getGender(), language.getArtist(), FORMAT);
+
+					// write the audio file of the speech to a file
 					writeData(speech, String.valueOf(i) + ".wav");
+					try {
+						// sleep thread to avoid hitting maximum rate for bing api 
+						Thread.sleep(BING_API_SLEEPTIME_MILLISECONDS); 
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					} 
 				}
 			}
 		});
@@ -134,10 +143,7 @@ public class SpeechModel {
 		};
 		byte[] response = HttpConnect.httpConnect(method, url, headers, body);
 		if (response != null) {
-			System.out.println("Access token ok");
-		
-				return new String(response);
-			
+			return new String(response);
 		} else {
 			System.out.println("error renewing token");
 			return null;
