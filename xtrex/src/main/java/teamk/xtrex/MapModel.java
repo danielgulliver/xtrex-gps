@@ -3,6 +3,7 @@ package teamk.xtrex;
 import java.io.File;
 import org.json.simple.*;
 import org.json.simple.parser.JSONParser;
+import org.w3c.dom.Text;
 
 /**
  * The model part of the map screen. Contains the data for the map and tracks state
@@ -204,6 +205,11 @@ public class MapModel {
 
         }
         
+        for (int i = 0; i < directions.length; i++) {
+            directions[i] = TextProcessor.removeHTMLTags(directions[i]);
+            directions[i] = TextProcessor.expandAbbreviations(directions[i]);
+        }
+
         //Getting the audio for the array of directions
         Speech.parseDirections(directions);
     }
