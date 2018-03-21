@@ -7,9 +7,8 @@ import teamk.xtrex.SpeechModel.LanguageEnum;
 public class SpeechMain {
     public static void main(String[] args) {
 		SpeechModel speechModel = Speech.getSpeechModelInstance();
-        speechModel.setLanguage(LanguageEnum.ENGLISH);
-        Speech.parseDirections(new String[] {"Internet Connection Offline", "Internet Connection Re established", "G P S Connection Acquired", "G P S Connection Lost", "Invalid Destination"});
-        Speech.playAudio(new File("0.wav"));
+        speechModel.setLanguage(LanguageEnum.FRENCH);
+        MapModel maps = new MapModel();
+        maps.getDirections("EX4 7AP");
     }
-
 }

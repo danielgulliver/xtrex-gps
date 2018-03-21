@@ -150,7 +150,7 @@ public class MapModel {
             + "?origin=" + latStr + "," + longStr
             + "&destination=" + destination
             + "&mode=walking"
-            + "&language=" + speech.getLanguageCode()
+            + "&language=" + speech.getCountryCode()
             + "&key=" + MapModel.DIRECTIONS_API_KEY );
         
         final byte[] body = {};

@@ -84,8 +84,8 @@ public class Speech {
      * 
      * @return language code of the current language.
      */
-    public String getLanguageCode() {
-        return model.getLanguageCode();
+    public String getCountryCode() {
+        return model.getCountryCode();
     }
 
     /**

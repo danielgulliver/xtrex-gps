@@ -34,15 +34,15 @@ public class SpeechModel {
 		SPANISH("Español", "es-ES","es", "Female", "(es-ES, HelenaRUS)");
 
 		private String name;
-		private String microsoftLanguageCode;
-		private String googleLanguageCode;
+		private String languageCode;
+		private String countryCode;
 		private String gender;
 		private String artist; 
 
-		private LanguageEnum(String name, String microsoftLanguageCode, String googleLanguageCode, String gender, String artist) {
+		private LanguageEnum(String name, String languageCode, String countryCode, String gender, String artist) {
 			this.name = name;
-			this.microsoftLanguageCode = microsoftLanguageCode;
-			this.googleLanguageCode = googleLanguageCode;
+			this.languageCode = languageCode;
+			this.countryCode = countryCode;
 			this.gender = gender;
 			this.artist = artist;
 		}
@@ -52,11 +52,11 @@ public class SpeechModel {
 		}
 
 		public String getGoogleCode() {
-			return googleLanguageCode;
+			return countryCode;
 		}
 
 		public String getMicrosoftCode() {
-			return microsoftLanguageCode;
+			return languageCode;
 		}
 
 		public String getGender() {
@@ -254,7 +254,7 @@ public class SpeechModel {
      * 
      * @return language code of the current language.
      */
-	public String getLanguageCode() {
+	public String getCountryCode() {
 		return language.getGoogleCode();
 	}
 }
