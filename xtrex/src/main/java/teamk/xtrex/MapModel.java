@@ -3,7 +3,6 @@ package teamk.xtrex;
 import java.io.File;
 import org.json.simple.*;
 import org.json.simple.parser.JSONParser;
-import org.w3c.dom.Text;
 
 /**
  * The model part of the map screen. Contains the data for the map and tracks state
@@ -106,8 +105,6 @@ public class MapModel {
 
         // If the journey points are unitnitalised we don't need to check the location
         if (this.directionLats == null || this.directionIndex >= this.directionLats.length) {
-
-            
             return;
         }
 
@@ -137,10 +134,10 @@ public class MapModel {
     public void getDirections(String destination) {
 
         //If the language is off then there's no need to download the directions
-        if (speech.getLanguage().equals(new String("Off")))
+        if (speech.getLanguage().equals("Off"))
             return;
 
-        destination        = destination.replace(' ', '+');
+        destination        = destination.replaceAll(" ", "+");
         String latStr      = Double.toString(gps.Latitude());
         String longStr     = Double.toString(gps.Longitude());
         
@@ -159,8 +156,10 @@ public class MapModel {
         byte[] response = HttpConnect.httpConnect(method, url, headers, body);
 
         //I the response is null we have no internet so need to display an error popup
-        if (response == null)
+        if (response == null) {
+            Speech.playAudio(new File("InternetOffline.wav"));
             return;
+        }
 
         String s = new String(response);
 
@@ -171,15 +170,16 @@ public class MapModel {
         try {
             obj = (JSONObject) parser.parse(s);
         } catch (Exception e) {
-            e.printStackTrace();
             return;
         }
 
         String status = (String) obj.get("status");
 
         // This means the destination entered doesn't exist so we need to create an error popup
-        if (status.equals(new String("ZERO_RESULTS")) || status.equals(new String("NOT_FOUND")))
+        if (status.equals(new String("ZERO_RESULTS")) || status.equals(new String("NOT_FOUND"))) {
+            Speech.playAudio(new File("InvalidDestination.wav"));
             return;
+        }
 
         // We parse the JSON
         routesArray =  (JSONArray) obj.get("routes");
@@ -209,11 +209,11 @@ public class MapModel {
             System.out.println(directions[i]);
             directions[i] = TextProcessor.removeHTMLTags(directions[i]);
             directions[i] = TextProcessor.expandAbbreviations(directions[i]);
-            System.out.println("|" + directions[i] + "|");
+            directions[i] = TextProcessor.replaceCodes(directions[i]);
         }
 
         //Getting the audio for the array of directions
-        //Speech.parseDirections(directions);
+        Speech.parseDirections(directions);
     }
     
 }
