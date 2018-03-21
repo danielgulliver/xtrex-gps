@@ -65,6 +65,9 @@ public class TextProcessor {
         return line;
     }
 
+    /**
+     * Remove codes corresponding to characters from the string
+     */
     public static String replaceCodes(String line) {
         line = line.replaceAll("/327", "");
         return line;
