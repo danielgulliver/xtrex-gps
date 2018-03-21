@@ -4,6 +4,8 @@ import java.io.File;
 import org.json.simple.*;
 import org.json.simple.parser.JSONParser;
 
+import teamk.xtrex.SpeechModel.LanguageEnum;
+
 /**
  * The model part of the map screen. Contains the data for the map and tracks state
  * 
@@ -89,9 +91,11 @@ public class MapModel {
         byte[] response = HttpConnect.httpConnect(method, url, headers, body);
 
         // If the response is null there is no internet and we need to display an error popup
-        if (response == null)
+        if (response == null) {
+            Speech.playAudio(new File("InternetOffline.wav"));
             return null;
-
+        }
+            
         return response;
         
     }
@@ -118,9 +122,10 @@ public class MapModel {
 
         //If the distance to the next point is less than 10 meters its time to play the audio for the next direction
         if (GPSutil.latLongToDistance(this.directionLats[directionIndex], this.directionLongs[directionIndex], gps.Latitude(), gps.Longitude()) < 15) {
-            
-            Speech.playAudio(new File(Integer.toString(this.directionIndex).toString()+".wav"));
-            this.directionIndex++;
+            if (speech.getLanguage() != LanguageEnum.OFF) {
+                Speech.playAudio(new File(Integer.toString(this.directionIndex).toString()+".wav"));
+                this.directionIndex++;
+            }
 
         }
     
@@ -134,10 +139,14 @@ public class MapModel {
     public void getDirections(String destination) {
 
         //If the language is off then there's no need to download the directions
-        if (speech.getLanguage().equals("Off"))
+        if (speech.getLanguage() == LanguageEnum.OFF) {
             return;
+        }
 
+        // format the string to send to google maps
         destination        = destination.replaceAll(" ", "+");
+
+        // get current lat and long coordinates
         String latStr      = Double.toString(gps.Latitude());
         String longStr     = Double.toString(gps.Longitude());
         
@@ -206,7 +215,6 @@ public class MapModel {
         }
         
         for (int i = 0; i < directions.length; i++) {
-            System.out.println(directions[i]);
             directions[i] = TextProcessor.removeHTMLTags(directions[i]);
             directions[i] = TextProcessor.expandAbbreviations(directions[i]);
             directions[i] = TextProcessor.replaceCodes(directions[i]);

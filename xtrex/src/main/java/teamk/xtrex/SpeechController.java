@@ -34,13 +34,13 @@ public class SpeechController {
         model.setLanguage(language);
 
         // get the name of the language as a string.
-        String lang = model.getLanguage();
+        SpeechModel.LanguageEnum lang = model.getLanguage();
 
         // check that a language has been set and it's not been turned off.
         if (lang == null) return;
 
         // play the audio to say the specific language has been selected.
-        File file = new File("audio/" + lang + "Selected.wav");
+        File file = new File("audio/" + lang.getName() + "Selected.wav");
         Speech.playAudio(file);
     }
 }

@@ -25,7 +25,7 @@ public class TextProcessor {
      * preceded by characters
      */
     public static String expandAbbreviations(String line) {
-        line = line.replaceAll("(?<![a-zA-Z])RD(?![a-zA-Z])", "Road");
+        line = line.replaceAll("(?<![a-zA-Z])Rd(?![a-zA-Z])", "Road");
         line = line.replaceAll("(?<![a-zA-Z])Ln(?![a-zA-Z])", "Lane");
         line = line.replaceAll("(?<![a-zA-Z])Mt(?![a-zA-Z])", "Mount");
         line = line.replaceAll("(?<![a-zA-Z])Ct(?![a-zA-Z])", "Court");

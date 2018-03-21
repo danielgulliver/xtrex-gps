@@ -75,7 +75,7 @@ public class Speech {
     /**
      * get the language of the device
      */
-    public String getLanguage() {
+    public SpeechModel.LanguageEnum getLanguage() {
         return model.getLanguage();
     }
 
@@ -110,6 +110,7 @@ public class Speech {
                         System.out.println("Interrupted");
 					}
 					catch (IOException e) {
+                        e.printStackTrace();
 						System.out.println("Wrong file name");
 					}
 				}
@@ -118,6 +119,7 @@ public class Speech {
 		} catch (UnsupportedAudioFileException e) {
 			System.out.println("Unsupported audio file");
 		} catch (IOException e) {
+            e.printStackTrace();
 			System.out.println("Wrong file name");
 		}
     }

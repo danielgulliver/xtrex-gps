@@ -51,11 +51,11 @@ public class SpeechModel {
 			return name;
 		}
 
-		public String getGoogleCode() {
+		public String getCountryCode() {
 			return countryCode;
 		}
 
-		public String getMicrosoftCode() {
+		public String getLanguageCode() {
 			return languageCode;
 		}
 
@@ -71,6 +71,8 @@ public class SpeechModel {
     /**
      * Initialise the speech Model and set a schedule execution service to 
      * renew a new access token to the Bing Speech API once every 10 minutes.
+	 * 
+	 * Default is that speech is on and set to english.
      */
     public SpeechModel() {
 		// create a Scheduled Executer Service to renew API Key every 10 mins
@@ -109,9 +111,7 @@ public class SpeechModel {
 				for (int i = 0; i < directions.length; i++) {
 
 					// synthesise speech for each direction
-					final byte[] speech = generateSpeech(getAccessToken(), directions[i], 
-						language.getMicrosoftCode(), language.getGender(), language.getArtist(), 
-						FORMAT);
+					final byte[] speech = generateSpeech(getAccessToken(), directions[i], language.getLanguageCode(), language.getGender(), language.getArtist(), FORMAT);
 
 					// write the audio file of the speech to a file
 					writeData(speech, String.valueOf(i) + ".wav");
@@ -222,9 +222,7 @@ public class SpeechModel {
 			dos.flush();
 			dos.close();
 		} catch (Exception ex) {
-			System.out.println(ex); 
-			System.exit(1); 
-			return;
+			//Speech.playAudio(new File("AudioOffline.wav"));
 		}
 	}
 
@@ -234,8 +232,8 @@ public class SpeechModel {
 	 * 
 	 * @return the current language of the system
 	 */
-	public String getLanguage() {
-		return language.getName();
+	public LanguageEnum getLanguage() {
+		return language;
 	}
 
     /**
@@ -254,6 +252,6 @@ public class SpeechModel {
      * @return language code of the current language.
      */
 	public String getCountryCode() {
-		return language.getGoogleCode();
+		return language.getCountryCode();
 	}
 }
