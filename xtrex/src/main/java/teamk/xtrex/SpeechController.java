@@ -40,7 +40,7 @@ public class SpeechController {
         if (lang == null) return;
 
         // play the audio to say the specific language has been selected.
-        File openFile = new File(lang + "Selected.wav");
+        File openFile = new File("audio/" + lang + "Selected.wav");
         Speech.playAudio(openFile);
     }
 }
