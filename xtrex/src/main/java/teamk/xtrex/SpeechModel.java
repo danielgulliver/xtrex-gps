@@ -7,12 +7,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-
-/**
- * ************* SANITISE DIRECTIONS
- */
-
-
 /**
  * The model class behind turning the directions from text to speech, 
  * and playing that generated audio file.
@@ -149,10 +143,7 @@ public class SpeechModel {
 		};
 		byte[] response = HttpConnect.httpConnect(method, url, headers, body);
 		if (response != null) {
-			System.out.println("Access token ok");
-		
-				return new String(response);
-			
+			return new String(response);
 		} else {
 			System.out.println("error renewing token");
 			return null;
