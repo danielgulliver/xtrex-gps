@@ -11,7 +11,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 /**
  * Used as the API for all speech related components. 
- * Instantiates all the elements of the Speech MVC and provide saccess
+ * Instantiates all the elements of the Speech MVC and provide access
  * to the SpeechView and SpeechModel for the system front end.
  * 
  * @author Conor Spilsbury, 2018.
@@ -105,22 +105,25 @@ public class Speech {
 						clip.start();
 						Thread.sleep(clip.getMicrosecondLength()/MICROSECONDS_IN_MILISECOND);
 					} catch (LineUnavailableException e1) {
-						
+						Speech.playAudio(new File("SpeechUnavailable.wav"));
 					} catch (InterruptedException e) {
-                        System.out.println("Interrupted");
+                        Speech.playAudio(new File("SpeechUnavailable.wav"));
 					}
 					catch (IOException e) {
                         e.printStackTrace();
-						System.out.println("Wrong file name");
+                        Speech.playAudio(new File("SpeechUnavailable.wav"));
+						System.out.println("Wrong file name 2");
 					}
 				}
 			});
 			thread.start();
 		} catch (UnsupportedAudioFileException e) {
-			System.out.println("Unsupported audio file");
+            System.out.println("Unsupported audio file");
+            Speech.playAudio(new File("SpeechUnavailable.wav"));
 		} catch (IOException e) {
+            Speech.playAudio(new File("SpeechUnavailable.wav"));
             e.printStackTrace();
-			System.out.println("Wrong file name");
+			System.out.println("Wrong file name 1");
 		}
     }
 }

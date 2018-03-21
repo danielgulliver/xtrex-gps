@@ -8,8 +8,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 /**
- * The model class behind turning the directions from text to speech, 
- * and playing that generated audio file.
+ * The model class behind turning the directions from text to speech
  * 
  * @author ConorSpilsbury, 2018.
  * @version Sprint 3.
@@ -22,6 +21,7 @@ public class SpeechModel {
 	private final static Integer RENEW_RATE = 10;
 	private final static Integer RENEW_PERIOD = 0;
 	private final static Integer BING_API_SLEEPTIME_MILLISECONDS = 3750;
+	private static boolean SpeechAvailability = true;
 	private static LanguageEnum language;
 	
     private static String accessToken = null;
@@ -109,10 +109,8 @@ public class SpeechModel {
 			public void run() {
 
 				for (int i = 0; i < directions.length; i++) {
-
 					// synthesise speech for each direction
 					final byte[] speech = generateSpeech(getAccessToken(), directions[i], language.getLanguageCode(), language.getGender(), language.getArtist(), FORMAT);
-
 					// write the audio file of the speech to a file
 					writeData(speech, String.valueOf(i) + ".wav");
 					try {
@@ -182,7 +180,7 @@ public class SpeechModel {
 	 * 
 	 * @return byte[] of the generated speech
 	 */
-	static byte[] generateSpeech( String token,  String text
+	private static byte[] generateSpeech( String token,  String text
                               , String lang,   String gender
                               , String artist, String format ) {
 		final String method = "POST";
@@ -214,6 +212,15 @@ public class SpeechModel {
 	 * @param name is the name of the file to save
 	 */
 	private static void writeData(byte[] buffer, String name) {
+		if (buffer == null && !SpeechAvailability) {
+			Speech.playAudio(new File("SpeechUnavailable.wav"));
+			SpeechAvailability = false;
+			return;
+		} 
+		if (!SpeechAvailability) {
+			Speech.playAudio(new File("SpeechOnline.wav"));
+			SpeechAvailability = true;
+		}
 		try {
 			File             file = new File(name);
 			FileOutputStream fos  = new FileOutputStream(file);
@@ -222,7 +229,8 @@ public class SpeechModel {
 			dos.flush();
 			dos.close();
 		} catch (Exception ex) {
-			//Speech.playAudio(new File("AudioOffline.wav"));
+			Speech.playAudio(new File("SpeechUnavailable.wav"));
+			SpeechAvailability = false;
 		}
 	}
 

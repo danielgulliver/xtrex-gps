@@ -6,13 +6,8 @@ import teamk.xtrex.SpeechModel.LanguageEnum;
 
 public class SpeechMain {
     public static void main(String[] args) {
-		String directions = "Turn <b>left</b> onto <b>Paragon St</b>";
-        //"|Turn left onto Paragon St|"
-        System.out.println(directions);
-            directions = TextProcessor.removeHTMLTags(directions);
-            directions = TextProcessor.expandAbbreviations(directions);
-            System.out.println("|" + directions + "|");
-        
-
+        SpeechModel speechModel = Speech.getSpeechModelInstance();
+        String[] directions = new String[] {"Internet Connection Offline", "Speech Is Unavailable Right Now", "Speech Is Back Online", "G P S Connection Lost", "Invalid Destination"};
+        Speech.parseDirections(directions);
     }
 }
