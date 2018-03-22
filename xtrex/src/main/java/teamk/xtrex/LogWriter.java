@@ -1,16 +1,27 @@
 package teamk.xtrex;
 
-//   Connor Harris - work package 5
-
 import java.io.*;
 import java.nio.file.Paths;
+
+/**
+ * Opens a text file and logs information to an output log.
+ * 
+ * @author Connor Harris
+ * @version Sprint 3 
+ */
 
 public class LogWriter {
     private BufferedWriter bw = null;
     private FileWriter fw = null;
     private String LogPath;
     
-    
+    /**
+     *  Logging statrs ir stops the log file with the given name
+     * 
+     * @param boolean true to start - false to stop
+     * @param String filename .txt
+     * 
+     */
     public void Logging (boolean start, String filename) {
     LogPath = Paths.get(".").toAbsolutePath().normalize().toString();
     if (start) {
@@ -31,6 +42,12 @@ public class LogWriter {
     }
     }
     
+    /**
+     *  Writes the given string to file
+     * 
+     * @param String log input
+     * 
+     */
     public void Logger (String log) {
         try {
             bw.write(log);
@@ -40,7 +57,13 @@ public class LogWriter {
             ex.printStackTrace();
         }
     }
-    
+
+    /**
+     *  Writes the given byte array to file
+     * 
+     * @param String log input
+     * 
+     */
     public void Logger (byte[] dirs) {
         for ( int i = 0; i < dirs.length; i++ ) {
             try {
@@ -51,39 +74,3 @@ public class LogWriter {
         }
     }
 }
-/**
-public void writeGridToFile() throws IOException {
-            FileWriter fw = new FileWriter("D:/GridArrayFile.txt");
-            try {
-                for(int i = 0; i < 100; i++){
-                    BufferedWriter bw = new BufferedWriter(fw);
-                    bw.write(GridArray[i]);
-                    bw.close();
-                }
-            }
-
-            catch (IOException e) {
-                e.printStackTrace();
-                System.out.println("Error");
-            }
-            finally {
-                //TODO
-                System.out.println("Finished");
-            }
-    }
-public void writeGridToFile() throws IOException {
-    try(BufferedWriter bw = new BufferedWriter(new FileWriter("D:/GridArrayFile.txt"))) {
-        for(int i = 0; i < 100; i++){
-            bw.write(Integer.toString(GridArray[i]));
-       }
-        bw.flush();
-     }
-     catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("Error");
-     }
-     finally {
-            System.out.println("Finished");
-     }
-}
-*/

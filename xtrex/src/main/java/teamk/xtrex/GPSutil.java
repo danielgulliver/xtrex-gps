@@ -36,6 +36,11 @@ public class GPSutil {
         return Loader.instance;
     }
     
+    /**
+	 * Return the  Operating System the GPS is running on
+     * 
+	 * @return the string of OS
+	 */
     public String getOS() {
         if(operatingSystem == null) { 
             operatingSystem = System.getProperty("os.name"); 
@@ -43,6 +48,12 @@ public class GPSutil {
         return operatingSystem;
     }
 
+    /**
+	 * updates the log of locations
+     * with the latest availiable data.
+     * 
+     * Provides the ability to work out if route needs recalculating
+	 */
     public void update(){
         latitude = gps.Latitude();
         longitude = gps.Longitude();
@@ -58,6 +69,7 @@ public class GPSutil {
     /**
      * Given target coordinates, claculates if the device is apraoching the target
      * over the previous data points
+     * Used to determin if the directions need recalculating 
      * 
      * @param double latitude -- latitude of target
      * @param double longitude -- longitude of target
@@ -119,6 +131,17 @@ public class GPSutil {
         return (int) Math.round(d);
     }
 
+
+    /**
+     * Rounds the given double to the given presion
+     * 
+     * @param double Value to round
+     * @param int precision of Decimal places
+     * 
+     * 
+     * @return double - rounded number
+     * 
+     */
     public double round(double value, int places) {
         if (places < 0) throw new IllegalArgumentException();
     

@@ -8,7 +8,7 @@ import java.util.Random;
  * without the Ublox 7 gps reciver
  * 
  * @author Connor Harris
- * @version Sprint 2 
+ * @version Sprint 3 
  */
 
 public class GPSspoofer {

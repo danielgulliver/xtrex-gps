@@ -27,7 +27,8 @@ public abstract class Screen extends JPanel {
 	 */
 	public void onPowerButtonPressed() {
 		MainMenu.getInstance().reset();
-		//WhereTo.getInstance().reset();
+		WhereTo.getInstance().reset();
+		Speech.getSpeechViewInstance().reset();
 		TripComputer.getInstance().reset();
 		MapController.getInstance().reset();
 		XTrexDisplay.getInstance().getXTrexFrame().notificationState(false, "");
