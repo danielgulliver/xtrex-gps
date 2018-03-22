@@ -10,12 +10,26 @@ public class WhereTo {
     private WhereToView view;
     private WhereToController controller;
 
+    private boolean destinationEntered = false;
+
     private WhereTo() {
         this.model = WhereToModel.getInstance();
         this.view = WhereToView.getInstance();
         this.controller = WhereToController.getInstance();
         // We cannot put the controller in the constructor so we must pair it manually.
         this.model.setController(this.controller);
+    }
+
+    /**
+     * Call when the destination has been entered. This prevents the trip computer from updating before the destination
+     * has been set.
+     */
+    public void setDestinationEntered() {
+        this.destinationEntered = true;
+    }
+
+    public void reset() {
+        this.controller.reset();
     }
 
     /**
