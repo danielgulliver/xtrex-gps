@@ -12,6 +12,7 @@ import java.util.ListIterator;
 
 
 public class GPSutil {
+    String operatingSystem = null;
     GPSparser gps =  GPSparser.getInstance();
     ArrayList<PositionVelocityTime> log = new ArrayList<PositionVelocityTime>();
     double latitude = 0.0d;
@@ -29,14 +30,21 @@ public class GPSutil {
     }
 	public static GPSutil getInstance() {
         return Loader.instance;
-	}
+    }
+    
+    public String getOS() {
+        if(operatingSystem == null) { 
+            operatingSystem = System.getProperty("os.name"); 
+        }
+        return operatingSystem;
+    }
 
     public void update(){
         latitude = gps.Latitude();
         longitude = gps.Longitude();
         gpsTime = gps.GPStime();
         log.add(new PositionVelocityTime(gpsTime, latitude, longitude));
-        if (log.size() < 200){
+        if (log.size() > 200){
             log.remove(log.size() - 1);
         }
     }
@@ -60,6 +68,7 @@ public class GPSutil {
         for (int i = 0; i < log.size(); i++ ){
             distLog.add( latLongToDistance( log.get(i).latitude, log.get(i).longitude, latitude, longitude) );
         }
+        
         while(iterate.hasNext()){
             if (iterate.next() < iterate.previous()){
                 count += 1; 

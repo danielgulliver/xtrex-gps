@@ -1,6 +1,7 @@
 package teamk.xtrex;
 
 import java.time.LocalTime;
+import java.io.File;
 import java.lang.Math;
 
 /**
@@ -8,7 +9,7 @@ import java.lang.Math;
  * Parses GPS input to variables and output log.
  * 
  * @author Connor Harris
- * @version Sprint 2 
+ * @version Sprint 3 
  */
 
 public class GPSparser implements Runnable {  
@@ -19,10 +20,13 @@ public class GPSparser implements Runnable {
     final String GSV_PRE = "$GPGSV,";
     final float CONVERT_RATE = 1.852f; // Convertion factor for Knots to Km/h
     private LocalTime localTime;
-    private String OS = null;
     private static Boolean gpsEnabled = false;
     private GPSspoofer spoof = GPSspoofer.getInstance();
+    private StatusPane status;
     static LogWriter logs = new LogWriter();
+    private Boolean gpsLost = true;
+    private Boolean gpsAquired = false;
+    private int gpsTimeOut = 5;
     private int aGPS = 0;
     private int nGPS = 0;
     private float gPStime = 0.0f;
@@ -32,7 +36,9 @@ public class GPSparser implements Runnable {
     private float velocity = 0.0f;
     private float trueTrackAngle = 0.0f;
 
-    private GPSparser(){}
+    private GPSparser(){
+        this.status = XTrexDisplay.getInstance().getXTrexFrame().getStatusPane();
+    }
     
     /**
 	 * Return the single instance of GPSparser held by this class
@@ -52,24 +58,22 @@ public class GPSparser implements Runnable {
 	 */
     public void Start() {
         logs.Logging(true, "log.txt");
-        if(OS == null) { OS = System.getProperty("os.name"); }
-        System.out.println(OS);
-        logs.Logger(OS);
+        //logs.Logger(gpsUtil.getOS());
         if (gpsEnabled == true) {
-            if (OS.startsWith("Windows")) {
+            if (xtrex.os.startsWith("Windows")) {
                 System.err.close();
                 Win7Ublox7 Ublox = new Win7Ublox7();
                 // Ublox.listPorts();
                 System.out.println("\nStarting GPS Read \n");
-                Ublox.reader("COM6");
-            } else if (OS.startsWith("Linux")) {
+                Ublox.reader(xtrex.gpsDevice);
+            } else if (xtrex.os.startsWith("Linux")) {
                 LinuxUblox7 Ublox = new LinuxUblox7();
                 System.out.println("\nStarting GPS Read \n");
-                Ublox.reader("/dev/ttyACM0");
-            } else if (OS.startsWith("Mac")) {
+                Ublox.reader(xtrex.gpsDevice);
+            } else if (xtrex.os.startsWith("Mac")) {
                 OSXUblox7 Ublox = new OSXUblox7();
                 System.out.println("\nStarting GPS Read \n");
-                Ublox.reader("/dev/cu.usbmodem1421");
+                Ublox.reader(xtrex.gpsDevice);
             }      
         } 
         else {
@@ -177,16 +181,30 @@ public class GPSparser implements Runnable {
         String[] tokenSat;
         int nGSV;
         localTime = LocalTime.now();
+        float lTime = Float.parseFloat(localTime.toString().replaceAll("[:]", ""));
 
-        // if ( input.contains(GSV_PRE) ) {
-        //     noPreSat = input.substring(input.indexOf(GSV_PRE) + GSV_PRE.length());
-        //     tokenSat = noPreSat.split(",");
-        //     nGSV = Integer.parseInt(tokenSat[0]);
-        //     if (Integer.parseInt(tokenSat[1])  == 1){
-        //         logs.Logger("-- Number of GSV messages: " + tokenSat[0] + "   Number of Satalites in view: " + tokenSat[2] + "  --" );
-        //     // System.out.println("-- Number of GSV messages: " + tokenSat[0] + "  --");
-        //     }
-        // }
+		if (lTime - gPStime > gpsTimeOut && gpsLost == false){
+            gpsLost = true;
+            gpsAquired = false;
+            status.satelliteAvailable(false);
+            Speech.playAudio(new File("audio/GPSConnectionLost.wav"));
+        }
+        if (gpsLost == false && gpsAquired == false){
+            gpsAquired = true;
+            status.satelliteAvailable(true);
+            Speech.playAudio(new File("audio/GPSAcquired.wav"));
+        }
+        
+
+        if ( input.contains(GSV_PRE) ) {
+            noPreSat = input.substring(input.indexOf(GSV_PRE) + GSV_PRE.length());
+            tokenSat = noPreSat.split(",");
+            nGSV = Integer.parseInt(tokenSat[0]);
+            if (Integer.parseInt(tokenSat[1])  == 1){
+                logs.Logger("-- Number of GSV messages: " + tokenSat[0] + "   Number of Satalites in view: " + tokenSat[2] + "  --" );
+            // System.out.println("-- Number of GSV messages: " + tokenSat[0] + "  --");
+            }
+        }
         
         if ( input.contains(POSITION_PRE) ) {
           noPre = input.substring(input.indexOf(POSITION_PRE) + POSITION_PRE.length());
@@ -196,10 +214,11 @@ public class GPSparser implements Runnable {
                 aGPS = Integer.parseInt(tokens[5]);
                 logs.Logger( "--  NO GPS ACQUIRED  --" + "  at time: " + localTime );
             } else { 
+                gpsLost = false;
                 gPStime = Float.parseFloat(tokens[0]);
-                System.out.println("-----   GPS ACQUIRED " + aGPS + "   -----");
-                logs.Logger("GPS LOCATION: ");
-                logs.Logger( "    GPS aquired at: " + tokens[0]  );
+                // System.out.println("-----   GPS GGA ACQUIRED " + aGPS + "   -----");
+                logs.Logger("GPS GGA LOCATION: ");
+                logs.Logger( "    GPS aquired at: " + tokens[0] );
                 if (tokens[1].length() > 0 && tokens[3].length() > 0){            
                     if ( tokens[2].contains("N") ){ 
                         latitude = SexagesimalToDecimal(tokens[1]);
@@ -237,29 +256,26 @@ public class GPSparser implements Runnable {
         if ( input.contains(VELOCITY_PRE) ) {
             noPreV = input.substring(input.indexOf(VELOCITY_PRE) + VELOCITY_PRE.length());
             tokenV = noPreV.split(",");
-            if (tokenV.length >= 8 ){
-                gPStime = Float.parseFloat(tokenV[4]);
-                System.out.println("-----   GPS ACQUIRED " + aGPS + "   -----");
-                logs.Logger("GPS LOCATION: ");
-                logs.Logger( "    GPS aquired at: " + tokenV[0]  );
-                if ( tokenV[1].contains("A") ){            
-                    if ( tokenV[3].contains("N") ){ 
-                        latitude = SexagesimalToDecimal(tokenV[2]);
-                        logs.Logger( "    Latitude: " + Double.toString(latitude) );
-                    } else if ( tokenV[3].contains("S") ){
-                        latitude = -(SexagesimalToDecimal(tokenV[2]));
-                        logs.Logger( "    Latitude: " + Double.toString(latitude) );
-                    }
-                    if ( tokenV[5].contains("E") ){ 
-                        longitude = SexagesimalToDecimal(tokenV[4]);
-                        logs.Logger( "    Longitude: " + Double.toString(longitude) );
-                    } else if ( tokenV[5].contains("W") ){ 
-                        longitude = -(SexagesimalToDecimal(tokenV[4]));
-                        logs.Logger( "    Longitude: " + Double.toString(longitude) );
-                    }
-                    synchronized(UpdateThread.getInstance()){
-                        UpdateThread.getInstance().notify(); // Notifys the update thread new Data is availiable 
-                    }
+            if ( tokenV.length >= 8 && tokenV[1].contains("A") ){
+                gpsLost = false;
+                gPStime = Float.parseFloat(tokenV[0]);
+                // System.out.println("-----   GPS RMC ACQUIRED " + aGPS + "   -----");
+                logs.Logger("GPS RMC LOCATION: ");
+                logs.Logger( "    GPS aquired at: " + tokenV[0] );
+                            
+                if ( tokenV[3].contains("N") ){ 
+                    latitude = SexagesimalToDecimal(tokenV[2]);
+                    logs.Logger( "    Latitude: " + Double.toString(latitude) );
+                } else if ( tokenV[3].contains("S") ){
+                    latitude = -(SexagesimalToDecimal(tokenV[2]));
+                    logs.Logger( "    Latitude: " + Double.toString(latitude) );
+                }
+                if ( tokenV[5].contains("E") ){ 
+                    longitude = SexagesimalToDecimal(tokenV[4]);
+                    logs.Logger( "    Longitude: " + Double.toString(longitude) );
+                } else if ( tokenV[5].contains("W") ){ 
+                    longitude = -(SexagesimalToDecimal(tokenV[4]));
+                    logs.Logger( "    Longitude: " + Double.toString(longitude) );
                 }
                 if (tokenV[6].length() > 0) {
                     velocity = CONVERT_RATE * Float.parseFloat(tokenV[6]);
@@ -269,9 +285,11 @@ public class GPSparser implements Runnable {
                     trueTrackAngle = Float.parseFloat(tokenV[7]);
                     logs.Logger( "    Track Angle: " + Float.toString(trueTrackAngle) );
                 }
-                
-            }
 
+                synchronized(UpdateThread.getInstance()){
+                    UpdateThread.getInstance().notify(); // Notifys the update thread new Data is availiable 
+                }
+            }
         }
     }
     

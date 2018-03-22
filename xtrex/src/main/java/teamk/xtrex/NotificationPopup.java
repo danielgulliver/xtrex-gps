@@ -13,8 +13,6 @@ public class NotificationPopup extends JPanel{
 
     private JLabel notificationContent;
     private String message;
-    private final String html1 = "<html><body style='width: ";
-    private final String html2 = "px'";
     private final int px = Style.SCREEN_SIZE.width - 200;
 
     NotificationPopup(String inputMessage){
