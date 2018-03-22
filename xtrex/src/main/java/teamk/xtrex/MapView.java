@@ -58,9 +58,10 @@ public class MapView extends Screen {
         
         this.mapData = mapData;
         
-        /* We check if the currently active screen is an instance of mapview and if so we need
-        * to repaint the screen
-        */
+        /* 
+         * We check if the currently active screen is an instance of mapview and if so we need
+         * to repaint the screen
+         */
         if (XTrexDisplay.getInstance().getCurrentScreen() instanceof MapView)
             this.repaint();
         
