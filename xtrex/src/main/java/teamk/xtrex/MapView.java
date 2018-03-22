@@ -78,12 +78,14 @@ public class MapView extends Screen {
         Graphics2D graphics2d = (Graphics2D) graphics;
         
         // Converting the byte array for the map into a buffered image object
-        ByteArrayInputStream bais = new ByteArrayInputStream(this.mapData);
         BufferedImage image = null;
         try {
+            ByteArrayInputStream bais = new ByteArrayInputStream(this.mapData);
             image = ImageIO.read(bais);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            // If we have no map we draw an empty backgroud
+            graphics2d.setColor(Style.ColorScheme.BACKGROUND);
+            graphics2d.fillRect(0, 0, Style.SCREEN_SIZE.width, Style.SCREEN_SIZE.height);
         }
         
         /* 
@@ -107,7 +109,13 @@ public class MapView extends Screen {
              */
             graphics2d.drawImage(op.filter(image, null), -99, -61, null);
             graphics2d.drawImage(cursorImg, 156, 194, null);   
+        } else {
+
+           
+
         }
+
+
     }
     
     @Override
