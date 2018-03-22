@@ -3,16 +3,23 @@ package teamk.xtrex;
 * Win7 Ublox7 reader.
 */   
 public class xtrex {
-    public static Boolean gpsEnabled = true;
+    public static Boolean gpsEnabled;
     private static Thread gpsThread = null;
     public static String gpsDevice = "";
     public static String os = GPSutil.getInstance().getOS();
 
 
     public static void main( String[] argv ) {
-        
         if (argv.length > 0){
-            gpsDevice = argv[0];
+            if (argv[0] == "false"){
+                gpsEnabled = false;
+            } else {
+                gpsEnabled = true;
+            }
+        } else { gpsEnabled = true; }
+
+        if (argv.length > 1){
+            gpsDevice = argv[1];
         } else { 
             if (os.startsWith("Windows")) {
                 gpsDevice = "COM6";
