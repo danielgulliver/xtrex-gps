@@ -28,7 +28,7 @@ public class WhereToView extends Screen {
 	private String prevDestination = "";
 	private JTextPaneLimit destinationField;
 	private String destination = "";
-	private Keyboard currentKeyboard = null;
+	private WhereToModel.Keyboard currentKeyboard = null;
 	
 	private WhereToView() {
 		super();
@@ -57,7 +57,7 @@ public class WhereToView extends Screen {
 	 * 
 	 * @param Keyboard kbd -- The keyboard to display on the screen
 	 */
-	public void setKeyboard(Keyboard kbd) {
+	public void setKeyboard(WhereToModel.Keyboard kbd) {
 		if (this.currentKeyboard != null) {
 			remove(this.currentKeyboard);
 		}
@@ -79,7 +79,7 @@ public class WhereToView extends Screen {
 	 * Return the keyboard currently being shown on the screen.
 	 * @return the current keyboard
 	 */
-	public Keyboard getKeyboard() {
+	public WhereToModel.Keyboard getKeyboard() {
 		return currentKeyboard;
 	}
 

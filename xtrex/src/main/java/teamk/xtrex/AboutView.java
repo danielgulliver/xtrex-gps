@@ -30,7 +30,7 @@ public class AboutView extends Screen{
     private AboutView(){
         setLayout(new GridBagLayout());
         try{
-            BufferedImage img = ImageIO.read(new File("exlogo.png"));
+            BufferedImage img = ImageIO.read(new File("img/exlogo.png"));
             logoImg.setIcon(new ImageIcon(new ImageIcon(img).getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
             constraints.ipady = 10;
             constraints.gridx = 0;
