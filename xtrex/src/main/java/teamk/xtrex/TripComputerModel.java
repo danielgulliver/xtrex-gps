@@ -105,6 +105,9 @@ public class TripComputerModel {
         return movingTime;
     }
 
+    /**
+     * Reset the state of the trip computer back to the default.
+     */
     public void resetTripComputer() {
         this.distanceTravelled = 0.0;
         this.currentSpeed = 0.0;

@@ -71,16 +71,28 @@ public class TripComputerView extends CardScreen {
         this.millis = millis;
     }
 
+    /**
+     * Convert the distance travelled to kilometres and format it as a decimal with two decimal places.
+     * @return the formatted distance as a string
+     */
     public String getFormattedDistance() {
         String formattedDistance = new DecimalFormat("#.##").format((float) this.distance / 1000.0) + " km";
         return formattedDistance;
     }
 
+    /**
+     * Format the current speed as a decimal with two decimal places.
+     * @return the formatted speed as a string
+     */
     public String getFormattedSpeed() {
         String formattedSpeed = new DecimalFormat("#.##").format(this.speed) + " km/h";
         return formattedSpeed;
     }
 
+    /**
+     * Format the travel time as hh:mm:ss.
+     * @return the formatted time as a string
+     */
     public String getFormattedTime() {
         String formattedTime = String.format(
             "%02d:%02d:%02d",

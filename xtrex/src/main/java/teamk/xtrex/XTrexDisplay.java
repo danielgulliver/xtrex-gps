@@ -31,12 +31,9 @@ public class XTrexDisplay extends JFrame implements ActionListener {
 	JToolBar xTrekButtons = new JToolBar("XTrex Buttons");
 	
 	private XTrexDisplay() {
-		//this.setUndecorated(true);
-		//this.setBackground(new Color(1,1,1,0));
 		this.setTitle("XTrex");
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//this.setPreferredSize(new Dimension(662, 1275));
 
 		// Set a cross-platform look and feel.
 		try {
@@ -84,7 +81,6 @@ public class XTrexDisplay extends JFrame implements ActionListener {
 	 * @return the current Screen being shown on the display
 	 */
 	public Screen getCurrentScreen() {
-		//return currentScreen;
 		return contentFrame.getCurrentScreen();
 	}
 	
@@ -93,16 +89,10 @@ public class XTrexDisplay extends JFrame implements ActionListener {
 	 * Removes the current screen from the display and then adds the specified screen.
 	 */
 	public void setScreen(Screen screen) {
-		// if (currentScreen != null) remove(currentScreen);
-		// currentScreen = screen;
-		// add(currentScreen, BorderLayout.CENTER);
-		// this.revalidate();
-		// this.repaint();
 		contentFrame.setScreen(screen);
 	}
 	
 	public void refreshDisplay() {
-		//repaint();
 		contentFrame.repaint();
 	}
 

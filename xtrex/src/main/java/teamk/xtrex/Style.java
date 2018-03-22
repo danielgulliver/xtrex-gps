@@ -25,6 +25,11 @@ public class Style {
     public Style(){
     }
 
+    /**
+     * The Card class is used to draw a label and a value on top of a card, which is part of a CardScreen. Cards are
+     * used to show information on the screen.
+     * @author Daniel Gulliver
+     */
     public class Card {
         
         private String label;
@@ -40,10 +45,18 @@ public class Style {
             this.value = value;
         }
 
+        /**
+         * Return the label on the card.
+         * @return the label on the card
+         */
         public String getLabel() {
             return this.label;
         }
 
+        /**
+         * Return the value on the card.
+         * @return the value on the card
+         */
         public String getValue() {
             return this.value;
         }

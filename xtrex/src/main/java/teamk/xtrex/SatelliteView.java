@@ -69,13 +69,20 @@ public class SatelliteView extends Screen {
         int textSize = 24, textMargin = 10;
         Graphics2D g2d = (Graphics2D) g;        
         g2d.clearRect(0, 0, Style.SCREEN_SIZE.width, Style.SCREEN_SIZE.height);        
-        g2d.clearRect(0, 0, Style.SCREEN_SIZE.width, Style.SCREEN_SIZE.height);        
+                
         g2d.setFont(Style.uiFont);        
         g2d.setColor(Style.ColorScheme.FONT);        
-        g2d.drawString("Latitude: ", 50, 100);        
-        g2d.drawString(Double.toString(latitude), 50, 100 + textSize + textMargin);        
-        g2d.drawString("Longitude: ", 50, 200);        
-        g2d.drawString(Double.toString(longitude), 50, 200 + textSize + textMargin);        
+        g2d.drawString("Latitude and Longitude: ", 50, 75);   
+        if ( latitude > 0 ) {     
+            g2d.drawString((Double.toString(latitude)+ " N"), 50, 125 + textSize + textMargin);   
+        } else { 
+            g2d.drawString((Double.toString(latitude) + " S"), 50, 125 + textSize + textMargin); 
+        } 
+        if ( longitude > 0 ) {     
+            g2d.drawString((Double.toString(longitude)+ " E"), 50, 200 + textSize + textMargin);   
+        } else { 
+            g2d.drawString((Double.toString(longitude) + " W"), 50, 200 + textSize + textMargin); 
+        }                 
         String satView = "Satellites in View: " + Integer.toString(nGPS);        
         g2d.drawString(satView, 50, 300);
     }    
