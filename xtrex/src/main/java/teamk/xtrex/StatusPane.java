@@ -66,9 +66,9 @@ public class StatusPane extends JPanel{
         setOpaque(false);
         setBorder(new EmptyBorder(5,5,5,5));
 
-        satellite = new StatusIcon("icons/satellite.png", "icons/mute.png", ICON_SIZE);
-        speech = new StatusIcon("icons/speech.png", "icons/mute.png", ICON_SIZE);
-        maps = new StatusIcon("icons/map.png", "icons/mute.png", ICON_SIZE);
+        satellite = new StatusIcon("icons/satelliteOnline.png", "icons/satelliteOffline.png", ICON_SIZE);
+        speech = new StatusIcon("icons/speechOnline.png", "icons/speechOffline.png", ICON_SIZE);
+        maps = new StatusIcon("icons/mapOnline.png", "icons/mapOffline.png", ICON_SIZE);
 
 
         add(satellite);
