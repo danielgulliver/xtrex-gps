@@ -145,11 +145,11 @@ public class MapModel {
         }
 
         //If we are moving away from the next point in the journey we are lost and need to recalculate the journey
-        /* if (!gpsUtil.approaching(directionLats[directionIndex], directionLongs[directionIndex])) {
+        if (!gpsUtil.approaching(directionLats[directionIndex], directionLongs[directionIndex])) {
             this.getDirections(whereTo.getDestination());
             Speech.playAudio(new File("audio/Recalculating.wav"));
             return;
-        } */
+        } 
 
         int offsetDistance = GPSutil.latLongToDistance(this.directionLats[directionIndex], this.directionLongs[directionIndex], gps.Latitude(), gps.Longitude()) - 25;
         dirPane.setDistance(offsetDistance);
