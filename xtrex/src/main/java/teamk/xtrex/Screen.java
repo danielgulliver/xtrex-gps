@@ -30,7 +30,9 @@ public abstract class Screen extends JPanel {
 	 * If the device is on, it is turned off; if the device is off, it is turned on.
 	 */
 	public void onPowerButtonPressed() {
-		// TODO: Turn screen on or off when the power button is pressed.
+		MainMenu.getInstance().reset();
+		UpdateThread.getInstance().stopRunning();
+		XTrexDisplay.getInstance().setScreen(OffScreen.getInstance());
 	}
 
 	/**

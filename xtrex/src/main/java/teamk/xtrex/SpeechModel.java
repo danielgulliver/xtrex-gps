@@ -7,6 +7,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import teamk.xtrex.Speech.NotificationsEnum;
+
 /**
  * The model class behind turning the directions from text to speech
  * 
@@ -205,19 +207,20 @@ public class SpeechModel {
 	/**
 	 * Write data to file.
 	 * 
-	 * @author David Wakeling, 2018.
+	 * @author David Wakeling
+	 * @author Conor Spilsbury
 	 * 
 	 * @param buffer is the byte array of the generated speech 
 	 * @param name is the name of the file to save
 	 */
 	private static void writeData(byte[] buffer, String name) {
-		if (buffer == null && !Speech.getSpeechAvailability()) {
-			Speech.playAudio(new File("audio/SpeechUnavailable.wav"));
+		if (buffer == null && !Speech.getSpeechAvailability() && MapModel.getInternetAvailability()) {
+			Speech.playAudioNotification(NotificationsEnum.SpeechUnavailable);
 			Speech.setSpeechAvailability(false);
 			return;
 		} 
 		if (!Speech.getSpeechAvailability()) {
-			Speech.playAudio(new File("audio/SpeechOnline.wav"));
+			Speech.playAudioNotification(NotificationsEnum.SpeechOnline);
 			Speech.setSpeechAvailability(true);
 		}
 		try {
@@ -228,7 +231,7 @@ public class SpeechModel {
 			dos.flush();
 			dos.close();
 		} catch (Exception ex) {
-			Speech.playAudio(new File("audio/SpeechUnavailable.wav"));
+			Speech.playAudioNotification(NotificationsEnum.SpeechUnavailable);
 			Speech.setSpeechAvailability(false);
 		}
 	}

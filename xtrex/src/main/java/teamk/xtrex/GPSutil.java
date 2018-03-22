@@ -2,6 +2,7 @@ package teamk.xtrex;
 
 import java.util.ArrayList;
 import java.util.ListIterator;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Creates a PVT log to allow historic tracking
@@ -12,14 +13,17 @@ import java.util.ListIterator;
 
 
 public class GPSutil {
-    String operatingSystem = null;
-    GPSparser gps =  GPSparser.getInstance();
-    ArrayList<PositionVelocityTime> log = new ArrayList<PositionVelocityTime>();
+    private ReentrantLock lock;
+    private GPSparser gps =  GPSparser.getInstance();
+    private ArrayList<PositionVelocityTime> log = new ArrayList<PositionVelocityTime>();
+    String operatingSystem = null;    
     double latitude = 0.0d;
     double longitude= 0.0d;
     float gpsTime = 0;
 
-    private GPSutil(){}
+    private GPSutil(){
+        this.lock = new ReentrantLock();
+    }
     /**
 	 * Return the single instance of GPSparser held by this class
      * in a thread safe manner.
@@ -43,10 +47,12 @@ public class GPSutil {
         latitude = gps.Latitude();
         longitude = gps.Longitude();
         gpsTime = gps.GPStime();
+        lock.lock();
         log.add(new PositionVelocityTime(gpsTime, latitude, longitude));
         if (log.size() > 200){
             log.remove(log.size() - 1);
         }
+        lock.unlock();
     }
 
     /**
@@ -62,18 +68,21 @@ public class GPSutil {
      */
     public Boolean approaching(double latitude, double longitude) {
         ArrayList<Integer> distLog = new ArrayList<Integer>();
-        ListIterator<Integer> iterate = distLog.listIterator();
         int count = 0;
-
+        
+        lock.lock();
         for (int i = 0; i < log.size(); i++ ){
             distLog.add( latLongToDistance( log.get(i).latitude, log.get(i).longitude, latitude, longitude) );
         }
-        
-        while(iterate.hasNext()){
-            if (iterate.next() < iterate.previous()){
-                count += 1; 
+        lock.unlock();
+        System.out.println(distLog.size());
+        if ( distLog.size() > 10 ) {
+            for (int i = 1; i < distLog.size(); i++ ){
+                if (i < i-1){
+                    count += 1; 
+                }
+                else { count -= 1; }
             }
-            else { count -= 1; }
         }
         
         if (count > 0){ return true; }
