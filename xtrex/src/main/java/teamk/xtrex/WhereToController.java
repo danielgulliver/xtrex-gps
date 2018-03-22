@@ -8,7 +8,7 @@ public class WhereToController {
     private static WhereToController whereToController = null;
     private WhereToView view;
 
-    private Keyboard currentKeyboard, alphaKeyboard, numKeyboard;
+    private WhereToModel.Keyboard currentKeyboard, alphaKeyboard, numKeyboard;
 
     /**
      * Construct a WhereToController. Cannot be instantiated outside of this class as it is a singleton.
