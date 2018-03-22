@@ -68,8 +68,8 @@ public class SatelliteView extends Screen {
     public void paint(Graphics g) {
         int textSize = 24, textMargin = 10;
         Graphics2D g2d = (Graphics2D) g;        
-        g2d.clearRect(0, 0, Screen.SCREEN_WIDTH, Screen.SCREEN_HEIGHT);        
-        g2d.clearRect(0, 0, Screen.WIDTH, Screen.HEIGHT);        
+        g2d.clearRect(0, 0, Style.SCREEN_SIZE.width, Style.SCREEN_SIZE.height);        
+        g2d.clearRect(0, 0, Style.SCREEN_SIZE.width, Style.SCREEN_SIZE.height);        
         g2d.setFont(Style.uiFont);        
         g2d.setColor(Style.ColorScheme.FONT);        
         g2d.drawString("Latitude: ", 50, 100);        
