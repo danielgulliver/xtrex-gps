@@ -46,7 +46,6 @@ package teamk.xtrex;
         	if (xtrex.gpsEnabled) {
 	        	synchronized(this) {
 		            try {
-                        System.out.println("Waiting");
 		                wait();
 		                
 		            } catch (Exception e) {
@@ -62,8 +61,6 @@ package teamk.xtrex;
 					e.printStackTrace();
 				}
             }
-            
-            System.out.println("Updating!!");
             
             gpsUtil.update();
             
