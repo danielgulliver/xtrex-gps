@@ -22,6 +22,7 @@ public class GPSparser implements Runnable {
     private LocalTime localTime;
     private static Boolean gpsEnabled = false;
     private GPSspoofer spoof = GPSspoofer.getInstance();
+    private StatusPane status;
     static LogWriter logs = new LogWriter();
     private Boolean gpsLost = true;
     private Boolean gpsAquired = false;
@@ -35,7 +36,9 @@ public class GPSparser implements Runnable {
     private float velocity = 0.0f;
     private float trueTrackAngle = 0.0f;
 
-    private GPSparser(){}
+    private GPSparser(){
+        this.status = XTrexDisplay.getInstance().getXTrexFrame().getStatusPane();
+    }
     
     /**
 	 * Return the single instance of GPSparser held by this class
@@ -183,10 +186,12 @@ public class GPSparser implements Runnable {
 		if (lTime - gPStime > gpsTimeOut && gpsLost == false){
             gpsLost = true;
             gpsAquired = false;
+            status.satelliteAvailable(false);
             Speech.playAudio(new File("audio/GPSConnectionLost.wav"));
         }
         if (gpsLost == false && gpsAquired == false){
-            gpsAquired = true; 
+            gpsAquired = true;
+            status.satelliteAvailable(true);
             Speech.playAudio(new File("audio/GPSAcquired.wav"));
         }
         
