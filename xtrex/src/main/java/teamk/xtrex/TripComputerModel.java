@@ -9,15 +9,15 @@ public class TripComputerModel {
 
     private static TripComputerModel tripComputerModel = null;
 
-    private static double distanceTravelled = 0.0;
-    private static double currentSpeed = 0.0;
-    private static long movingTime = 0;
+    private double distanceTravelled = 0.0;
+    private double currentSpeed = 0.0;
+    private long movingTime = 0;
 
-    private static GPSparser gps = GPSparser.getInstance();
-    private static double prevLat = 0.0D;
-    private static double prevLong;
+    private GPSparser gps = GPSparser.getInstance();
+    private double prevLat = 0.0D;
+    private double prevLong;
 
-    private static final long startTime = System.currentTimeMillis();
+    private long startTime = System.currentTimeMillis();
 
     private TripComputerModel() {
 
@@ -104,6 +104,13 @@ public class TripComputerModel {
      */
     public long getMovingTime() {
         return movingTime;
+    }
+
+    public void resetTripComputer() {
+        this.distanceTravelled = 0.0;
+        this.currentSpeed = 0.0;
+        this.movingTime = 0;
+        this.startTime = System.currentTimeMillis();
     }
 
 }

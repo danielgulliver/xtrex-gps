@@ -48,12 +48,20 @@ public class SatelliteView extends CardScreen {
         nGPS = gps.numSatellites();
         super.repaint();
     }
+    /**
+	 * resets the View on 'power off'.
+	 */
+    public void reset(){
+        latitude = 0.0D;
+        longitude = 0.0D;
+        nGPS = 0;
+        super.repaint();
+    }
 
     @Override
     public void updateCards() {
         super.updateCards();
-        addCard("Latitude", Double.toString(latitude));
-        addCard("Longitude", Double.toString(longitude));
+        addCard(Double.toString(latitude),Double.toString(longitude));
         addCard("Satellites in View", Integer.toString(nGPS));
     }
     

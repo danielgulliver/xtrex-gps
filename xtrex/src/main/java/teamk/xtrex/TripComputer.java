@@ -1,5 +1,9 @@
 package teamk.xtrex;
 
+/**
+ * This class provides an abstraction upon the Trip Computer controller.
+ * @author Daniel Gulliver
+ */
 public class TripComputer {
 
     private static TripComputer tripComputer = null;
@@ -8,16 +12,39 @@ public class TripComputer {
     private TripComputerView view = null;
     // Note: We do not need a reference to the model.
 
+    private boolean destinationEntered = false;
+
     public TripComputer() {
         this.controller = TripComputerController.getInstance();
         this.view = TripComputerView.getInstance();
     }
 
+    /**
+     * Call when the destination has been entered. This prevents the trip computer from updating before the destination
+     * has been set.
+     */
+    public void setDestinationEntered() {
+        this.destinationEntered = true;
+    }
+
+    /**
+     * Update the state of the trip computer so that all of the values are current.
+     */
     public void update() {
-        this.controller.updateSpeed();
-        this.controller.updateDistance();
-        this.controller.updateTime();
-        this.view.repaint(); // Update the display
+        if (destinationEntered) {
+            this.controller.updateSpeed();
+            this.controller.updateDistance();
+            this.controller.updateTime();
+            this.view.repaint(); // Update the display
+        }
+    }
+
+    /**
+     * Reset the state of the trip computer to the default.
+     */
+    public void reset() {
+        this.destinationEntered = false;
+        this.controller.reset();
     }
 
     /**
@@ -31,6 +58,10 @@ public class TripComputer {
         return tripComputer;
     }
 
+    /**
+     * Return the trip computer screen.
+     * @return the trip computer screen
+     */
     public TripComputerView getView() {
         return this.view;
     }
