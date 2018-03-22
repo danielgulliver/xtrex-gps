@@ -7,7 +7,7 @@ import teamk.xtrex.SpeechModel.LanguageEnum;
  * The controller class that is part of the MVC design behind the speech elements of the GPS. 
  * 
  * @author ConorSpilsbury, 2018.
- * @version Sprint 2.
+ * @version Sprint 3.
  */
 public class SpeechController {
     SpeechModel model;

@@ -166,44 +166,58 @@ public class MapModel {
 
         //I the response is null we have no internet so need to display an error popup
         if (response == null) {
-            Speech.playAudio(new File("InternetOffline.wav"));
+            Speech.playAudio(new File("audio/InternetOffline.wav"));
             return;
         }
 
         String s = new String(response);
 
+        // parse the json output to get the directions
+        String[] directions = parseDirections(s);
+
+        if (directions != null) {
+            //Get the audio for the array of directions
+            Speech.parseDirections(directions);
+        }
+    }
+
+    public String[] parseDirections(String json) {
         JSONArray routesArray;
         JSONParser parser = new JSONParser();
         JSONObject obj;
 
         try {
-            obj = (JSONObject) parser.parse(s);
+            obj = (JSONObject) parser.parse(json);
         } catch (Exception e) {
-            return;
+            // speech offline
+            Speech.playAudio(new File("audio/SpeechUnavailable"));
+            Speech.setSpeechAvailability(false);
+            return null;
         }
 
         String status = (String) obj.get("status");
 
         // This means the destination entered doesn't exist so we need to create an error popup
-        if (status.equals(new String("ZERO_RESULTS")) || status.equals(new String("NOT_FOUND"))) {
-            Speech.playAudio(new File("InvalidDestination.wav"));
-            return;
+        if (status.equals("ZERO_RESULTS") || status.equals("NOT_FOUND")) {
+            Speech.playAudio(new File("audio/InvalidDestination.wav"));
+            return null;
         }
 
-        // We parse the JSON
+        // parse the JSON to get the step by step directions
         routesArray =  (JSONArray) obj.get("routes");
-
         JSONObject route = (JSONObject) routesArray.get(0);
         JSONArray legs   = (JSONArray) route.get("legs");
         JSONObject step  = (JSONObject) legs.get(0);
         JSONArray steps  = (JSONArray) step.get("steps");
 
 
+        // initialise arrays for storing latitudes, longitudes, and directions
         this.directionIndex = 0;
         this.directionLats  = new double[steps.size()];
         this.directionLongs = new double[steps.size()];
         String[] directions = new String[steps.size()];
         
+        // populate the arrays with the json values
         for (int i = 0; i < directions.length; i++) {
             JSONObject startLoc    = (JSONObject) steps.get(i);
             startLoc               = (JSONObject) startLoc.get("start_location");
@@ -214,14 +228,14 @@ public class MapModel {
 
         }
         
+        // sanitise the directions
         for (int i = 0; i < directions.length; i++) {
             directions[i] = TextProcessor.removeHTMLTags(directions[i]);
             directions[i] = TextProcessor.expandAbbreviations(directions[i]);
             directions[i] = TextProcessor.replaceCodes(directions[i]);
         }
 
-        //Getting the audio for the array of directions
-        Speech.parseDirections(directions);
+        return directions;
     }
     
 }

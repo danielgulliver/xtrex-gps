@@ -23,6 +23,7 @@ public class Speech {
     private static SpeechModel model;
     private static SpeechController controller;
     private static SpeechView view;
+    private static boolean SpeechAvailability = true;
 
     /**
      * Instantiate the Speech class which in turn instantiates each part of the 
@@ -104,26 +105,35 @@ public class Speech {
 						clip.open(audioIn);
 						clip.start();
 						Thread.sleep(clip.getMicrosecondLength()/MICROSECONDS_IN_MILISECOND);
-					} catch (LineUnavailableException e1) {
-						Speech.playAudio(new File("SpeechUnavailable.wav"));
+					} catch (LineUnavailableException e) {
+                        Speech.playAudio(new File("audio/SpeechUnavailable.wav"));
+                        Speech.setSpeechAvailability(false);
 					} catch (InterruptedException e) {
-                        Speech.playAudio(new File("SpeechUnavailable.wav"));
+                        Speech.playAudio(new File("audio/SpeechUnavailable.wav"));
+                        Speech.setSpeechAvailability(false);
 					}
 					catch (IOException e) {
-                        e.printStackTrace();
-                        Speech.playAudio(new File("SpeechUnavailable.wav"));
-						System.out.println("Wrong file name 2");
+                        Speech.playAudio(new File("audio/SpeechUnavailable.wav"));
+                        Speech.setSpeechAvailability(false);
 					}
 				}
 			});
 			thread.start();
 		} catch (UnsupportedAudioFileException e) {
             System.out.println("Unsupported audio file");
-            Speech.playAudio(new File("SpeechUnavailable.wav"));
+            Speech.playAudio(new File("audio/SpeechUnavailable.wav"));
+            Speech.setSpeechAvailability(false);
 		} catch (IOException e) {
-            Speech.playAudio(new File("SpeechUnavailable.wav"));
-            e.printStackTrace();
-			System.out.println("Wrong file name 1");
+            Speech.playAudio(new File("audio/SpeechUnavailable.wav"));
+            Speech.setSpeechAvailability(false);
 		}
+    }
+
+    public static boolean getSpeechAvailability() {
+        return SpeechAvailability;
+    }
+
+    public static void setSpeechAvailability(boolean availability) {
+        SpeechAvailability = availability;
     }
 }
