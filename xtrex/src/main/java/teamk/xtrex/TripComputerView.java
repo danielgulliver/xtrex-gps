@@ -125,6 +125,7 @@ public class TripComputerView extends Screen {
         final String speedLabel = "Current Speed";
         final String timeLabel = "Moving Time";
 
+        // Define text margins.
         final int firstTextLineMarginTop = ((cardHeight - (2*textHeight + lineSpacing)) / 2) + textHeight;
         final int distanceLabelMarginTop = cardOneStartingHeight + firstTextLineMarginTop;
         final int distanceMarginTop = distanceLabelMarginTop + textHeight + lineSpacing;
@@ -134,6 +135,7 @@ public class TripComputerView extends Screen {
         final int timeMarginTop = timeLabelMarginTop + textHeight + lineSpacing;
 
         // Create formatted time and speed strings.
+        String formattedDistance = new DecimalFormat("#.##").format((float) this.distance / 1000.0);
         String formattedSpeed = new DecimalFormat("#.##").format(this.speed);
         String formattedTime = String.format(
             "%02d:%02d:%02d",
@@ -144,7 +146,7 @@ public class TripComputerView extends Screen {
 
         // Draw the strings on the screen.
         g2d.drawString(distanceLabel, textMarginLeft, distanceLabelMarginTop);
-        g2d.drawString(this.distance + " km", textMarginLeft, distanceMarginTop);
+        g2d.drawString(formattedDistance + " km", textMarginLeft, distanceMarginTop);
         g2d.drawString(speedLabel, textMarginLeft, speedLabelMarginTop);
         g2d.drawString(formattedSpeed + " km/h", textMarginLeft, speedMarginTop);
         g2d.drawString(timeLabel, textMarginLeft, timeLabelMarginTop);
