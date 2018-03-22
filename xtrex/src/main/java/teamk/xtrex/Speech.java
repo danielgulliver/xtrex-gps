@@ -153,7 +153,6 @@ public class Speech {
                 });
                 thread.start();
             } catch (UnsupportedAudioFileException e) {
-                System.out.println("Unsupported audio file");
                 Speech.setSpeechAvailability(false);
             } catch (IOException e) {
                 Speech.setSpeechAvailability(false);
@@ -167,7 +166,7 @@ public class Speech {
      * @param NotificationsEnum notification to be played
      */
     public static void playAudioNotification(NotificationsEnum notification) {
-        playAudio("notifications/" + model.getLanguage() +
+        playAudio("notifications/" + model.getLanguage() + "/" +
           notification.getName() + model.getLanguage().getName());
     }
 
