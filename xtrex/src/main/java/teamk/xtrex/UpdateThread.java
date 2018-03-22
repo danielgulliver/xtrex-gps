@@ -16,10 +16,6 @@ package teamk.xtrex;
     
     private boolean running = true;
 
-    private UpdateThread() {
-    	
-    }
-
     /**
      * Return the single instance of UpdateThread allowed in the program.
      * @return the single instance of UpdateThread
@@ -46,9 +42,7 @@ package teamk.xtrex;
         	if (xtrex.gpsEnabled) {
 	        	synchronized(this) {
 		            try {
-                        System.out.println("Waiting");
 		                wait();
-		                
 		            } catch (Exception e) {
                         System.out.println("Wait failed");
 		                e.printStackTrace();
@@ -63,8 +57,6 @@ package teamk.xtrex;
 				}
             }
             
-            System.out.println("Updating!!");
-            
             gpsUtil.update();
             
             mapController.updateMap();
@@ -78,8 +70,13 @@ package teamk.xtrex;
             if (XTrexDisplay.getInstance().getCurrentScreen() instanceof SatelliteView) {
                 satView.update();
             }
+
         }
 
+    }
+
+    public void stopRunning() {
+        this.running = false;
     }
 
  }

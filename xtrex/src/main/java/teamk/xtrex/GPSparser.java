@@ -189,7 +189,6 @@ public class GPSparser implements Runnable {
         // }
         
         if ( input.contains(POSITION_PRE) ) {
-          System.out.println("Lat Long update");
           noPre = input.substring(input.indexOf(POSITION_PRE) + POSITION_PRE.length());
           tokens = noPre.split(",");
           if (tokens.length >= 5 ){
@@ -243,7 +242,7 @@ public class GPSparser implements Runnable {
                 System.out.println("-----   GPS ACQUIRED " + aGPS + "   -----");
                 logs.Logger("GPS LOCATION: ");
                 logs.Logger( "    GPS aquired at: " + tokenV[0]  );
-                if (tokenV[2].length() > 0 && tokenV[4].length() > 0){            
+                if ( tokenV[1].contains("A") ){            
                     if ( tokenV[3].contains("N") ){ 
                         latitude = SexagesimalToDecimal(tokenV[2]);
                         logs.Logger( "    Latitude: " + Double.toString(latitude) );

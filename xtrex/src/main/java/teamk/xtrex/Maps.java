@@ -15,6 +15,11 @@ public class Maps {
 	private static MapView mapView;
 	
 
+	/**
+	 * constructor for maps
+	 * 
+	 * get instances of each part of the MVC structure and link them together
+	 */
 	public Maps() {
 		mapModel = MapModel.getInstance();
         mapView = MapView.getInstance();
@@ -23,6 +28,12 @@ public class Maps {
 		mapController.updateMap();
 	}
 
+
+	/**
+	 * get the instance of the MapController
+	 * 
+	 * @return instance of MapController
+	 */
 	public static MapController getMapController() {
 		if (mapController == null) {
 			maps = new Maps();
@@ -30,6 +41,11 @@ public class Maps {
 		return mapController;
 	}
 
+	/**
+	 * get the instance of the MapView
+	 * 
+	 * @return instance of MapView
+	 */
 	public static MapView getMapViewInstance() {
 		if (mapView == null) {
 			maps = new Maps();
@@ -37,6 +53,11 @@ public class Maps {
 		return mapView;
 	}
 
+	/**
+	 * get the instance of MapModel
+	 * 
+	 * @return instance of MapModel
+	 */
 	public static MapModel getMapModelInstance() {
 		if (mapModel == null) {
 			maps = new Maps();
