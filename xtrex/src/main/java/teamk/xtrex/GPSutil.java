@@ -12,6 +12,7 @@ import java.util.ListIterator;
 
 
 public class GPSutil {
+    String operatingSystem = null;
     GPSparser gps =  GPSparser.getInstance();
     ArrayList<PositionVelocityTime> log = new ArrayList<PositionVelocityTime>();
     double latitude = 0.0d;
@@ -29,7 +30,14 @@ public class GPSutil {
     }
 	public static GPSutil getInstance() {
         return Loader.instance;
-	}
+    }
+    
+    public String getOS() {
+        if(operatingSystem == null) { 
+            operatingSystem = System.getProperty("os.name"); 
+        }
+        return operatingSystem;
+    }
 
     public void update(){
         latitude = gps.Latitude();
