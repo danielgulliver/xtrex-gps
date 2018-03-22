@@ -1,6 +1,5 @@
 package teamk.xtrex;
 
-import java.io.File;
 import teamk.xtrex.SpeechModel.LanguageEnum;
 
 /**
@@ -40,7 +39,7 @@ public class SpeechController {
         if (lang == null) return;
 
         // play the audio to say the specific language has been selected.
-        String fileName = lang.getName() + "Selected.wav";
+        String fileName = new String("languageSelected/" + lang.getName() + "Selected.wav");
         Speech.playAudio(fileName);
     }
 }

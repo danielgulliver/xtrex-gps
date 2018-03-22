@@ -51,7 +51,6 @@ public class TripComputerModel {
         int dist = GPSutil.latLongToDistance(prevLat, prevLong, currLat, currLong);
         prevLat = currLat;
         prevLong = currLong;
-        System.out.println(dist);
 
         return dist;
     }
