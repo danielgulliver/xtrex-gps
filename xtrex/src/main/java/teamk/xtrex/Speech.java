@@ -142,14 +142,11 @@ public class Speech {
                             clip.start();
                             Thread.sleep(clip.getMicrosecondLength()/MICROSECONDS_IN_MILISECOND);
                         } catch (LineUnavailableException e) {
-                            Speech.playAudioNotification(NotificationsEnum.SpeechUnavailable);
                             Speech.setSpeechAvailability(false);
                         } catch (InterruptedException e) {
-                            Speech.playAudioNotification(NotificationsEnum.SpeechUnavailable);
                             Speech.setSpeechAvailability(false);
                         }
                         catch (IOException e) {
-                            Speech.playAudioNotification(NotificationsEnum.SpeechUnavailable);
                             Speech.setSpeechAvailability(false);
                         }
                     }
@@ -157,10 +154,8 @@ public class Speech {
                 thread.start();
             } catch (UnsupportedAudioFileException e) {
                 System.out.println("Unsupported audio file");
-                Speech.playAudioNotification(NotificationsEnum.SpeechUnavailable);
                 Speech.setSpeechAvailability(false);
             } catch (IOException e) {
-                Speech.playAudioNotification(NotificationsEnum.SpeechUnavailable);
                 Speech.setSpeechAvailability(false);
             }
         }
