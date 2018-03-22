@@ -68,7 +68,6 @@ public class GPSutil {
      */
     public Boolean approaching(double latitude, double longitude) {
         ArrayList<Integer> distLog = new ArrayList<Integer>();
-        ListIterator<Integer> iterate = distLog.listIterator();
         int count = 0;
         
         lock.lock();
@@ -76,12 +75,14 @@ public class GPSutil {
             distLog.add( latLongToDistance( log.get(i).latitude, log.get(i).longitude, latitude, longitude) );
         }
         lock.unlock();
-
-        while(iterate.hasNext()){
-            if (iterate.next() < iterate.previous()){
-                count += 1; 
+        System.out.println(distLog.size());
+        if ( distLog.size() > 10 ) {
+            for (int i = 1; i < distLog.size(); i++ ){
+                if (i < i-1){
+                    count += 1; 
+                }
+                else { count -= 1; }
             }
-            else { count -= 1; }
         }
         
         if (count > 0){ return true; }

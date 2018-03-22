@@ -10,8 +10,9 @@ public class xtrex {
 
 
     public static void main( String[] argv ) {
+       
         if (argv.length > 0){
-            if (argv[0] == "false"){
+            if (argv[0].contains("false")){
                 gpsEnabled = false;
             } else {
                 gpsEnabled = true;
