@@ -10,8 +10,6 @@ public class WhereTo {
     private WhereToView view;
     private WhereToController controller;
 
-    private boolean destinationEntered = false;
-
     private WhereTo() {
         this.model = WhereToModel.getInstance();
         this.view = WhereToView.getInstance();
@@ -21,13 +19,8 @@ public class WhereTo {
     }
 
     /**
-     * Call when the destination has been entered. This prevents the trip computer from updating before the destination
-     * has been set.
+     * Reset the state of the Where To screen.
      */
-    public void setDestinationEntered() {
-        this.destinationEntered = true;
-    }
-
     public void reset() {
         this.controller.reset();
     }

@@ -20,6 +20,10 @@ import javax.imageio.ImageIO;
 public class MapView extends Screen {
 
     private static final long serialVersionUID = 3769993700857781403L;
+    private static final int IMAGE_X_OFFSET = -99;
+    private static final int IMAGE_Y_OFFSET = -61;
+    private static final int CURSOR_X_OFFSET = 156;
+    private static final int CURSOR_Y_OFFSET = 194;
     
 	private byte mapData[] = null;		
     private MapController mapController;
@@ -107,14 +111,9 @@ public class MapView extends Screen {
              * We draw the image with an offset (since it is bigger than it needs to be so it 
              * can be rotated) and then draw the cursor image over it in the center of the frame
              */
-            graphics2d.drawImage(op.filter(image, null), -99, -61, null);
-            graphics2d.drawImage(cursorImg, 156, 194, null);   
-        } else {
-
-           
-
-        }
-
+            graphics2d.drawImage(op.filter(image, null), MapView.IMAGE_X_OFFSET, MapView.IMAGE_Y_OFFSET, null);
+            graphics2d.drawImage(cursorImg, MapView.CURSOR_X_OFFSET, MapView.CURSOR_Y_OFFSET, null);   
+        } 
 
     }
     
