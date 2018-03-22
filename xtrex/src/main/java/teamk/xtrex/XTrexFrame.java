@@ -51,9 +51,9 @@ public class XTrexFrame extends JLayeredPane {
     public XTrexFrame() {
         this.setPreferredSize(Style.DEVICE_SIZE);
         constraints.insets = new Insets(40, 0, 0, 3); // Offsets to position the display correctly in the xtrex frame.
+        try{
+            BufferedImage img = ImageIO.read(new File("img/bg.png"));
 
-        try {
-            BufferedImage img = ImageIO.read(new File("bg.png"));
             label.setIcon(new ImageIcon(new ImageIcon(img).getImage().getScaledInstance(460, 886, Image.SCALE_SMOOTH)));
             label.setSize(Style.DEVICE_SIZE);
             add(label, JLayeredPane.DEFAULT_LAYER);
@@ -74,7 +74,7 @@ public class XTrexFrame extends JLayeredPane {
         dirPane = new DirectionPane();
 
         mapOverlayPane = screenOverlay();
-        mapOverlayPane.setVisible(true);
+        mapOverlayPane.setVisible(false);
         mapOverlayPane.add(statusContainer, BorderLayout.NORTH);
         mapOverlayPane.add(dirPane, BorderLayout.SOUTH);
 
@@ -82,15 +82,15 @@ public class XTrexFrame extends JLayeredPane {
         add(mapScreenOverlayPane, JLayeredPane.PALETTE_LAYER);
 
         notificationOverlayPane = screenOverlay();
-        notificationOverlayPane.setVisible(true);
+        notificationOverlayPane.setVisible(false);
         notificationOverlayPane.add(notification, BorderLayout.NORTH);
 
         popupOverlayPane = deviceOverlay(notificationOverlayPane);
         add (popupOverlayPane, JLayeredPane.POPUP_LAYER);
 
-        notification.setText("test thing goes here");
-        dirPane.setDistance(20);
-        dirPane.setDirectionPhrase("thingywotsit");
+        notification.setText("default");
+        dirPane.setDistance(404);
+        dirPane.setDirectionPhrase("default");
 
     }
 
@@ -109,6 +109,10 @@ public class XTrexFrame extends JLayeredPane {
 
     public DirectionPane getDirectionPane() {
         return dirPane;
+    }
+
+    public StatusPane getStatusPane(){
+        return status;
     }
 
     public Screen getCurrentScreen() {
