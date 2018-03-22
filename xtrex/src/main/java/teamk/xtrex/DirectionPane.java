@@ -24,7 +24,7 @@ public class DirectionPane extends JPanel{
             setForeground(Style.ColorScheme.FONT);
             setBorder(BorderFactory.createCompoundBorder(new LineBorder(Style.ColorScheme.CONTENT_BORDER, 2), new EmptyBorder(5,5,5,5)));
             setHorizontalAlignment(CENTER);
-            setVerticalAlignment(TOP);
+            setVerticalAlignment(CENTER);
         }
 
         @Override
