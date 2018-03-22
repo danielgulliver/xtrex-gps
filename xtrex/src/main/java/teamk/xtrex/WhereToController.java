@@ -64,4 +64,11 @@ public class WhereToController {
     public String getDestination() {
         return view.getDestination();
     }
+
+    /**
+     * Reset the state of the Where To screen.
+     */
+    public void reset() {
+        setDestination("");
+    }
 }
