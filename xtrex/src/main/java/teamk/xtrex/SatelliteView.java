@@ -52,8 +52,7 @@ public class SatelliteView extends CardScreen {
     @Override
     public void updateCards() {
         super.updateCards();
-        addCard("Latitude", Double.toString(latitude));
-        addCard("Longitude", Double.toString(longitude));
+        addCard(Double.toString(latitude),Double.toString(longitude));
         addCard("Satellites in View", Integer.toString(nGPS));
     }
     
