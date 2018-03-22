@@ -20,6 +20,7 @@ public class GPSparser implements Runnable {
     final String GSV_PRE = "$GPGSV,";
     final float CONVERT_RATE = 1.852f; // Convertion factor for Knots to Km/h
     private LocalTime localTime;
+    private LocalTime lastGPSTime = LocalTime.now();;
     private static Boolean gpsEnabled = false;
     private GPSspoofer spoof = GPSspoofer.getInstance();
     private StatusPane status;
@@ -184,8 +185,9 @@ public class GPSparser implements Runnable {
         int nGSV;
         localTime = LocalTime.now();
         float lTime = Float.parseFloat(localTime.toString().replaceAll("[:]", ""));
+        float lGPS = Float.parseFloat(lastGPSTime.toString().replaceAll("[:]", ""));
 
-		if (lTime - gPStime > gpsTimeOut && gpsLost == false){
+		if (lTime - lGPS > gpsTimeOut && gpsLost == false){
             gpsLost = true;
             gpsAquired = false;
             status.satelliteAvailable(false);
@@ -289,6 +291,7 @@ public class GPSparser implements Runnable {
                 }
 
                 synchronized(UpdateThread.getInstance()){
+                    lastGPSTime = LocalTime.now();
                     UpdateThread.getInstance().notify(); // Notifys the update thread new Data is availiable 
                 }
             }
