@@ -2,6 +2,9 @@ package teamk.xtrex;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.MappedByteBuffer;
@@ -9,12 +12,19 @@ import java.nio.MappedByteBuffer;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-public class XTrexFrame extends JLayeredPane {
+/**
+ * @author Laurence Jones
+ * @version Sprint 3.0
+ */
+
+
+public class XTrexFrame extends JLayeredPane implements ActionListener {
 
     private static final long serialVersionUID = 913883001958811801L;
     
 	private Screen currentScreen;
     private JLabel label = new JLabel();
+    private JPanel buttonOverlayPane;
     private JPanel paletteOverlayPane;
     private JPanel mapScreenOverlayPane;
     private JPanel popupOverlayPane;
@@ -24,6 +34,24 @@ public class XTrexFrame extends JLayeredPane {
     private StatusPane status;
     GridBagConstraints constraints = new GridBagConstraints();
     private JPanel statusContainer;
+    private final int buttonSize = 80;
+
+    private final Dimension powerBtnPos = new Dimension(0,0);
+
+    private class SystemButton extends JButton{
+        public SystemButton(){
+            setPreferredSize(new Dimension(buttonSize, buttonSize));
+            setOpaque(false);
+            setContentAreaFilled(false);
+            setBorderPainted(false);
+        }
+    }
+
+    private SystemButton powerBtn;
+    private SystemButton menuBtn;
+    private SystemButton minusBtn;
+    private SystemButton plusBtn;
+    private SystemButton selectBtn;
 
     private NotificationPopup notification = new NotificationPopup("Alert: GPS Connection Lost");
 
@@ -55,7 +83,7 @@ public class XTrexFrame extends JLayeredPane {
         try{
             BufferedImage img = ImageIO.read(new File("img/bg.png"));
 
-            label.setIcon(new ImageIcon(new ImageIcon(img).getImage().getScaledInstance(460, 886, Image.SCALE_SMOOTH)));
+            label.setIcon(new ImageIcon(new ImageIcon(img).getImage().getScaledInstance(Style.DEVICE_SIZE.width, Style.DEVICE_SIZE.height, Image.SCALE_SMOOTH)));
             label.setSize(Style.DEVICE_SIZE);
             add(label, JLayeredPane.DEFAULT_LAYER);
             label.setOpaque(false);
@@ -66,6 +94,42 @@ public class XTrexFrame extends JLayeredPane {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        if (Style.undecorated) {
+            this.setOpaque(true);
+            setBackground(new Color(0,0,0,1));
+        }
+
+        buttonOverlayPane = new JPanel();
+        buttonOverlayPane.setSize(Style.DEVICE_SIZE);
+        buttonOverlayPane.setLayout(null);
+        buttonOverlayPane.setOpaque(false);
+
+        powerBtn = new SystemButton();
+        menuBtn = new SystemButton();
+        minusBtn = new SystemButton();
+        plusBtn = new SystemButton();
+        selectBtn = new SystemButton();
+
+        powerBtn.addActionListener(this);
+        menuBtn.addActionListener(this);
+        minusBtn.addActionListener(this);
+        plusBtn.addActionListener(this);
+        selectBtn.addActionListener(this);
+
+        powerBtn.setBounds(312,150,buttonSize, buttonSize);
+        menuBtn.setBounds(422,100,buttonSize-10, buttonSize+5);
+        minusBtn.setBounds(0,170,buttonSize-10, buttonSize+5);
+        plusBtn.setBounds(6,75,buttonSize-10, buttonSize+3);
+        selectBtn.setBounds(0,285,buttonSize-10, buttonSize+5);
+
+        buttonOverlayPane.add(powerBtn);
+        buttonOverlayPane.add(menuBtn);
+        buttonOverlayPane.add(minusBtn);
+        buttonOverlayPane.add(plusBtn);
+        buttonOverlayPane.add(selectBtn);
+
+        add(buttonOverlayPane, JLayeredPane.MODAL_LAYER);
 
         statusContainer = new JPanel(new BorderLayout());
         statusContainer.setOpaque(false);
@@ -141,5 +205,22 @@ public class XTrexFrame extends JLayeredPane {
         this.revalidate();
         this.repaint();
     }
+
+    public void actionPerformed(ActionEvent e) {
+		Screen currentScreen = XTrexDisplay.getInstance().getCurrentScreen();
+
+		SystemButton sourceBtn = (SystemButton) e.getSource();
+		if (sourceBtn.equals(powerBtn)) {
+			currentScreen.onPowerButtonPressed();
+		} else if (sourceBtn.equals(menuBtn)) {
+			currentScreen.onMenuButtonPressed();
+		} else if (sourceBtn.equals(minusBtn)) {
+			currentScreen.onMinusButtonPressed();
+		} else if (sourceBtn.equals(plusBtn)) {
+			currentScreen.onPlusButtonPressed();
+		} else if (sourceBtn.equals(selectBtn)) {
+			currentScreen.onSelectButtonPressed();
+		}
+	}
 
 }

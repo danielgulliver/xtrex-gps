@@ -1,12 +1,11 @@
 package teamk.xtrex;
 
 import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JToolBar;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -15,22 +14,23 @@ import javax.swing.UnsupportedLookAndFeelException;
  * 
  * @author Daniel Gulliver
  */
-public class XTrexDisplay extends JFrame implements ActionListener {
+public class XTrexDisplay extends JFrame {
 
 	private static final long serialVersionUID = -2837748826675931508L;
 	private static XTrexDisplay display = null;
 	private XTrexFrame contentFrame = new XTrexFrame();
-
-	// Device buttons
-	JButton powerBtn = new JButton("On/Off");
-	JButton menuBtn = new JButton("Menu");
-	JButton minusBtn = new JButton("-");
-	JButton plusBtn = new JButton("+");
-	JButton selectBtn = new JButton("Select");
-
-	JToolBar xTrekButtons = new JToolBar("XTrex Buttons");
 	
 	private XTrexDisplay() {
+		
+		if (Style.undecorated) {
+			this.setUndecorated(true);
+			Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+			this.setBackground(new Color(0,0,0,1));
+			this.setLocation(((dim.width-(Style.DEVICE_SIZE.width))/2), ((dim.height-(Style.DEVICE_SIZE.height))/2));
+			//this.setLocation(200,200);
+		}
+
+
 		this.setTitle("XTrex");
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -47,21 +47,8 @@ public class XTrexDisplay extends JFrame implements ActionListener {
 		} catch (UnsupportedLookAndFeelException e) {
 			e.printStackTrace();
 		}
-		
-		powerBtn.addActionListener(this);
-		menuBtn.addActionListener(this);
-		minusBtn.addActionListener(this);
-		plusBtn.addActionListener(this);
-		selectBtn.addActionListener(this);
-		
-		xTrekButtons.add(powerBtn);
-		xTrekButtons.add(menuBtn);
-		xTrekButtons.add(minusBtn);
-		xTrekButtons.add(plusBtn);
-		xTrekButtons.add(selectBtn);
 	
 		this.add(contentFrame, BorderLayout.CENTER);
-		this.add(xTrekButtons, BorderLayout.PAGE_START);
 		this.pack();
 		this.setVisible(true);
 	}
@@ -98,25 +85,6 @@ public class XTrexDisplay extends JFrame implements ActionListener {
 
 	public XTrexFrame getXTrexFrame(){
 		return contentFrame;
-	}
-
-	public void actionPerformed(ActionEvent e) {
-		Screen currentScreen = XTrexDisplay.getInstance().getCurrentScreen();
-
-		JButton sourceBtn = (JButton) e.getSource();
-		if (sourceBtn.equals(powerBtn)) {
-			currentScreen.onPowerButtonPressed();
-		} else if (sourceBtn.equals(menuBtn)) {
-			currentScreen.onMenuButtonPressed();
-		} else if (sourceBtn.equals(minusBtn)) {
-			currentScreen.onMinusButtonPressed();
-		} else if (sourceBtn.equals(plusBtn)) {
-			currentScreen.onPlusButtonPressed();
-		} else if (sourceBtn.equals(selectBtn)) {
-			currentScreen.onSelectButtonPressed();
-		}
-	}
-
-	
+	}	
 
 }

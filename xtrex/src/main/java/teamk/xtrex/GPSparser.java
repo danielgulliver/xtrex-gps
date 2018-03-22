@@ -32,8 +32,8 @@ public class GPSparser implements Runnable {
     private int aGPS = 0;
     private int nGPS = 0;
     private float gPStime = 0.0f;
-    private Double latitude = null;
-    private Double longitude = null;
+    private double latitude = 200.0D;
+    private double longitude = 200.0D;
     private float altitude = 0.0f;
     private float velocity = 0.0f;
     private float trueTrackAngle = 0.0f;
@@ -162,6 +162,8 @@ public class GPSparser implements Runnable {
     /**
 	 * Converts the NMEA unique lat/long format to Decimal Degrees
      * taken by the google maps API
+     * @param String a string containing the latitude or Longitude
+     * 
 	 * @return Decimal Degrees
 	 */
     public double SexagesimalToDecimal( String coordinate ) {
@@ -175,6 +177,8 @@ public class GPSparser implements Runnable {
 
     /**
 	 * Processes the NMEA Strings to Variables and the Log file.
+     * 
+     * @param String NMEA string from UBLOX7
 	 */
     public void processGPS( String input ) {
         String noPre;
@@ -200,7 +204,7 @@ public class GPSparser implements Runnable {
             Speech.playAudioNotification(Speech.NotificationsEnum.GPSAcquired);
         }
         
-
+        // Parses GSV data 
         if ( input.contains(GSV_PRE) ) {
             noPreSat = input.substring(input.indexOf(GSV_PRE) + GSV_PRE.length());
             tokenSat = noPreSat.split(",");
@@ -211,6 +215,7 @@ public class GPSparser implements Runnable {
             }
         }
         
+        // Parses GGA data
         if ( input.contains(POSITION_PRE) ) {
           noPre = input.substring(input.indexOf(POSITION_PRE) + POSITION_PRE.length());
           tokens = noPre.split(",");
@@ -258,6 +263,8 @@ public class GPSparser implements Runnable {
             }
           }
         }
+
+        // Parses RMC Data - the most frequent and reliable lat long and velocity updates.
         if ( input.contains(VELOCITY_PRE) ) {
             noPreV = input.substring(input.indexOf(VELOCITY_PRE) + VELOCITY_PRE.length());
             tokenV = noPreV.split(",");

@@ -22,8 +22,8 @@ public class MapView extends Screen {
     private static final long serialVersionUID = 3769993700857781403L;
     private static final int IMAGE_X_OFFSET = -99;
     private static final int IMAGE_Y_OFFSET = -61;
-    private static final int CURSOR_X_OFFSET = 156;
-    private static final int CURSOR_Y_OFFSET = 194;
+    private static final int CURSOR_X_OFFSET = 163;
+    private static final int CURSOR_Y_OFFSET = 201;
     
 	private byte mapData[] = null;		
     private MapController mapController;
@@ -35,13 +35,22 @@ public class MapView extends Screen {
      *  When we construct we read the cursor image to save multiple reads (it needs to be drawn
      * each time the map is refreshed and multiple reads would be ineffcent);
      */
-    public MapView() {
+    private MapView() {
         this.gps = GPSparser.getInstance();
         try {
             this.cursorImg = ImageIO.read(new File("img/cursor.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Sets the map controller for the singelton instance of mapView
+     * 
+     * @param controller the MapController instance
+     */
+    public void setMapController(MapController controller) {
+        this.mapController = controller;
     }
 
     /**

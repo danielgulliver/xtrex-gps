@@ -12,6 +12,14 @@ public class PositionVelocityTime {
     public double latitude;
     public double longitude;
 
+    /**
+     *  Stores a Location
+     * 
+     * @param float gpsTime
+     * @param double latitude 
+     * @param double longitude
+     * 
+     */
     public PositionVelocityTime(float gpsTime, double latitude, double longitude){
         this.gpsTime = gpsTime;
         this.latitude = latitude;
