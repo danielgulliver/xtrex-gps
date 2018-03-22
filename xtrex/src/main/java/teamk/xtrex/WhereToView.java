@@ -99,6 +99,10 @@ public class WhereToView extends Screen {
 		if (!this.getDestination().equals("") && !this.getDestination().equals(this.prevDestination)) {
 			MapController.getInstance().getDirections(destination);
 			this.prevDestination = getDestination();
+
+			// Tell the trip computer that the destination has been entered.
+			TripComputer.getInstance().reset();
+			TripComputer.getInstance().setDestinationEntered();
 		}
 	}
 
