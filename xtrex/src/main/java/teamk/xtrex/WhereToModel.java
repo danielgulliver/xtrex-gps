@@ -1,6 +1,13 @@
 package teamk.xtrex;
 
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
+
+import javax.swing.JPanel;
 
 /**
  * @author Daniel Gulliver
@@ -43,19 +50,7 @@ public class WhereToModel {
      * @return an alphabetic keyboard
      */
     public Keyboard constructAlphabeticKeyboard() {
-        // Create first keyboard:
-		ArrayList<PrefabButton> keyboard1Buttons = new ArrayList<PrefabButton>();
-		
-		// Create character buttons for keyboard 1.
-		char[] letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ_".toCharArray();
-		for (char letter : letters) {
-			keyboard1Buttons.add(new CharacterButton(letter));
-		}
-
-		// Create button to switch to second keyboard for keyboard 1.
-		keyboard1Buttons.add(new SwitchKeyboardButton("=>"));
-		
-		return new Keyboard(keyboard1Buttons, 7, 4);
+        return new AlphabeticKeyboard();
     }
 
     /**
@@ -64,23 +59,10 @@ public class WhereToModel {
      * @return a numeric keyboard
      */
     public Keyboard constructNumericKeyboard() {
-        // Create second keyboard:
-		ArrayList<PrefabButton> keyboard2Buttons = new ArrayList<PrefabButton>();
-		
-		// Create number buttons (1-9).
-		char[] numbers = "789456123".toCharArray();
-		for (char number : numbers) {
-			keyboard2Buttons.add(new CharacterButton(number));
-		}
+        return new NumericKeyboard();
+	}
 
-		keyboard2Buttons.add(new SwitchKeyboardButton("<=")); // Create button to switch to first keyboard.
-		keyboard2Buttons.add(new CharacterButton('0')); // Create zero button.
-		keyboard2Buttons.add(new DeleteButton()); // Create delete button.
-
-		return new Keyboard(keyboard2Buttons, 5, 3);
-    }
-
-    /**
+	/**
 	 * A button designed for keyboards, which has a character on its face and inserts a character into the text field.
 	 * Typically the character added to the text field is the same as the one on the face of the button, however this
 	 * is not the case for the space character; an underscore is shown on the face of the button, but a normal space
@@ -167,4 +149,157 @@ public class WhereToModel {
 			}
 		}
 	}
+
+	/**
+	* A keyboard is a collection of buttons which enables the user to enter text into the destination field.
+	* Buttons are added to each keyboard during construction and cannot be added on the fly.
+	*
+	* @author Daniel Gulliver
+	*/
+	public class Keyboard extends JPanel implements ActionListener {
+		private static final long serialVersionUID = 6403469078457676699L;
+		
+		public SelectionController sc;
+		public ArrayList<PrefabButton> buttons;
+
+		public void actionPerformed(ActionEvent e) {
+			// Perform a button's associated action when it is clicked.
+			if (e.getSource() instanceof PrefabButton) {
+				PrefabButton sourceButton = (PrefabButton) e.getSource();
+				sourceButton.action();
+			}
+		}
+	}
+
+	class AlphabeticKeyboard extends Keyboard {
+		private static final long serialVersionUID = 1L;
+
+		AlphabeticKeyboard() {
+			buttons = new ArrayList<PrefabButton>();
+			
+			setLayout(new GridLayout(7, 4));
+
+			// Create character buttons.
+			char[] letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ_".toCharArray();
+			for (char letter : letters) {
+				buttons.add(new CharacterButton(letter));
+			}
+
+			// Create button to switch to second keyboard.
+			buttons.add(new SwitchKeyboardButton("=>"));
+
+			// Add an action listener to each of the buttons and add all of the buttons to the keyboard.
+			for (PrefabButton button : buttons) {
+				button.addActionListener(this);
+				add(button);
+			}
+			
+			// Add all of the buttons to the selection controller.
+			sc = new SelectionController(buttons);
+		}
+	}
+
+	class NumericKeyboard extends Keyboard {
+		private static final long serialVersionUID = 1L;
+
+		NumericKeyboard() {
+			buttons = new ArrayList<PrefabButton>();
+			
+			setLayout(new GridBagLayout());
+
+			GridBagConstraints c = new GridBagConstraints();
+			c.fill = GridBagConstraints.BOTH;
+			c.gridwidth = 1;
+			c.gridheight = 1;
+			c.weightx = 0.5;
+			c.weighty = 0.5;
+
+			CharacterButton oneBtn = new CharacterButton('1');
+			buttons.add(oneBtn);
+			c.gridx = 0;
+			c.gridy = 0;
+			add(oneBtn, c);
+
+			CharacterButton twoBtn = new CharacterButton('2');
+			buttons.add(twoBtn);
+			c.gridx = 1;
+			c.gridy = 0;
+			add(twoBtn, c);
+
+			CharacterButton threeBtn = new CharacterButton('3');
+			buttons.add(threeBtn);
+			c.gridx = 2;
+			c.gridy = 0;
+			add(threeBtn, c);
+
+			CharacterButton fourBtn = new CharacterButton('4');
+			buttons.add(fourBtn);
+			c.gridx = 0;
+			c.gridy = 1;
+			add(fourBtn, c);
+
+			CharacterButton fiveBtn = new CharacterButton('5');
+			buttons.add(fiveBtn);
+			c.gridx = 1;
+			c.gridy = 1;
+			add(fiveBtn, c);
+
+			CharacterButton sixBtn = new CharacterButton('6');
+			buttons.add(sixBtn);
+			c.gridx = 2;
+			c.gridy = 1;
+			add(sixBtn, c);
+			
+			CharacterButton sevenBtn = new CharacterButton('7');
+			buttons.add(sevenBtn);
+			c.gridx = 0;
+			c.gridy = 2;
+			add(sevenBtn, c);
+
+			CharacterButton eightBtn = new CharacterButton('8');
+			buttons.add(eightBtn);
+			c.gridx = 1;
+			c.gridy = 2;
+			add(eightBtn, c);
+
+			CharacterButton nineBtn = new CharacterButton('9');
+			buttons.add(nineBtn);
+			c.gridx = 2;
+			c.gridy = 2;
+			add(nineBtn, c);
+
+			// Create zero button.
+			CharacterButton zeroBtn = new CharacterButton('0');
+			buttons.add(zeroBtn);
+			c.gridx = 0;
+			c.gridy = 3;
+			add(zeroBtn, c);
+
+			// Create button to switch to first keyboard.
+			SwitchKeyboardButton switchBtn = new SwitchKeyboardButton("<=");
+			buttons.add(switchBtn);
+			c.gridx = 0;
+			c.gridy = 4;
+			add(switchBtn, c);
+
+			// Create delete button.
+			DeleteButton deleteBtn = new DeleteButton();
+			buttons.add(deleteBtn);
+			c.gridheight = 2;
+			c.gridwidth = 2;
+			c.gridx = 1;
+			c.gridy = 3;
+			add(deleteBtn, c);
+
+			// Add action listeners to all buttons.
+			for (PrefabButton button : buttons) {
+				button.addActionListener(this);
+			}
+
+			// Add all of the buttons to the selection controller.
+			sc = new SelectionController(buttons);
+		}
+	}
+
 }
+

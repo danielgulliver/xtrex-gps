@@ -26,12 +26,17 @@ public class MapModel {
     private Speech speech;
     private GPSutil gpsUtil;
     private WhereTo whereTo;
+    private XTrexFrame frame;
+    private DirectionPane dirPane;
+    private StatusPane statPane;
     private int zoom = 18; // default zoom 
 
     // Stores the lats, longs and current point in the list of points for the current jorney
     private double[] directionLats = null;
     private double[] directionLongs = null;
+    private String[] directions = null;
     private int directionIndex = 0;
+    private boolean internetAvailable = true;
 
     private static MapModel mapModel;
     
@@ -40,6 +45,9 @@ public class MapModel {
         this.speech  = Speech.getSpeechInstance();
         this.gpsUtil = GPSutil.getInstance();
         this.whereTo = WhereTo.getInstance();
+        this.frame = XTrexDisplay.getInstance().getXTrexFrame();
+        this.dirPane = frame.getDirectionPane();
+        this.statPane = frame.getStatusPane();
     }
 
     /**
@@ -72,6 +80,21 @@ public class MapModel {
         if (zoom > 0 && zoom < 22)
             this.zoom = zoom;
     }
+
+    public void setInternetAvailability(boolean available) {
+
+        if (available != this.internetAvailable) {
+
+            this.internetAvailable = available;
+
+            if (this.internetAvailable)
+                Speech.playAudio(new File("audio/InternetEstablished.wav"));
+            else
+            Speech.playAudio(new File("audio/InternetOffline.wav"));
+            
+        }
+
+    }
     
     /**
      * Gets the byte array, to be coverted to a buffered image for the map
@@ -99,10 +122,13 @@ public class MapModel {
 
         // If the response is null there is no internet and we need to display an error popup
         if (response == null) {
-            Speech.playAudio(new File("audio/InternetOffline.wav"));
+            statPane.mapsAvailable(false);
+            this.setInternetAvailability(false);
             return null;
         }
             
+        this.setInternetAvailability(true);
+        statPane.mapsAvailable(true);
         return response;
         
     }
@@ -114,23 +140,36 @@ public class MapModel {
     public void checkLocation() {
 
         // If the journey points are unitnitalised we don't need to check the location
-        if (this.directionLats == null || this.directionIndex >= this.directionLats.length) {
+        if (this.directionLats == null) {
             return;
         }
 
-        int offsetDistance = GPSutil.latLongToDistance(this.directionLats[directionIndex], this.directionLongs[directionIndex], gps.Latitude(), gps.Longitude()) - 25;
-
         //If we are moving away from the next point in the journey we are lost and need to recalculate the journey
-        /* if (!gpsUtil.approaching(directionLats[directionIndex], directionLongs[directionIndex])) {
+        if (!gpsUtil.approaching(directionLats[directionIndex], directionLongs[directionIndex])) {
             this.getDirections(whereTo.getDestination());
             Speech.playAudio(new File("audio/Recalculating.wav"));
-        } */
+            return;
+        } 
+
+        int offsetDistance = GPSutil.latLongToDistance(this.directionLats[directionIndex], this.directionLongs[directionIndex], gps.Latitude(), gps.Longitude()) - 25;
+        dirPane.setDistance(offsetDistance);
 
         //If the distance to the next point is less than 10 meters its time to play the audio for the next direction
         if (offsetDistance < 1) {
             if (speech.getLanguage() != LanguageEnum.OFF) {
                 Speech.playAudio(new File(Integer.toString(this.directionIndex).toString()+".wav"));
                 this.directionIndex++;
+
+                // If the index is the size of the array we've reached the end of the journey and need to reset everything
+                if (this.directionIndex == this.directionLats.length) {
+                    dirPane.setVisible(false);
+                    this.directionLats = null;
+                    this.directionLongs = null;
+                    this.directions = null;
+                    this.directionIndex = 0;
+                } else
+                    dirPane.setDirectionPhrase(this.directions[directionIndex]);
+                    
             }
 
         }
@@ -176,7 +215,7 @@ public class MapModel {
 
                 //If the response is null we have no internet so need to display an error popup
                 if (response == null) {
-                    Speech.playAudio(new File("audio/InternetOffline.wav"));
+                    Speech.setSpeechAvailability(false);
                     return;
                 }
 
@@ -187,8 +226,13 @@ public class MapModel {
 
                 // Gets the audio file from the parsed directions
                 if (directions != null) {
+                    Speech.setSpeechAvailability(true);
+                    mapModel.directions = directions;
+                    dirPane.setVisible(true);
+                    dirPane.setDirectionPhrase(directions[0]);
                     Speech.parseDirections(directions);
-                }
+                } else
+                    Speech.setSpeechAvailability(false);
 
             }
 
@@ -220,6 +264,16 @@ public class MapModel {
 
         // This means the destination entered doesn't exist so we need to create an error popup
         if (status.equals("ZERO_RESULTS") || status.equals("NOT_FOUND")) {
+            frame.notificationState(true, "Unable to find the specified location");
+            new java.util.Timer().schedule( 
+                    new java.util.TimerTask() {
+                        @Override
+                        public void run() {
+                            frame.notificationState(false);
+                        }
+                    }, 
+                    5000 
+            );
             Speech.playAudio(new File("audio/InvalidDestination.wav"));
             return null;
         }
