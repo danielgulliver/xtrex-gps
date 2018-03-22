@@ -89,6 +89,8 @@ public class XTrexFrame extends JLayeredPane {
         popupOverlayPane = deviceOverlay(notificationOverlayPane);
         add (popupOverlayPane, JLayeredPane.POPUP_LAYER);
 
+        dirPane.setDirectionPhrase("This is a thing that I wans to owahdwioajdawd");
+
         
     }
 

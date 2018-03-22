@@ -170,6 +170,7 @@ public class MapModel {
                     this.directions = null;
                     this.directionIndex = 0;
                 } else
+                    System.out.println(this.directions[directionIndex]);
                     dirPane.setDirectionPhrase(this.directions[directionIndex]);
                     
             }
@@ -231,6 +232,7 @@ public class MapModel {
                     Speech.setSpeechAvailability(true);
                     mapModel.directions = directions;
                     dirPane.setVisible(true);
+                    System.out.println(directions[0]);
                     dirPane.setDirectionPhrase(directions[0]);
                     Speech.parseDirections(directions);
                 } else

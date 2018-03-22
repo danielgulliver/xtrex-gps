@@ -40,4 +40,10 @@ public class SelectionController {
         UIElements.get(position-1).action();
     }
 
+    public void reset() {
+        selected(false);
+        position = 1;
+        selected(true);
+    }
+
 }

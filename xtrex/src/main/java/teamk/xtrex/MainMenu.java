@@ -87,6 +87,8 @@ public class MainMenu extends Screen {
         Selector.click();
     }
 
-    
+    public void reset() {
+        Selector.reset();
+    }
 
 }
