@@ -24,7 +24,7 @@ public class MapModel {
     
     private GPSparser gps;
     private Speech speech;
-    private int zoom = 18;
+    private int zoom = 18; // default zoom 
 
     // Stores the lats, longs and current point in the list of points for the current jorney
     private double[] directionLats = null;
@@ -33,6 +33,10 @@ public class MapModel {
 
     private static MapModel mapModel;
     
+    /**
+     * constructor of the MapModel.
+     * gets the current instances of GPSparser, Speech, GPSutil, and WhereTo classes.
+     */
     public MapModel() {
         this.gps     = GPSparser.getInstance();
         this.speech  = Speech.getSpeechInstance();
@@ -40,6 +44,11 @@ public class MapModel {
         WhereTo.getInstance();
     }
 
+    /**
+     * gets the instance of the MapModel
+     * 
+     * @return MapModel instance
+     */
     public static MapModel getInstance() {
         if (mapModel == null) {
             mapModel = new MapModel();
@@ -181,11 +190,17 @@ public class MapModel {
         }
     }
 
+    /**
+     * parse the json output from google maps to get just the step 
+     * by step directions
+     * 
+     * @return array containing each direction
+     */
     public String[] parseDirections(String json) {
         JSONArray routesArray;
         JSONParser parser = new JSONParser();
         JSONObject obj;
-
+        
         try {
             obj = (JSONObject) parser.parse(json);
         } catch (Exception e) {
