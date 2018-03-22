@@ -141,7 +141,7 @@ public class MapModel {
         }
             
         String latStr  = gps.Latitude().toString();
-        String longStr = gps.Longitude.toString();
+        String longStr = gps.Longitude().toString();
              
         
         final String method = "GET";
