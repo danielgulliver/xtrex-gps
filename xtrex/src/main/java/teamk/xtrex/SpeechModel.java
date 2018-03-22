@@ -126,7 +126,6 @@ public class SpeechModel {
 						
 					} 
 				}
-				
 			}
 		});
 		thread.start();
@@ -230,7 +229,7 @@ public class SpeechModel {
 		// 	Speech.setSpeechAvailability(true);
 		// }
 		try {
-			File             file = new File(name);
+			File             file = new File("audio/" + name);
 			FileOutputStream fos  = new FileOutputStream(file);
 			DataOutputStream dos  = new DataOutputStream(fos); 
 			dos.write(buffer);
