@@ -75,15 +75,14 @@ public class GPSutil {
             distLog.add( latLongToDistance( log.get(i).latitude, log.get(i).longitude, latitude, longitude) );
         }
         lock.unlock();
-        System.out.println(distLog.size());
         if ( distLog.size() > 10 ) {
             for (int i = 1; i < distLog.size(); i++ ){
-                if (i < i-1){
-                    count += 1; 
+                if ((i-1 - i) < -10 && (i-1 - i) > 10 ){
+                    count -= 1; 
                 }
-                else { count -= 1; }
+                else { count += 1; }
             }
-        }
+        } else { count = 1; }
         
         if (count > 0){ return true; }
         else { return false; }

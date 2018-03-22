@@ -1,5 +1,8 @@
 package teamk.xtrex;
 
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+
 public class SatelliteView extends Screen {
 
     private static final long serialVersionUID = 7593535606056467998L;
