@@ -184,7 +184,6 @@ public class MapModel {
                 if (this.directionIndex == this.directionLats.length) {
                     this.resetDirections();
                 } else
-                    System.out.println(this.directions[directionIndex]);
                     dirPane.setDirectionPhrase(this.directions[directionIndex]);
                     
             }
@@ -246,7 +245,6 @@ public class MapModel {
                     Speech.setSpeechAvailability(true);
                     mapModel.directions = directions;
                     dirPane.setVisible(true);
-                    System.out.println(directions[0]);
                     dirPane.setDirectionPhrase(directions[0]);
                     Speech.parseDirections(directions);
                 } else
@@ -283,7 +281,7 @@ public class MapModel {
         // This means the destination entered doesn't exist so we need to create an error popup
         if (status.equals("ZERO_RESULTS") || status.equals("NOT_FOUND")) {
             frame.notificationState(true, "Unable to find the specified location");
-            new java.util.Timer().schedule( 
+            /*new java.util.Timer().schedule( 
                     new java.util.TimerTask() {
                         @Override
                         public void run() {
@@ -291,7 +289,7 @@ public class MapModel {
                         }
                     }, 
                     5000 
-            );
+            );*/
             Speech.playAudioNotification(NotificationsEnum.InvalidDestination);
             return null;
         }
