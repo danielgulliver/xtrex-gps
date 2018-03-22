@@ -218,7 +218,7 @@ public class GPSparser implements Runnable {
             } else { 
                 gpsLost = false;
                 gPStime = Float.parseFloat(tokens[0]);
-                System.out.println("-----   GPS GGA ACQUIRED " + aGPS + "   -----");
+                // System.out.println("-----   GPS GGA ACQUIRED " + aGPS + "   -----");
                 logs.Logger("GPS GGA LOCATION: ");
                 logs.Logger( "    GPS aquired at: " + tokens[0] );
                 if (tokens[1].length() > 0 && tokens[3].length() > 0){            
@@ -261,7 +261,7 @@ public class GPSparser implements Runnable {
             if ( tokenV.length >= 8 && tokenV[1].contains("A") ){
                 gpsLost = false;
                 gPStime = Float.parseFloat(tokenV[0]);
-                System.out.println("-----   GPS RMC ACQUIRED " + aGPS + "   -----");
+                // System.out.println("-----   GPS RMC ACQUIRED " + aGPS + "   -----");
                 logs.Logger("GPS RMC LOCATION: ");
                 logs.Logger( "    GPS aquired at: " + tokenV[0] );
                             
