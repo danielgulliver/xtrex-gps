@@ -134,9 +134,14 @@ public class MapModel {
      * @return A byte array for the data of the map image
      */
     public byte[] getMapData() {
+
+        // If we have no lat and long data then we return null
+        if (gps.Latitude() == null && gps.Longitude() == null) {
+            return null;
+        }
             
-        String latStr  = Double.toString(gps.Latitude());
-        String longStr = Double.toString(gps.Longitude());
+        String latStr  = gps.Latitude().toString();
+        String longStr = gps.Longitude.toString();
              
         
         final String method = "GET";
