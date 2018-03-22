@@ -9,7 +9,8 @@ public class Style {
     public static final int FONT_SIZE = 20;
     public static final Font uiFont = new Font("Arial", Font.PLAIN, FONT_SIZE);
     public static final Dimension DEVICE_SIZE = new Dimension(460,886);
-    public static final Dimension SCREEN_SIZE = new Dimension(342,418);
+    public static final int SCREEN_WIDTH = 342;
+    public static final Dimension SCREEN_SIZE = new Dimension(SCREEN_WIDTH, 418);
 
     public static class ColorScheme{
         public static final Color BACKGROUND = new Color(237,237,237); //Light grey background
@@ -22,6 +23,30 @@ public class Style {
     }
 
     public Style(){
+    }
+
+    public class Card {
+        
+        private String label;
+        private String value;
+
+        public static final int MARGIN_BOTTOM = 5;
+        public static final int CARD_WIDTH = SCREEN_WIDTH - 2 * MARGIN_BOTTOM;
+        public static final int PADDING_LEFT = 50;
+        public static final int OUTLINE_THICKNESS = 2;
+
+        Card(String label, String value) {
+            this.label = label;
+            this.value = value;
+        }
+
+        public String getLabel() {
+            return this.label;
+        }
+
+        public String getValue() {
+            return this.value;
+        }
     }
 
 }
