@@ -193,7 +193,7 @@ public class GPSparser implements Runnable {
             status.satelliteAvailable(false);
             Speech.playAudioNotification(Speech.NotificationsEnum.GPSConnectionLost);
         }
-        if (gpsLost == false && gpsAquired == false){
+        else if (gpsLost == false && gpsAquired == false){
             gpsAquired = true;
             status.satelliteAvailable(true);
             Speech.playAudioNotification(Speech.NotificationsEnum.GPSAcquired);
