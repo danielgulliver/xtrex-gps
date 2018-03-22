@@ -133,7 +133,7 @@ public class XTrexFrame extends JLayeredPane {
         currentScreen.setBackground(Style.ColorScheme.BACKGROUND);
         label.add(currentScreen, constraints, 0);
 
-        mapOverlayPane.setVisible(directionsEnabled && (currentScreen == Maps.getMapViewInstance()));
+        mapOverlayPane.setVisible(directionsEnabled && (currentScreen == MapView.getInstance()));
 
         currentScreen.setVisible(true);
         this.revalidate();

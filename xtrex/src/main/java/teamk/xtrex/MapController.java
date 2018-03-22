@@ -34,7 +34,10 @@ public class MapController {
      * Redraws the map screen
      */
     public void updateMap() {
-        mapView.setMapData(mapModel.getMapData());
+        byte[] mapData = mapModel.getMapData();
+
+        if (mapData != null)
+            mapView.setMapData(mapData);
     }
 
     /**
@@ -67,6 +70,9 @@ public class MapController {
         mapModel.getDirections(location);
     }
 
+    /**
+     * Resets the map MVC to its startup state for on/off functionality
+     */
     public void reset() {
         mapModel.reset();
         mapView.setMapData(null);
