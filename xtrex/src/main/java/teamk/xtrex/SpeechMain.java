@@ -1,7 +1,5 @@
 package teamk.xtrex;
 
-import java.io.File;
-
 import teamk.xtrex.SpeechModel.LanguageEnum;
 
 public class SpeechMain {

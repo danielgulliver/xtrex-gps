@@ -126,7 +126,6 @@ public class SpeechModel {
 						
 					} 
 				}
-				
 			}
 		});
 		thread.start();
@@ -220,17 +219,17 @@ public class SpeechModel {
 	 * @param name is the name of the file to save
 	 */
 	private static void writeData(byte[] buffer, String name) {
-		// if (buffer == null && !Speech.getSpeechAvailability() && MapModel.getInternetAvailability()) {
-		// 	Speech.playAudioNotification(NotificationsEnum.SpeechUnavailable);
-		// 	Speech.setSpeechAvailability(false);
-		// 	return;
-		// } 
-		// if (!Speech.getSpeechAvailability()) {
-		// 	Speech.playAudioNotification(NotificationsEnum.SpeechOnline);
-		// 	Speech.setSpeechAvailability(true);
-		// }
+		if (buffer == null && !Speech.getSpeechAvailability() && MapModel.getInternetAvailability()) {
+			Speech.playAudioNotification(NotificationsEnum.SpeechUnavailable);
+			Speech.setSpeechAvailability(false);
+			return;
+		} 
+		if (!Speech.getSpeechAvailability()) {
+			Speech.playAudioNotification(NotificationsEnum.SpeechOnline);
+			Speech.setSpeechAvailability(true);
+		}
 		try {
-			File             file = new File(name);
+			File             file = new File("audio/" + name);
 			FileOutputStream fos  = new FileOutputStream(file);
 			DataOutputStream dos  = new DataOutputStream(fos); 
 			dos.write(buffer);
