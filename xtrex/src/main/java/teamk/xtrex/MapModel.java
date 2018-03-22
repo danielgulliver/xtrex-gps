@@ -280,7 +280,7 @@ public class MapModel {
 
         // This means the destination entered doesn't exist so we need to create an error popup
         if (status.equals("ZERO_RESULTS") || status.equals("NOT_FOUND")) {
-            frame.notificationState(true, "Unable to find the specified location");
+            frame.notificationState(true, "Invalid Destination");
             new java.util.Timer().schedule( 
                     new java.util.TimerTask() {
                         @Override
