@@ -166,6 +166,11 @@ public class Speech {
         }
     }
 
+    /**
+     * play audio notifications
+     * 
+     * @param NotificationsEnum notification to be played
+     */
     public static void playAudioNotification(NotificationsEnum notification) {
         playAudio(notification.getName() + model.getLanguage().getName());
     }
