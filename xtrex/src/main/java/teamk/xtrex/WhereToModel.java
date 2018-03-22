@@ -18,7 +18,9 @@ public class WhereToModel {
 
 	private WhereToController controller = null;
 	
-	private ControllerNotPairedException notPairedException = new ControllerNotPairedException("The model does not have a paired controller");
+	private ControllerNotPairedException notPairedException = new ControllerNotPairedException(
+		"The model does not have a paired controller"
+	);
 
     private WhereToModel() {
         
@@ -171,6 +173,9 @@ public class WhereToModel {
 		}
 	}
 
+	/**
+	 * An alphabetic keyboard contains alphabetic keys, a space key, and a key to switch to a numeric keyboard.
+	 */
 	class AlphabeticKeyboard extends Keyboard {
 		private static final long serialVersionUID = 1L;
 
@@ -199,6 +204,9 @@ public class WhereToModel {
 		}
 	}
 
+	/**
+	 * A numeric keyboard contains numeric keys, a delete key, and a button to switch to an alphabetic keyboard.
+	 */
 	class NumericKeyboard extends Keyboard {
 		private static final long serialVersionUID = 1L;
 
@@ -302,4 +310,3 @@ public class WhereToModel {
 	}
 
 }
-
