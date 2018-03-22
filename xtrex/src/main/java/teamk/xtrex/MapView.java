@@ -128,7 +128,7 @@ public class MapView extends Screen {
     /**
      * get the instance of this MapView 
      * 
-     * return instance of MapVuew
+     * @return instance of MapVuew
      */
     public static MapView getInstance() {
         if (mapView == null) {
