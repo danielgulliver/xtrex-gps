@@ -110,8 +110,9 @@ public class SpeechModel {
 			public void run() {
 
 				for (int i = 0; i < directions.length; i++) {
-					System.out.println("line1: " + directions[0]);
-					// synthesise speech for each direction
+					if (getAccessToken() == null) {
+						setAccessToken();
+					}
 					final byte[] speech = generateSpeech(getAccessToken(), directions[i], 
 						language.getLanguageCode(), language.getGender(), language.getArtist(), FORMAT);
 					System.out.println(speech == null);
