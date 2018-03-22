@@ -1,6 +1,7 @@
 package teamk.xtrex;
 
 import java.time.LocalTime;
+import java.io.File;
 import java.lang.Math;
 
 /**
@@ -20,9 +21,11 @@ public class GPSparser implements Runnable {
     final float CONVERT_RATE = 1.852f; // Convertion factor for Knots to Km/h
     private LocalTime localTime;
     private static Boolean gpsEnabled = false;
-    private GPSutil gpsUtil = GPSutil.getInstance();
     private GPSspoofer spoof = GPSspoofer.getInstance();
     static LogWriter logs = new LogWriter();
+    private Boolean gpsLost = true;
+    private Boolean gpsAquired = false;
+    private int gpsTimeOut = 5;
     private int aGPS = 0;
     private int nGPS = 0;
     private float gPStime = 0.0f;
@@ -175,6 +178,18 @@ public class GPSparser implements Runnable {
         String[] tokenSat;
         int nGSV;
         localTime = LocalTime.now();
+        float lTime = Float.parseFloat(localTime.toString().replaceAll("[:]", ""));
+
+		if (lTime - gPStime > gpsTimeOut && gpsLost == false){
+            gpsLost = true;
+            gpsAquired = false;
+            Speech.playAudio(new File("audio/GPSConnectionLost.wav"));
+        }
+        if (gpsLost == false && gpsAquired == false){
+            gpsAquired = true; 
+            Speech.playAudio(new File("audio/GPSAcquired.wav"));
+        }
+        
 
         if ( input.contains(GSV_PRE) ) {
             noPreSat = input.substring(input.indexOf(GSV_PRE) + GSV_PRE.length());
@@ -194,10 +209,11 @@ public class GPSparser implements Runnable {
                 aGPS = Integer.parseInt(tokens[5]);
                 logs.Logger( "--  NO GPS ACQUIRED  --" + "  at time: " + localTime );
             } else { 
+                gpsLost = false;
                 gPStime = Float.parseFloat(tokens[0]);
                 // System.out.println("-----   GPS GGA ACQUIRED " + aGPS + "   -----");
                 logs.Logger("GPS GGA LOCATION: ");
-                logs.Logger( "    GPS aquired at: " + tokens[0]  );
+                logs.Logger( "    GPS aquired at: " + tokens[0] );
                 if (tokens[1].length() > 0 && tokens[3].length() > 0){            
                     if ( tokens[2].contains("N") ){ 
                         latitude = SexagesimalToDecimal(tokens[1]);
@@ -236,10 +252,11 @@ public class GPSparser implements Runnable {
             noPreV = input.substring(input.indexOf(VELOCITY_PRE) + VELOCITY_PRE.length());
             tokenV = noPreV.split(",");
             if ( tokenV.length >= 8 && tokenV[1].contains("A") ){
-                gPStime = Float.parseFloat(tokenV[4]);
+                gpsLost = false;
+                gPStime = Float.parseFloat(tokenV[0]);
                 // System.out.println("-----   GPS RMC ACQUIRED " + aGPS + "   -----");
                 logs.Logger("GPS RMC LOCATION: ");
-                logs.Logger( "    GPS aquired at: " + tokenV[0]  );
+                logs.Logger( "    GPS aquired at: " + tokenV[0] );
                             
                 if ( tokenV[3].contains("N") ){ 
                     latitude = SexagesimalToDecimal(tokenV[2]);

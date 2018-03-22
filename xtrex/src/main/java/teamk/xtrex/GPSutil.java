@@ -44,7 +44,7 @@ public class GPSutil {
         longitude = gps.Longitude();
         gpsTime = gps.GPStime();
         log.add(new PositionVelocityTime(gpsTime, latitude, longitude));
-        if (log.size() < 200){
+        if (log.size() > 200){
             log.remove(log.size() - 1);
         }
     }
@@ -68,6 +68,7 @@ public class GPSutil {
         for (int i = 0; i < log.size(); i++ ){
             distLog.add( latLongToDistance( log.get(i).latitude, log.get(i).longitude, latitude, longitude) );
         }
+        
         while(iterate.hasNext()){
             if (iterate.next() < iterate.previous()){
                 count += 1; 
