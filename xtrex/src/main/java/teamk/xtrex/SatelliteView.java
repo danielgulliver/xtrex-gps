@@ -1,9 +1,6 @@
 package teamk.xtrex;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-
-public class SatelliteView extends Screen {
+public class SatelliteView extends CardScreen {
 
     private static final long serialVersionUID = 7593535606056467998L;
     
@@ -13,7 +10,7 @@ public class SatelliteView extends Screen {
     int nGPS = 0;
     
     private SatelliteView(){
-        repaint();
+        super.repaint();
     }
     /**
 	 * Return the single instance of GPSparser held by this class
@@ -49,26 +46,15 @@ public class SatelliteView extends Screen {
         latitude = gps.Latitude();
         longitude = gps.Longitude();
         nGPS = gps.numSatellites();
-        repaint();
+        super.repaint();
     }
 
-    /**
-	 * Draws the updateable Screen.
-	 */
-    public void paint(Graphics g) {
-        int textSize = 24, textMargin = 10;
-        Graphics2D g2d = (Graphics2D) g;
-        g2d.clearRect(0, 0, Screen.SCREEN_WIDTH, Screen.SCREEN_HEIGHT);
-        g2d.clearRect(0, 0, Screen.WIDTH, Screen.HEIGHT);
-        g2d.setFont(Style.uiFont);
-        g2d.setColor(Style.ColorScheme.FONT);
-        g2d.drawString("Latitude: ", 50, 100);
-        g2d.drawString(Double.toString(latitude), 50, 100 + textSize + textMargin);
-        g2d.drawString("Longitude: ", 50, 200);
-        g2d.drawString(Double.toString(longitude), 50, 200 + textSize + textMargin);
-        String satView = "Satellites in View: " + Integer.toString(nGPS);
-        g2d.drawString(satView, 50, 300);
-        
+    @Override
+    public void updateCards() {
+        super.updateCards();
+        addCard("Latitude", Double.toString(latitude));
+        addCard("Longitude", Double.toString(longitude));
+        addCard("Satellites in View", Integer.toString(nGPS));
     }
     
 }

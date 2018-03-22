@@ -36,7 +36,7 @@ public class MapModel {
     private double[] directionLongs = null;
     private String[] directions = null;
     private int directionIndex = 0;
-    private boolean internetAvailable = true;
+    private static boolean internetAvailable = true;
 
     private static MapModel mapModel;
     
@@ -90,10 +90,12 @@ public class MapModel {
             if (this.internetAvailable)
                 Speech.playAudio(new File("audio/InternetEstablished.wav"));
             else
-            Speech.playAudio(new File("audio/InternetOffline.wav"));
-            
+                Speech.playAudio(new File("audio/InternetOffline.wav"));
         }
+    }
 
+    public static boolean getInternetAvailability() {
+        return internetAvailable;
     }
     
     /**
