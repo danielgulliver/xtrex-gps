@@ -128,7 +128,8 @@ public class Speech {
 	 * 
 	 * @param File is the file name of the audio file to play
 	 */
-	public static void playAudio(File file) {
+	public static void playAudio(String fileName) {
+        File file = new File("audio/" + fileName + ".wav");
         if (model.getLanguage() != LanguageEnum.OFF) {
             try {
                 final AudioInputStream audioIn = AudioSystem.getAudioInputStream(file);
@@ -141,14 +142,14 @@ public class Speech {
                             clip.start();
                             Thread.sleep(clip.getMicrosecondLength()/MICROSECONDS_IN_MILISECOND);
                         } catch (LineUnavailableException e) {
-                            Speech.playAudio(new File("audio/SpeechUnavailable.wav"));
+                            Speech.playAudioNotification(NotificationsEnum.SpeechUnavailable);
                             Speech.setSpeechAvailability(false);
                         } catch (InterruptedException e) {
-                            Speech.playAudio(new File("audio/SpeechUnavailable.wav"));
+                            Speech.playAudioNotification(NotificationsEnum.SpeechUnavailable);
                             Speech.setSpeechAvailability(false);
                         }
                         catch (IOException e) {
-                            Speech.playAudio(new File("audio/SpeechUnavailable.wav"));
+                            Speech.playAudioNotification(NotificationsEnum.SpeechUnavailable);
                             Speech.setSpeechAvailability(false);
                         }
                     }
@@ -156,17 +157,17 @@ public class Speech {
                 thread.start();
             } catch (UnsupportedAudioFileException e) {
                 System.out.println("Unsupported audio file");
-                Speech.playAudio(new File("audio/SpeechUnavailable.wav"));
+                Speech.playAudioNotification(NotificationsEnum.SpeechUnavailable);
                 Speech.setSpeechAvailability(false);
             } catch (IOException e) {
-                Speech.playAudio(new File("audio/SpeechUnavailable.wav"));
+                Speech.playAudioNotification(NotificationsEnum.SpeechUnavailable);
                 Speech.setSpeechAvailability(false);
             }
         }
     }
 
-    public static void playAudioException(NotificationsEnum notification) {
-
+    public static void playAudioNotification(NotificationsEnum notification) {
+        playAudio(notification.getName() + model.getLanguage().getName());
     }
 
     /**

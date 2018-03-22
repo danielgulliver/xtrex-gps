@@ -66,4 +66,9 @@ public class MapController {
     public void getDirections(String location) {
         mapModel.getDirections(location);
     }
+
+    public void reset() {
+        mapModel.reset();
+        mapView.setMapData(null);
+    }
 }
