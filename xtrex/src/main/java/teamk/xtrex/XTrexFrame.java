@@ -29,6 +29,7 @@ public class XTrexFrame extends JLayeredPane {
 
     private boolean directionsEnabled = true;
 
+
     private JPanel deviceOverlay(JPanel screenPositioner){
         JPanel devicePositioner;
 
@@ -134,6 +135,7 @@ public class XTrexFrame extends JLayeredPane {
         label.add(currentScreen, constraints, 0);
 
         mapOverlayPane.setVisible(directionsEnabled && (currentScreen == Maps.getMapViewInstance()));
+        notificationOverlayPane.setVisible(currentScreen != OffScreen.getInstance());
 
         currentScreen.setVisible(true);
         this.revalidate();
