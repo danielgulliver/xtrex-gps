@@ -1,6 +1,7 @@
 package teamk.xtrex;
 
 /**
+ * The TripComputerController is the go-between for the view and controller for the Trip Computer screen.
  * @author Daniel Gulliver
  */
 public class TripComputerController {

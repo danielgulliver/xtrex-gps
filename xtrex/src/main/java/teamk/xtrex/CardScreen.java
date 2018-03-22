@@ -65,7 +65,8 @@ public abstract class CardScreen extends Screen {
         int numCards = cards.size();
         int cardHeight = (Style.SCREEN_SIZE.height - (Style.Card.MARGIN_BOTTOM * (numCards + 1))) / numCards;
 
-        final int textHeight = g2d.getFontMetrics(Style.uiFont).getAscent(); // Height of the font from the baseline to the ascender line.
+        // Height of the font from the baseline to the ascender line.
+        final int textHeight = g2d.getFontMetrics(Style.uiFont).getAscent();
         final int lineSpacing = (int) textHeight / 2;
 
         // Set the rendering hint to improve text rendering.
