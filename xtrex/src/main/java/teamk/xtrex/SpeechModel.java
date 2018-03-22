@@ -100,7 +100,8 @@ public class SpeechModel {
 	 * For each direction in the string array generate the .wav file for it. 
 	 * The wav file is named after the index of the corresponding direction in the array.
 	 * 
-	 * @param directions is an array of strings containing all the directions that need to have speech generated for.
+	 * @param directions is an array of strings containing all the directions that need 
+	 * to have speech generated for.
 	 */
 	public void parseDirections(final String[] directions) {
 		if (directions == null) return;
@@ -110,9 +111,13 @@ public class SpeechModel {
 			public void run() {
 
 				for (int i = 0; i < directions.length; i++) {
-					// synthesise speech for each direction
-					final byte[] speech = generateSpeech(getAccessToken(), directions[i], language.getLanguageCode(), language.getGender(), language.getArtist(), FORMAT);
-					// write the audio file of the speech to a file
+					if (getAccessToken() == null) {
+						setAccessToken();
+					}
+					final byte[] speech = generateSpeech(getAccessToken(), directions[i], 
+						language.getLanguageCode(), language.getGender(), language.getArtist(), FORMAT);
+					System.out.println(speech == null);
+						// write the audio file of the speech to a file
 					writeData(speech, String.valueOf(i) + ".wav");
 					try {
 						// sleep thread to avoid hitting maximum rate for bing api 
@@ -224,7 +229,7 @@ public class SpeechModel {
 			Speech.setSpeechAvailability(true);
 		}
 		try {
-			File             file = new File(name);
+			File             file = new File("audio/" + name);
 			FileOutputStream fos  = new FileOutputStream(file);
 			DataOutputStream dos  = new DataOutputStream(fos); 
 			dos.write(buffer);

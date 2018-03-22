@@ -75,16 +75,15 @@ public class GPSutil {
             distLog.add( latLongToDistance( log.get(i).latitude, log.get(i).longitude, latitude, longitude) );
         }
         lock.unlock();
-        System.out.println(distLog.size());
         if ( distLog.size() > 10 ) {
             for (int i = 1; i < distLog.size(); i++ ){
-                if (i < i-1){
-                    count += 1; 
+                if ((i-1 - i) < -10 && (i-1 - i) > 10 ){
+                    count -= 1; 
                 }
-                else { count -= 1; }
+                else { count += 1; }
             }
-        }
-        
+        } else { count = 1; }
+
         if (count > 0){ return true; }
         else { return false; }
     }
@@ -118,6 +117,15 @@ public class GPSutil {
         double d = RADIUS_OF_EARTH * c;
 
         return (int) Math.round(d);
+    }
+
+    public double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+    
+        long factor = (long) Math.pow(10, places);
+        value = value * factor;
+        long tmp = Math.round(value);
+        return (double) tmp / factor;
     }
 
 }

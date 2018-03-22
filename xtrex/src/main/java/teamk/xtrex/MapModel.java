@@ -1,6 +1,5 @@
 package teamk.xtrex;
 
-import java.io.File;
 import org.json.simple.*;
 import org.json.simple.parser.JSONParser;
 
@@ -22,6 +21,7 @@ public class MapModel {
     private final static String STATIC_API_KEY = "AIzaSyDv8abU01v40-krRiApS1w-zr5Kkcxb0zI";
     private final static String DIRECTIONS_API_KEY = "AIzaSyB_Xb021JnC9W3SwpD8tqD2ZBcAdxAuP9M";
     private final static String IMG_SIZE = "540x540";
+    private final static int AUDIO_TOLERANCE = 25;
     
     private GPSparser gps;
     private Speech speech;
@@ -82,6 +82,10 @@ public class MapModel {
             this.zoom = zoom;
     }
 
+    /**
+     * Resets the variables associated with directions for a journey. Used at the end of the journey and when
+     * on/off is used
+     */
     public void resetDirections() {
         this.dirPane.setVisible(false);
         this.directionLats = null;
@@ -90,12 +94,19 @@ public class MapModel {
         this.directionIndex = 0;
     }
 
+    /**
+     * Resets all state variables for use with the on/off button
+     */
     public void reset() {
         this.resetDirections();
         this.zoom = 18;
         MapModel.internetAvailable = true;
     }
 
+    /**
+     * Sets the avaliability of the internet, but takes no action if the state you want to set is what it 
+     * currently is. WIll play the associated audio file
+     */
     public void setInternetAvailability(boolean available) {
 
         if (available != MapModel.internetAvailable) {
@@ -110,6 +121,9 @@ public class MapModel {
         }
     }
 
+    /**
+     * Returns the curent avaliability of the internet
+     */
     public static boolean getInternetAvailability() {
         return internetAvailable;
     }
@@ -120,6 +134,11 @@ public class MapModel {
      * @return A byte array for the data of the map image
      */
     public byte[] getMapData() {
+
+        // If the lat and long are 200 (out of the range of the world) we know we have no gps data
+        if (gps.Latitude() == 200.0d && gps.Longitude() == 200.0d) {
+            return null;
+        }
             
         String latStr  = Double.toString(gps.Latitude());
         String longStr = Double.toString(gps.Longitude());
@@ -138,13 +157,14 @@ public class MapModel {
        
         byte[] response = HttpConnect.httpConnect(method, url, headers, body);
 
-        // If the response is null there is no internet and we need to display an error popup
+        // If the response is null there is no internet and we need to set the internet status icon to false
         if (response == null) {
             statPane.mapsAvailable(false);
             this.setInternetAvailability(false);
             return null;
         }
             
+        //The internet must be avaliable so we ensure the icon is set to true
         this.setInternetAvailability(true);
         statPane.mapsAvailable(true);
         return response;
@@ -170,10 +190,13 @@ public class MapModel {
         } 
 
 
-        int offsetDistance = GPSutil.latLongToDistance(this.directionLats[directionIndex], this.directionLongs[directionIndex], gps.Latitude(), gps.Longitude()) - 25;
+        //We offset the distance by 25 so that the audio will play at the right point despite GPS inaccuracy
+        int offsetDistance = GPSutil.latLongToDistance(this.directionLats[directionIndex], this.directionLongs[directionIndex], gps.Latitude(), gps.Longitude()) - MapModel.AUDIO_TOLERANCE;
+        
+        //We display the distance to the next point
         dirPane.setDistance(offsetDistance);
 
-        /* If the distance to the next point is less than 25 meters its time to play the audio for the next direction#
+        /* If the distance to the next point is less than 25 meters its time to play the audio for the next direction
            (Since the distance has already been offset by 25 we just check to see if it is 0 or less) */
         if (offsetDistance < 1) {
             if (speech.getLanguage() != LanguageEnum.OFF) {

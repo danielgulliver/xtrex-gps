@@ -198,7 +198,7 @@ public class XTrexFrame extends JLayeredPane implements ActionListener {
         currentScreen.setBackground(Style.ColorScheme.BACKGROUND);
         label.add(currentScreen, constraints, 0);
 
-        mapOverlayPane.setVisible(directionsEnabled && (currentScreen == Maps.getMapViewInstance()));
+        mapOverlayPane.setVisible(directionsEnabled && (currentScreen == MapView.getInstance()));
         notificationOverlayPane.setVisible(currentScreen != OffScreen.getInstance());
 
         currentScreen.setVisible(true);

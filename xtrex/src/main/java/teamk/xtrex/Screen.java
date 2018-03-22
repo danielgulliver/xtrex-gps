@@ -1,6 +1,5 @@
 package teamk.xtrex;
 
-import java.awt.Dimension;
 import java.awt.Graphics;
 
 import javax.swing.JPanel;
@@ -30,7 +29,7 @@ public abstract class Screen extends JPanel {
 		MainMenu.getInstance().reset();
 		//WhereTo.getInstance().reset();
 		TripComputer.getInstance().reset();
-		Maps.getMapController().reset();
+		MapController.getInstance().reset();
 		XTrexDisplay.getInstance().getXTrexFrame().notificationState(false, "");
 		UpdateThread.getInstance().stopRunning();
 		XTrexDisplay.getInstance().setScreen(OffScreen.getInstance());
