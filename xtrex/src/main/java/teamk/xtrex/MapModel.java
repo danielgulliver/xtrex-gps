@@ -82,6 +82,20 @@ public class MapModel {
             this.zoom = zoom;
     }
 
+    public void resetDirections() {
+        this.dirPane.setVisible(false);
+        this.directionLats = null;
+        this.directionLongs = null;
+        this.directions = null;
+        this.directionIndex = 0;
+    }
+
+    public void reset() {
+        this.resetDirections();
+        this.zoom = 18;
+        this.internetAvailable = true;
+    }
+
     public void setInternetAvailability(boolean available) {
         if (available != internetAvailable) {
             internetAvailable = available;
@@ -154,6 +168,7 @@ public class MapModel {
             return;
         } 
 
+
         int offsetDistance = GPSutil.latLongToDistance(this.directionLats[directionIndex], this.directionLongs[directionIndex], gps.Latitude(), gps.Longitude()) - 25;
         dirPane.setDistance(offsetDistance);
 
@@ -165,11 +180,7 @@ public class MapModel {
 
                 // If the index is the size of the array we've reached the end of the journey and need to reset everything
                 if (this.directionIndex == this.directionLats.length) {
-                    dirPane.setVisible(false);
-                    this.directionLats = null;
-                    this.directionLongs = null;
-                    this.directions = null;
-                    this.directionIndex = 0;
+                    this.resetDirections();
                 } else
                     System.out.println(this.directions[directionIndex]);
                     dirPane.setDirectionPhrase(this.directions[directionIndex]);
