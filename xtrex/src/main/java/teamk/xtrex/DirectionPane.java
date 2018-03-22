@@ -27,6 +27,22 @@ public class DirectionPane extends JPanel{
             setVerticalAlignment(CENTER);
         }
 
+        public void setPhrase(String message){
+            if (message.length() > 75){
+                setVerticalAlignment(TOP);
+            } else {
+                setVerticalAlignment(CENTER);
+            }
+            message = ("<html>" + message + "</html>");
+            setText(message);
+            
+        }
+
+        public void resize(){
+            setPreferredSize(new Dimension(Style.SCREEN_SIZE.width - distancePhrase.getPreferredSize().width - 10, 75));
+            //setPreferredSize(distancePhrase.getPreferredSize());
+        }
+
     }
 
     private DirectionLabel directionPhrase;
@@ -41,29 +57,37 @@ public class DirectionPane extends JPanel{
         setPreferredSize(new Dimension(Style.SCREEN_SIZE.width, 75));
         setOpaque(false);
 
-        directionPhrase = new DirectionLabel("Go left around the corner and test", 15);
-        distancePhrase = new DirectionLabel("40m", 30);
+        directionPhrase = new DirectionLabel("", 15);
+        distancePhrase = new DirectionLabel("0m", 30);
 
-        container = new JPanel(new GridBagLayout());
+        //container = new JPanel(new GridBagLayout());
+        container = new JPanel(new BorderLayout());
         container.setBackground(Style.ColorScheme.CONTENT_BACK);
         GridBagConstraints c = new GridBagConstraints();
-        c.fill = GridBagConstraints.BOTH;
-        c.gridwidth = 1;
-        c.weighty = 1;
-        c.weightx = 0.5;
-        container.add(directionPhrase, c);
-        c.weightx = 1;
+        // c.fill = GridBagConstraints.BOTH;
+        // c.gridwidth = 1;
+        // c.weighty = 1;
+        // c.weightx = 0.5;
+        // container.add(distancePhrase, c);
+        // c.weightx = 1;
         //c.gridwidth = GridBagConstraints.REMAINDER;
-        container.add(distancePhrase,c);
+        //container.add(directionPhrase,c);
+        
+        directionPhrase.resize();
+
+        container.add(directionPhrase, BorderLayout.WEST);
+        container.add(distancePhrase, BorderLayout.EAST);
+
         add(container);
     }
 
     public void setDirectionPhrase(String direction){
-        directionPhrase.setText(direction);
+        directionPhrase.setPhrase(direction);
     }
 
     public void setDistance(int distance){
-        distancePhrase.setText(Integer.toString(distance)+"m");
+        distancePhrase.setPhrase(Integer.toString(distance)+"m");
+        directionPhrase.resize();
     }
 
     public void visible(boolean enabled){
