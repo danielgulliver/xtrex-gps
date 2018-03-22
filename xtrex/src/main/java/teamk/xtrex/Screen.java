@@ -18,11 +18,8 @@ import javax.swing.JPanel;
 public abstract class Screen extends JPanel {
 	private static final long serialVersionUID = -2576431224929795091L;
 	
-	public static final int SCREEN_HEIGHT = 600;
-	public static final int SCREEN_WIDTH = 490;
-	
 	Screen() {
-		this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
+		this.setPreferredSize(Style.SCREEN_SIZE);
 	}
 
 	/**
@@ -31,6 +28,8 @@ public abstract class Screen extends JPanel {
 	 */
 	public void onPowerButtonPressed() {
 		MainMenu.getInstance().reset();
+		TripComputer.getInstance().reset();
+		Maps.getMapController().reset();
 		UpdateThread.getInstance().stopRunning();
 		XTrexDisplay.getInstance().setScreen(OffScreen.getInstance());
 	}

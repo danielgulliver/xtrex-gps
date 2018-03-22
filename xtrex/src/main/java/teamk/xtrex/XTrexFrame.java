@@ -83,7 +83,7 @@ public class XTrexFrame extends JLayeredPane {
         add(mapScreenOverlayPane, JLayeredPane.PALETTE_LAYER);
 
         notificationOverlayPane = screenOverlay();
-        notificationOverlayPane.setVisible(false);
+        notification.setVisible(false);
         notificationOverlayPane.add(notification, BorderLayout.NORTH);
 
         popupOverlayPane = deviceOverlay(notificationOverlayPane);
