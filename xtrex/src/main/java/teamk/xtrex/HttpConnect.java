@@ -74,7 +74,6 @@ public class HttpConnect {
       return response;
     } catch ( Exception ex ) {
       //We don't want to exit on failure and instead we will deal with it in the calling function
-      System.out.println( ex );
       return null;
     }
   }
