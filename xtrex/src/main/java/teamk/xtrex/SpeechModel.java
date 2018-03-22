@@ -245,6 +245,8 @@ public class SpeechModel {
 
     /**
      * Lazy instantiate the SpeechModel
+	 * 
+	 * @return instance of the SpeechModel
      */
     public static SpeechModel getInstance() {
         if (speechModel == null) {
