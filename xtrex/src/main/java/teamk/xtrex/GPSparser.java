@@ -189,12 +189,12 @@ public class GPSparser implements Runnable {
             gpsLost = true;
             gpsAquired = false;
             status.satelliteAvailable(false);
-            Speech.playAudioException(Speech.NotificationsEnum.GPSConnectionLost);
+            Speech.playAudioNotification(Speech.NotificationsEnum.GPSConnectionLost);
         }
         if (gpsLost == false && gpsAquired == false){
             gpsAquired = true;
             status.satelliteAvailable(true);
-            Speech.playAudioException(Speech.NotificationsEnum.GPSAcquired);
+            Speech.playAudioNotification(Speech.NotificationsEnum.GPSAcquired);
         }
         
 
