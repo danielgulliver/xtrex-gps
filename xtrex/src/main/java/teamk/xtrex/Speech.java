@@ -8,8 +8,9 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-
 import teamk.xtrex.SpeechModel.LanguageEnum;
+
+
 
 /**
  * Used as the API for all speech related components. 
@@ -26,6 +27,28 @@ public class Speech {
     private static SpeechController controller;
     private static SpeechView view;
     private static boolean SpeechAvailability = true;
+
+    public enum NotificationsEnum {
+        SpeechUnavailable("SpeechUnavailable"),
+        SpeechOnline("SpeechOnline"),
+        Recalculating("Recalculating"),
+        InvalidDestination("InvalidDestination"),
+        InternetOffline("InternetOffline"),
+        InternetEstablished("InternetEstablished"),
+        GPSConnectionLost("GPSConnectionLost"),
+        GPSAcquired("GPSAcquired"),
+        DestinationReached("DestinationReached");
+
+        private String name;
+
+        private NotificationsEnum(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
+    }
 
     /**
      * Instantiate the Speech class which in turn instantiates each part of the 
@@ -140,6 +163,10 @@ public class Speech {
                 Speech.setSpeechAvailability(false);
             }
         }
+    }
+
+    public static void playAudioException(NotificationsEnum notification) {
+
     }
 
     /**
