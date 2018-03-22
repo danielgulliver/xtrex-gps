@@ -13,9 +13,9 @@ public class MapController {
     private static MapView mapView;
     private static MapController mapController;
     
-    public MapController(MapModel mapModel, MapView mapView) { 
-        MapController.mapModel = mapModel;
-        MapController.mapView = mapView;
+    public MapController() { 
+        MapController.mapModel = MapModel.getInstance();
+        MapController.mapView = MapView.getInstance();
     }
     
     /**
@@ -25,7 +25,7 @@ public class MapController {
      */
     public static MapController getInstance() {
         if (mapController == null) {
-            mapController = new MapController(MapModel.getInstance(), MapView.getInstance());
+            mapController = new MapController();
         }
         return mapController;
     }
