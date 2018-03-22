@@ -101,7 +101,7 @@ public class MapModel {
 
         // If the response is null there is no internet and we need to display an error popup
         if (response == null) {
-            Speech.playAudio(new File("InternetOffline.wav"));
+            Speech.playAudio(new File("audio/InternetOffline.wav"));
             return null;
         }
             
