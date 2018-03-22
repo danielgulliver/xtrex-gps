@@ -23,6 +23,7 @@ public class Speech {
     private static SpeechModel model;
     private static SpeechController controller;
     private static SpeechView view;
+    private static boolean SpeechAvailability = true;
 
     /**
      * Instantiate the Speech class which in turn instantiates each part of the 
@@ -58,15 +59,22 @@ public class Speech {
         return view;
     }
 
+    /**
+     * Lazy instantiation of the Speech class
+     * 
+     * @return instance of the SpeechModel class
+     */
     public static SpeechModel getSpeechModelInstance() {
-        if (model == null) {
-            model = new SpeechModel();
+        if (speech == null) {
+            speech = new Speech();
         }
         return model;
     }
 
     /**
-     * parse the directions
+     * parse the directions to generate speech for each direction
+     * 
+     * @param directions[] array of all directions 
      */
     public static void parseDirections(String[] directions) {
         model.parseDirections(directions);
@@ -74,6 +82,8 @@ public class Speech {
 
     /**
      * get the language of the device
+     * 
+     * @return the language of the device as an Enum
      */
     public SpeechModel.LanguageEnum getLanguage() {
         return model.getLanguage();
@@ -104,26 +114,46 @@ public class Speech {
 						clip.open(audioIn);
 						clip.start();
 						Thread.sleep(clip.getMicrosecondLength()/MICROSECONDS_IN_MILISECOND);
-					} catch (LineUnavailableException e1) {
-						Speech.playAudio(new File("SpeechUnavailable.wav"));
+					} catch (LineUnavailableException e) {
+                        Speech.playAudio(new File("audio/SpeechUnavailable.wav"));
+                        Speech.setSpeechAvailability(false);
 					} catch (InterruptedException e) {
-                        Speech.playAudio(new File("SpeechUnavailable.wav"));
+                        Speech.playAudio(new File("audio/SpeechUnavailable.wav"));
+                        Speech.setSpeechAvailability(false);
 					}
 					catch (IOException e) {
-                        e.printStackTrace();
-                        Speech.playAudio(new File("SpeechUnavailable.wav"));
-						System.out.println("Wrong file name 2");
+                        Speech.playAudio(new File("audio/SpeechUnavailable.wav"));
+                        Speech.setSpeechAvailability(false);
 					}
 				}
 			});
 			thread.start();
 		} catch (UnsupportedAudioFileException e) {
             System.out.println("Unsupported audio file");
-            Speech.playAudio(new File("SpeechUnavailable.wav"));
+            Speech.playAudio(new File("audio/SpeechUnavailable.wav"));
+            Speech.setSpeechAvailability(false);
 		} catch (IOException e) {
-            Speech.playAudio(new File("SpeechUnavailable.wav"));
-            e.printStackTrace();
-			System.out.println("Wrong file name 1");
+            Speech.playAudio(new File("audio/SpeechUnavailable.wav"));
+            Speech.setSpeechAvailability(false);
 		}
+    }
+
+    /**
+     * Get the availability of speech
+     * 
+     * @return whether speech is available
+     */
+    public static boolean getSpeechAvailability() {
+        return SpeechAvailability;
+    }
+
+
+    /**
+     * set the availability of speech 
+     * 
+     * @param availability of the speech
+     */
+    public static void setSpeechAvailability(boolean availability) {
+        SpeechAvailability = availability;
     }
 }

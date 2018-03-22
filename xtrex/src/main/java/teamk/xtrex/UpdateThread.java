@@ -16,10 +16,6 @@ package teamk.xtrex;
     
     private boolean running = true;
 
-    private UpdateThread() {
-    	
-    }
-
     /**
      * Return the single instance of UpdateThread allowed in the program.
      * @return the single instance of UpdateThread
@@ -47,7 +43,6 @@ package teamk.xtrex;
 	        	synchronized(this) {
 		            try {
 		                wait();
-		                
 		            } catch (Exception e) {
                         System.out.println("Wait failed");
 		                e.printStackTrace();
@@ -75,8 +70,13 @@ package teamk.xtrex;
             if (XTrexDisplay.getInstance().getCurrentScreen() instanceof SatelliteView) {
                 satView.update();
             }
+
         }
 
+    }
+
+    public void stopRunning() {
+        this.running = false;
     }
 
  }

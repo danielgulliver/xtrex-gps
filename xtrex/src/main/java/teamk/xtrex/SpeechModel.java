@@ -21,7 +21,6 @@ public class SpeechModel {
 	private final static Integer RENEW_RATE = 10;
 	private final static Integer RENEW_PERIOD = 0;
 	private final static Integer BING_API_SLEEPTIME_MILLISECONDS = 3750;
-	private static boolean SpeechAvailability = true;
 	private static LanguageEnum language;
 	
     private static String accessToken = null;
@@ -212,14 +211,14 @@ public class SpeechModel {
 	 * @param name is the name of the file to save
 	 */
 	private static void writeData(byte[] buffer, String name) {
-		if (buffer == null && !SpeechAvailability) {
-			Speech.playAudio(new File("SpeechUnavailable.wav"));
-			SpeechAvailability = false;
+		if (buffer == null && !Speech.getSpeechAvailability()) {
+			Speech.playAudio(new File("audio/SpeechUnavailable.wav"));
+			Speech.setSpeechAvailability(false);
 			return;
 		} 
-		if (!SpeechAvailability) {
-			Speech.playAudio(new File("SpeechOnline.wav"));
-			SpeechAvailability = true;
+		if (!Speech.getSpeechAvailability()) {
+			Speech.playAudio(new File("audio/SpeechOnline.wav"));
+			Speech.setSpeechAvailability(true);
 		}
 		try {
 			File             file = new File(name);
@@ -229,8 +228,8 @@ public class SpeechModel {
 			dos.flush();
 			dos.close();
 		} catch (Exception ex) {
-			Speech.playAudio(new File("SpeechUnavailable.wav"));
-			SpeechAvailability = false;
+			Speech.playAudio(new File("audio/SpeechUnavailable.wav"));
+			Speech.setSpeechAvailability(false);
 		}
 	}
 
@@ -246,6 +245,8 @@ public class SpeechModel {
 
     /**
      * Lazy instantiate the SpeechModel
+	 * 
+	 * @return instance of the SpeechModel
      */
     public static SpeechModel getInstance() {
         if (speechModel == null) {
