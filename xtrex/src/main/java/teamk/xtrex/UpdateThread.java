@@ -73,6 +73,8 @@ package teamk.xtrex;
 
         }
 
+        this.running = true;
+
     }
 
     public void stopRunning() {
