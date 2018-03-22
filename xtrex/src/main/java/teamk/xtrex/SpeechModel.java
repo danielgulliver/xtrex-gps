@@ -110,10 +110,12 @@ public class SpeechModel {
 			public void run() {
 
 				for (int i = 0; i < directions.length; i++) {
+					System.out.println("line1: " + directions[0]);
 					// synthesise speech for each direction
 					final byte[] speech = generateSpeech(getAccessToken(), directions[i], 
 						language.getLanguageCode(), language.getGender(), language.getArtist(), FORMAT);
-					// write the audio file of the speech to a file
+					System.out.println(speech == null);
+						// write the audio file of the speech to a file
 					writeData(speech, String.valueOf(i) + ".wav");
 					try {
 						// sleep thread to avoid hitting maximum rate for bing api 
@@ -122,6 +124,7 @@ public class SpeechModel {
 						
 					} 
 				}
+				
 			}
 		});
 		thread.start();
@@ -215,15 +218,15 @@ public class SpeechModel {
 	 * @param name is the name of the file to save
 	 */
 	private static void writeData(byte[] buffer, String name) {
-		if (buffer == null && !Speech.getSpeechAvailability() && MapModel.getInternetAvailability()) {
-			Speech.playAudioNotification(NotificationsEnum.SpeechUnavailable);
-			Speech.setSpeechAvailability(false);
-			return;
-		} 
-		if (!Speech.getSpeechAvailability()) {
-			Speech.playAudioNotification(NotificationsEnum.SpeechOnline);
-			Speech.setSpeechAvailability(true);
-		}
+		// if (buffer == null && !Speech.getSpeechAvailability() && MapModel.getInternetAvailability()) {
+		// 	Speech.playAudioNotification(NotificationsEnum.SpeechUnavailable);
+		// 	Speech.setSpeechAvailability(false);
+		// 	return;
+		// } 
+		// if (!Speech.getSpeechAvailability()) {
+		// 	Speech.playAudioNotification(NotificationsEnum.SpeechOnline);
+		// 	Speech.setSpeechAvailability(true);
+		// }
 		try {
 			File             file = new File(name);
 			FileOutputStream fos  = new FileOutputStream(file);
