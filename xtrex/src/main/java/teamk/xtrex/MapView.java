@@ -19,15 +19,18 @@ import javax.imageio.ImageIO;
  */
 public class MapView extends Screen {
 
-    private byte mapData[] = null;		
+    private static final long serialVersionUID = 3769993700857781403L;
+    
+	private byte mapData[] = null;		
     private MapController mapController;
     private GPSparser gps;
     private BufferedImage cursorImg = null;
     private static MapView mapView;
     
-    /* When we construct we read the cursor image to save multiple reads (it needs to be drawn
-    * each time the map is refreshed and multiple reads would be ineffcent);
-    */
+    /**
+     *  When we construct we read the cursor image to save multiple reads (it needs to be drawn
+     * each time the map is refreshed and multiple reads would be ineffcent);
+     */
     public MapView() {
         this.gps = GPSparser.getInstance();
         try {
@@ -37,6 +40,11 @@ public class MapView extends Screen {
         }
     }
 
+    /**
+     * set the controller for this view
+     * 
+     * @param mapController an instance of the MapController class
+     */
     public void setController(MapController mapController) {
         this.mapController = mapController;
     }
@@ -50,18 +58,24 @@ public class MapView extends Screen {
         
         this.mapData = mapData;
         
-        /* We check if the currently active screen is an instance of mapview and if so we need
-        * to repaint the screen
-        */
+        /* 
+         * We check if the currently active screen is an instance of mapview and if so we need
+         * to repaint the screen
+         */
         if (XTrexDisplay.getInstance().getCurrentScreen() instanceof MapView)
             this.repaint();
         
     }
     
+    /**
+     * method for drawing the map on the screen
+     * 
+     * @param graphics which is an instance of Graphics
+     */
     @Override
-    public void paint(Graphics g) {
+    public void paint(Graphics graphics) {
         
-        Graphics2D g2d = (Graphics2D) g;
+        Graphics2D graphics2d = (Graphics2D) graphics;
         
         // Converting the byte array for the map into a buffered image object
         ByteArrayInputStream bais = new ByteArrayInputStream(this.mapData);
@@ -72,27 +86,28 @@ public class MapView extends Screen {
             e.printStackTrace();
         }
         
-        /* If the image was read successfuly we rotate it to the current orientation, position
-        * it and draw the cursor
-        */
+        /* 
+         * If the image was read successfuly we rotate it to the current orientation, position
+         * it and draw the cursor
+         */
         if (image != null) {
-            /* Rotation has to be 360 - angle since the bearing is clockwise but rotation is done
-            * anti-clockwise
-            */
+            /* 
+             * Rotation has to be 360 - angle since the bearing is clockwise but rotation is done
+             * anti-clockwise
+             */
             double rotation = Math.toRadians(360 - (double) gps.TrueTrackAngle());
             double locationX = image.getWidth() / 2;
             double locationY = image.getHeight() / 2;
             AffineTransform tx = AffineTransform.getRotateInstance(rotation, locationX, locationY);
             AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
             
-            /* We draw the image with an offset (since it is bigger than it needs to be so it 
-            * can be rotated) and then draw the cursor image over it in the center of the frame
-            */
-            g2d.drawImage(op.filter(image, null), -99, -61, null);
-            g2d.drawImage(cursorImg, 156, 194, null);
-            
+            /* 
+             * We draw the image with an offset (since it is bigger than it needs to be so it 
+             * can be rotated) and then draw the cursor image over it in the center of the frame
+             */
+            graphics2d.drawImage(op.filter(image, null), -99, -61, null);
+            graphics2d.drawImage(cursorImg, 156, 194, null);   
         }
-
     }
     
     @Override
@@ -111,6 +126,11 @@ public class MapView extends Screen {
         return;
     }
 
+    /**
+     * get the instance of this MapView 
+     * 
+     * @return instance of MapVuew
+     */
     public static MapView getInstance() {
         if (mapView == null) {
             mapView = new MapView();

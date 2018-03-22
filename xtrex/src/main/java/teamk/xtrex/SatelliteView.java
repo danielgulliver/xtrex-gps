@@ -4,7 +4,10 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 public class SatelliteView extends Screen {
-    GPSparser gps =  GPSparser.getInstance();
+
+    private static final long serialVersionUID = 7593535606056467998L;
+    
+	GPSparser gps =  GPSparser.getInstance();
     double latitude = 0.0d;
     double longitude= 0.0d;
     int nGPS = 0;
@@ -67,4 +70,5 @@ public class SatelliteView extends Screen {
         g2d.drawString(satView, 50, 300);
         
     }
+    
 }

@@ -7,15 +7,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-
 /**
- * ************* SANITISE DIRECTIONS
- */
-
-
-/**
- * The model class behind turning the directions from text to speech, 
- * and playing that generated audio file.
+ * The model class behind turning the directions from text to speech
  * 
  * @author ConorSpilsbury, 2018.
  * @version Sprint 3.
@@ -27,7 +20,7 @@ public class SpeechModel {
 	private final static String FORMAT = "riff-16khz-16bit-mono-pcm";
 	private final static Integer RENEW_RATE = 10;
 	private final static Integer RENEW_PERIOD = 0;
-	private final static Integer BING_API_SLEEPTIME_MILLISECONDS = 200;
+	private final static Integer BING_API_SLEEPTIME_MILLISECONDS = 3750;
 	private static LanguageEnum language;
 	
     private static String accessToken = null;
@@ -40,15 +33,15 @@ public class SpeechModel {
 		SPANISH("Español", "es-ES","es", "Female", "(es-ES, HelenaRUS)");
 
 		private String name;
-		private String microsoftLanguageCode;
-		private String googleLanguageCode;
+		private String languageCode;
+		private String countryCode;
 		private String gender;
 		private String artist; 
 
-		private LanguageEnum(String name, String microsoftLanguageCode, String googleLanguageCode, String gender, String artist) {
+		private LanguageEnum(String name, String languageCode, String countryCode, String gender, String artist) {
 			this.name = name;
-			this.microsoftLanguageCode = microsoftLanguageCode;
-			this.googleLanguageCode = googleLanguageCode;
+			this.languageCode = languageCode;
+			this.countryCode = countryCode;
 			this.gender = gender;
 			this.artist = artist;
 		}
@@ -57,12 +50,12 @@ public class SpeechModel {
 			return name;
 		}
 
-		public String getGoogleCode() {
-			return googleLanguageCode;
+		public String getCountryCode() {
+			return countryCode;
 		}
 
-		public String getMicrosoftCode() {
-			return microsoftLanguageCode;
+		public String getLanguageCode() {
+			return languageCode;
 		}
 
 		public String getGender() {
@@ -77,6 +70,8 @@ public class SpeechModel {
     /**
      * Initialise the speech Model and set a schedule execution service to 
      * renew a new access token to the Bing Speech API once every 10 minutes.
+	 * 
+	 * Default is that speech is on and set to english.
      */
     public SpeechModel() {
 		// create a Scheduled Executer Service to renew API Key every 10 mins
@@ -109,19 +104,19 @@ public class SpeechModel {
 		if (directions == null) return;
 		// create new thread to generate speech for all the directions
 		Thread thread = new Thread(new Runnable() {
+
 			public void run() {
+
 				for (int i = 0; i < directions.length; i++) {
 					// synthesise speech for each direction
-					final byte[] speech = generateSpeech( getAccessToken(),  directions[i],  language.getMicrosoftCode()
-						, language.getGender(), language.getArtist(), FORMAT);
-
+					final byte[] speech = generateSpeech(getAccessToken(), directions[i], language.getLanguageCode(), language.getGender(), language.getArtist(), FORMAT);
 					// write the audio file of the speech to a file
 					writeData(speech, String.valueOf(i) + ".wav");
 					try {
 						// sleep thread to avoid hitting maximum rate for bing api 
 						Thread.sleep(BING_API_SLEEPTIME_MILLISECONDS); 
 					} catch (InterruptedException e) {
-						e.printStackTrace();
+						
 					} 
 				}
 			}
@@ -148,15 +143,7 @@ public class SpeechModel {
 		, { "Content-Length"           , String.valueOf( body.length ) }
 		};
 		byte[] response = HttpConnect.httpConnect(method, url, headers, body);
-		if (response != null) {
-			System.out.println("Access token ok");
-		
-				return new String(response);
-			
-		} else {
-			System.out.println("error renewing token");
-			return null;
-		}
+		return new String(response);
     }
     
     /**
@@ -192,7 +179,7 @@ public class SpeechModel {
 	 * 
 	 * @return byte[] of the generated speech
 	 */
-	static byte[] generateSpeech( String token,  String text
+	private static byte[] generateSpeech( String token,  String text
                               , String lang,   String gender
                               , String artist, String format ) {
 		final String method = "POST";
@@ -224,6 +211,15 @@ public class SpeechModel {
 	 * @param name is the name of the file to save
 	 */
 	private static void writeData(byte[] buffer, String name) {
+		if (buffer == null && !Speech.getSpeechAvailability()) {
+			Speech.playAudio(new File("audio/SpeechUnavailable.wav"));
+			Speech.setSpeechAvailability(false);
+			return;
+		} 
+		if (!Speech.getSpeechAvailability()) {
+			Speech.playAudio(new File("audio/SpeechOnline.wav"));
+			Speech.setSpeechAvailability(true);
+		}
 		try {
 			File             file = new File(name);
 			FileOutputStream fos  = new FileOutputStream(file);
@@ -232,9 +228,8 @@ public class SpeechModel {
 			dos.flush();
 			dos.close();
 		} catch (Exception ex) {
-			System.out.println(ex); 
-			System.exit(1); 
-			return;
+			Speech.playAudio(new File("audio/SpeechUnavailable.wav"));
+			Speech.setSpeechAvailability(false);
 		}
 	}
 
@@ -244,12 +239,14 @@ public class SpeechModel {
 	 * 
 	 * @return the current language of the system
 	 */
-	public String getLanguage() {
-		return language.getName();
+	public LanguageEnum getLanguage() {
+		return language;
 	}
 
     /**
      * Lazy instantiate the SpeechModel
+	 * 
+	 * @return instance of the SpeechModel
      */
     public static SpeechModel getInstance() {
         if (speechModel == null) {
@@ -263,7 +260,7 @@ public class SpeechModel {
      * 
      * @return language code of the current language.
      */
-	public String getLanguageCode() {
-		return language.getGoogleCode();
+	public String getCountryCode() {
+		return language.getCountryCode();
 	}
 }

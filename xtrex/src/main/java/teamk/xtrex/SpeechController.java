@@ -7,7 +7,7 @@ import teamk.xtrex.SpeechModel.LanguageEnum;
  * The controller class that is part of the MVC design behind the speech elements of the GPS. 
  * 
  * @author ConorSpilsbury, 2018.
- * @version Sprint 2.
+ * @version Sprint 3.
  */
 public class SpeechController {
     SpeechModel model;
@@ -34,13 +34,13 @@ public class SpeechController {
         model.setLanguage(language);
 
         // get the name of the language as a string.
-        String lang = model.getLanguage();
+        SpeechModel.LanguageEnum lang = model.getLanguage();
 
         // check that a language has been set and it's not been turned off.
         if (lang == null) return;
 
         // play the audio to say the specific language has been selected.
-        File openFile = new File(lang + "Selected.wav");
-        Speech.playAudio(openFile);
+        File file = new File("audio/" + lang.getName() + "Selected.wav");
+        Speech.playAudio(file);
     }
 }
