@@ -39,7 +39,7 @@ public class SpeechController {
         if (lang == null) return;
 
         // play the audio to say the specific language has been selected.
-        String fileName = new String("languageSelected/" + lang.getName() + "Selected.wav");
+        String fileName = new String("languageSelected/" + lang.getName() + "Selected");
         Speech.playAudio(fileName);
     }
 }

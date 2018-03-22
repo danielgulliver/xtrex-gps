@@ -111,7 +111,8 @@ public class SpeechModel {
 
 				for (int i = 0; i < directions.length; i++) {
 					// synthesise speech for each direction
-					final byte[] speech = generateSpeech(getAccessToken(), directions[i], language.getLanguageCode(), language.getGender(), language.getArtist(), FORMAT);
+					final byte[] speech = generateSpeech(getAccessToken(), directions[i], 
+						language.getLanguageCode(), language.getGender(), language.getArtist(), FORMAT);
 					// write the audio file of the speech to a file
 					writeData(speech, String.valueOf(i) + ".wav");
 					try {

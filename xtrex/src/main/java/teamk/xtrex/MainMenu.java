@@ -44,7 +44,7 @@ public class MainMenu extends Screen {
         setLayout(new GridLayout(3,2));
         WhereToButton = new MenuButton("Where To?", WhereTo.getInstance().getView(), "icons/whereTo.png", "icons/whereToSelected.png");
         TripComputerButton = new MenuButton("Trip Computer", TripComputer.getInstance().getView(), "icons/odometer.png", "icons/odometerSelected.png");
-        MapButton = new MenuButton("Map", Maps.getMapViewInstance(), "icons/map.png", "icons/mapSelected.png");
+        MapButton = new MenuButton("Map", MapView.getInstance(), "icons/map.png", "icons/mapSelected.png");
         SpeechButton = new MenuButton("Speech", Speech.getSpeechViewInstance(), "icons/speech.png", "icons/speechSelected.png");
         SatelliteButton = new MenuButton("Satellite", SatelliteView.getInstance(), "icons/satellite.png", "icons/satelliteSelected.png");
         AboutButton = new MenuButton("About", AboutView.getInstance(), "icons/about.png", "icons/aboutSelected.png");
