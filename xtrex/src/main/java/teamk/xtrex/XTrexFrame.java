@@ -74,7 +74,7 @@ public class XTrexFrame extends JLayeredPane {
         dirPane = new DirectionPane();
 
         mapOverlayPane = screenOverlay();
-        mapOverlayPane.setVisible(true);
+        mapOverlayPane.setVisible(false);
         mapOverlayPane.add(statusContainer, BorderLayout.NORTH);
         mapOverlayPane.add(dirPane, BorderLayout.SOUTH);
 
@@ -82,15 +82,15 @@ public class XTrexFrame extends JLayeredPane {
         add(mapScreenOverlayPane, JLayeredPane.PALETTE_LAYER);
 
         notificationOverlayPane = screenOverlay();
-        notificationOverlayPane.setVisible(true);
+        notificationOverlayPane.setVisible(false);
         notificationOverlayPane.add(notification, BorderLayout.NORTH);
 
         popupOverlayPane = deviceOverlay(notificationOverlayPane);
         add (popupOverlayPane, JLayeredPane.POPUP_LAYER);
 
-        notification.setText("test thing goes here");
-        dirPane.setDistance(20);
-        dirPane.setDirectionPhrase("thingywotsit");
+        notification.setText("default");
+        dirPane.setDistance(404);
+        dirPane.setDirectionPhrase("default");
 
     }
 
@@ -109,6 +109,10 @@ public class XTrexFrame extends JLayeredPane {
 
     public DirectionPane getDirectionPane() {
         return dirPane;
+    }
+
+    public StatusPane getStatusPane(){
+        return status;
     }
 
     public Screen getCurrentScreen() {
