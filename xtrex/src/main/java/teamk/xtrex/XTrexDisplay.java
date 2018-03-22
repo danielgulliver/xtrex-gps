@@ -10,7 +10,6 @@ import javax.swing.JToolBar;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-
 /**
  * The XTrexDisplay class displays a window on the screen in which the current screen is shown.
  * 
@@ -20,7 +19,6 @@ public class XTrexDisplay extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = -2837748826675931508L;
 	private static XTrexDisplay display = null;
-	private Screen currentScreen;
 	private XTrexFrame contentFrame = new XTrexFrame();
 
 	// Device buttons

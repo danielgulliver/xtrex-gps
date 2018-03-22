@@ -4,6 +4,8 @@ import java.io.File;
 import org.json.simple.*;
 import org.json.simple.parser.JSONParser;
 
+import teamk.xtrex.SpeechModel.LanguageEnum;
+
 /**
  * The model part of the map screen. Contains the data for the map and tracks state
  * 
@@ -89,9 +91,11 @@ public class MapModel {
         byte[] response = HttpConnect.httpConnect(method, url, headers, body);
 
         // If the response is null there is no internet and we need to display an error popup
-        if (response == null)
+        if (response == null) {
+            Speech.playAudio(new File("InternetOffline.wav"));
             return null;
-
+        }
+            
         return response;
         
     }
@@ -105,8 +109,6 @@ public class MapModel {
 
         // If the journey points are unitnitalised we don't need to check the location
         if (this.directionLats == null || this.directionIndex >= this.directionLats.length) {
-
-            
             return;
         }
 
@@ -120,9 +122,10 @@ public class MapModel {
 
         //If the distance to the next point is less than 10 meters its time to play the audio for the next direction
         if (GPSutil.latLongToDistance(this.directionLats[directionIndex], this.directionLongs[directionIndex], gps.Latitude(), gps.Longitude()) < 15) {
-            
-            Speech.playAudio(new File(Integer.toString(this.directionIndex).toString()+".wav"));
-            this.directionIndex++;
+            if (speech.getLanguage() != LanguageEnum.OFF) {
+                Speech.playAudio(new File(Integer.toString(this.directionIndex).toString()+".wav"));
+                this.directionIndex++;
+            }
 
         }
     
@@ -136,10 +139,14 @@ public class MapModel {
     public void getDirections(String destination) {
 
         //If the language is off then there's no need to download the directions
-        if (speech.getLanguage().equals(new String("Off")))
+        if (speech.getLanguage() == LanguageEnum.OFF) {
             return;
+        }
 
-        destination        = destination.replace(' ', '+');
+        // format the string to send to google maps
+        destination        = destination.replaceAll(" ", "+");
+
+        // get current lat and long coordinates
         String latStr      = Double.toString(gps.Latitude());
         String longStr     = Double.toString(gps.Longitude());
         
@@ -149,7 +156,7 @@ public class MapModel {
             + "?origin=" + latStr + "," + longStr
             + "&destination=" + destination
             + "&mode=walking"
-            + "&language=" + speech.getLanguageCode()
+            + "&language=" + speech.getCountryCode()
             + "&key=" + MapModel.DIRECTIONS_API_KEY );
         
         final byte[] body = {};
@@ -158,8 +165,10 @@ public class MapModel {
         byte[] response = HttpConnect.httpConnect(method, url, headers, body);
 
         //I the response is null we have no internet so need to display an error popup
-        if (response == null)
+        if (response == null) {
+            Speech.playAudio(new File("InternetOffline.wav"));
             return;
+        }
 
         String s = new String(response);
 
@@ -170,15 +179,16 @@ public class MapModel {
         try {
             obj = (JSONObject) parser.parse(s);
         } catch (Exception e) {
-            e.printStackTrace();
             return;
         }
 
         String status = (String) obj.get("status");
 
         // This means the destination entered doesn't exist so we need to create an error popup
-        if (status.equals(new String("ZERO_RESULTS")) || status.equals(new String("NOT_FOUND")))
+        if (status.equals(new String("ZERO_RESULTS")) || status.equals(new String("NOT_FOUND"))) {
+            Speech.playAudio(new File("InvalidDestination.wav"));
             return;
+        }
 
         // We parse the JSON
         routesArray =  (JSONArray) obj.get("routes");
@@ -204,6 +214,12 @@ public class MapModel {
 
         }
         
+        for (int i = 0; i < directions.length; i++) {
+            directions[i] = TextProcessor.removeHTMLTags(directions[i]);
+            directions[i] = TextProcessor.expandAbbreviations(directions[i]);
+            directions[i] = TextProcessor.replaceCodes(directions[i]);
+        }
+
         //Getting the audio for the array of directions
         Speech.parseDirections(directions);
     }

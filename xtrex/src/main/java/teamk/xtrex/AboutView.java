@@ -20,7 +20,9 @@ import javax.swing.*;
 
 public class AboutView extends Screen{
 
-    private JLabel logoImg = new JLabel();
+    private static final long serialVersionUID = -6580960841880839449L;
+    
+	private JLabel logoImg = new JLabel();
     private GridBagConstraints constraints = new GridBagConstraints();
     private PrefabButton version = new PrefabButton("Xtrex Sprint 2");
     private PrefabButton compName = new PrefabButton("Team K");

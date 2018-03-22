@@ -19,7 +19,9 @@ import javax.imageio.ImageIO;
  */
 public class MapView extends Screen {
 
-    private byte mapData[] = null;		
+    private static final long serialVersionUID = 3769993700857781403L;
+    
+	private byte mapData[] = null;		
     private MapController mapController;
     private GPSparser gps;
     private BufferedImage cursorImg = null;

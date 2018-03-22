@@ -10,7 +10,9 @@ import javax.swing.ImageIcon;
 
 public class IconButton extends PrefabButton{
 
-    private ImageIcon icon;
+    private static final long serialVersionUID = 1468506541761036708L;
+    
+	private ImageIcon icon;
     private ImageIcon selectedIcon;
     public enum iconPosition{
 

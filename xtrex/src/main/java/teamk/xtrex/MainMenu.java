@@ -1,19 +1,22 @@
 package teamk.xtrex;
 
 import java.awt.GridLayout;
-import java.io.File;
 import java.util.Arrays;
 import java.util.ArrayList;
 
 public class MainMenu extends Screen {
 
-    private static MainMenu mainMenu = null;
+    private static final long serialVersionUID = -562687649523447264L;
+    
+	private static MainMenu mainMenu = null;
     private final int ICON_SCALE = 50;
     
     XTrexDisplay ScreenController = XTrexDisplay.getInstance();
 
     class MenuButton extends IconButton {
-        private Screen targetScreen;
+        private static final long serialVersionUID = -4866035506036719922L;
+        
+		private Screen targetScreen;
 
         public MenuButton(String displayString, Screen inputScreen, String iconName, String selectedIconName){
             super(displayString, ICON_SCALE, IconButton.iconPosition.ICON_TOP, iconName, selectedIconName);

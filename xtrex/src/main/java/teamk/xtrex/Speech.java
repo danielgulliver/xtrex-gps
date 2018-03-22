@@ -11,11 +11,11 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 /**
  * Used as the API for all speech related components. 
- * Instantiates all the elements of the Speech MVC and provide saccess
+ * Instantiates all the elements of the Speech MVC and provide access
  * to the SpeechView and SpeechModel for the system front end.
  * 
  * @author Conor Spilsbury, 2018.
- * @version Sprint 2.
+ * @version Sprint 3.
  */
 public class Speech {
     private static final int MICROSECONDS_IN_MILISECOND = 1000;
@@ -75,7 +75,7 @@ public class Speech {
     /**
      * get the language of the device
      */
-    public String getLanguage() {
+    public SpeechModel.LanguageEnum getLanguage() {
         return model.getLanguage();
     }
 
@@ -84,8 +84,8 @@ public class Speech {
      * 
      * @return language code of the current language.
      */
-    public String getLanguageCode() {
-        return model.getLanguageCode();
+    public String getCountryCode() {
+        return model.getCountryCode();
     }
 
     /**
@@ -105,20 +105,25 @@ public class Speech {
 						clip.start();
 						Thread.sleep(clip.getMicrosecondLength()/MICROSECONDS_IN_MILISECOND);
 					} catch (LineUnavailableException e1) {
-						
+						Speech.playAudio(new File("SpeechUnavailable.wav"));
 					} catch (InterruptedException e) {
-                        System.out.println("Interrupted");
+                        Speech.playAudio(new File("SpeechUnavailable.wav"));
 					}
 					catch (IOException e) {
-						System.out.println("Wrong file name");
+                        e.printStackTrace();
+                        Speech.playAudio(new File("SpeechUnavailable.wav"));
+						System.out.println("Wrong file name 2");
 					}
 				}
 			});
 			thread.start();
 		} catch (UnsupportedAudioFileException e) {
-			System.out.println("Unsupported audio file");
+            System.out.println("Unsupported audio file");
+            Speech.playAudio(new File("SpeechUnavailable.wav"));
 		} catch (IOException e) {
-			System.out.println("Wrong file name");
+            Speech.playAudio(new File("SpeechUnavailable.wav"));
+            e.printStackTrace();
+			System.out.println("Wrong file name 1");
 		}
     }
 }
