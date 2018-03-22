@@ -28,7 +28,7 @@ public class XTrexFrame extends JLayeredPane {
         constraints.insets = new Insets(40,0,0,3); // Offsets to position the display correctly in the xtrex frame.
 
         try{
-            BufferedImage img = ImageIO.read(new File("bg.png"));
+            BufferedImage img = ImageIO.read(new File("img/bg.png"));
             label.setIcon(new ImageIcon(new ImageIcon(img).getImage().getScaledInstance(460, 886, Image.SCALE_SMOOTH)));
             label.setSize(Style.DEVICE_SIZE);
             add(label, JLayeredPane.DEFAULT_LAYER);
