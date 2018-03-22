@@ -205,13 +205,14 @@ public class SpeechModel {
 	/**
 	 * Write data to file.
 	 * 
-	 * @author David Wakeling, 2018.
+	 * @author David Wakeling
+	 * @author Conor Spilsbury
 	 * 
 	 * @param buffer is the byte array of the generated speech 
 	 * @param name is the name of the file to save
 	 */
 	private static void writeData(byte[] buffer, String name) {
-		if (buffer == null && !Speech.getSpeechAvailability()) {
+		if (buffer == null && !Speech.getSpeechAvailability() && MapModel.getInternetAvailability()) {
 			Speech.playAudio(new File("audio/SpeechUnavailable.wav"));
 			Speech.setSpeechAvailability(false);
 			return;
