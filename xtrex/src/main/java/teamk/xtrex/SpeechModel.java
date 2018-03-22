@@ -100,7 +100,8 @@ public class SpeechModel {
 	 * For each direction in the string array generate the .wav file for it. 
 	 * The wav file is named after the index of the corresponding direction in the array.
 	 * 
-	 * @param directions is an array of strings containing all the directions that need to have speech generated for.
+	 * @param directions is an array of strings containing all the directions that need 
+	 * to have speech generated for.
 	 */
 	public void parseDirections(final String[] directions) {
 		if (directions == null) return;
