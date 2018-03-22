@@ -32,8 +32,8 @@ public class GPSparser implements Runnable {
     private int aGPS = 0;
     private int nGPS = 0;
     private float gPStime = 0.0f;
-    private Double latitude = null;
-    private Double longitude = null;
+    private double latitude = 200.0D;
+    private double longitude = 200.0D;
     private float altitude = 0.0f;
     private float velocity = 0.0f;
     private float trueTrackAngle = 0.0f;
