@@ -137,7 +137,7 @@ public class Speech {
                     public void run() { 
                         Clip clip;
                         try {
-                            clip = AudioSystem.getClip();
+                            clip = AudioSystem.getClip(null);
                             clip.open(audioIn);
                             clip.start();
                             Thread.sleep(clip.getMicrosecondLength()/MICROSECONDS_IN_MILISECOND);
