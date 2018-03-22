@@ -27,15 +27,14 @@ public class DirectionPane extends JPanel{
             setVerticalAlignment(CENTER);
         }
 
-        @Override
-        public void setText(String message){
+        public void setPhrase(String message){
             if (message.length() > 75){
                 setVerticalAlignment(TOP);
             } else {
                 setVerticalAlignment(CENTER);
             }
-            message = "<html>" + message + "</html>";
-            super.setText(message);
+            message = ("<html>" + message + "</html>");
+            setText(message);
             
         }
 
@@ -74,6 +73,8 @@ public class DirectionPane extends JPanel{
         //c.gridwidth = GridBagConstraints.REMAINDER;
         //container.add(directionPhrase,c);
         
+        directionPhrase.resize();
+
         container.add(directionPhrase, BorderLayout.WEST);
         container.add(distancePhrase, BorderLayout.EAST);
 
@@ -81,11 +82,11 @@ public class DirectionPane extends JPanel{
     }
 
     public void setDirectionPhrase(String direction){
-        directionPhrase.setText(direction);
+        directionPhrase.setPhrase(direction);
     }
 
     public void setDistance(int distance){
-        distancePhrase.setText(Integer.toString(distance)+"m");
+        distancePhrase.setPhrase(Integer.toString(distance)+"m");
         directionPhrase.resize();
     }
 
