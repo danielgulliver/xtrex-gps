@@ -58,7 +58,8 @@ public class GPSparser implements Runnable {
 	 */
     public void Start() {
         logs.Logging(true, "log.txt");
-        //logs.Logger(gpsUtil.getOS());
+        System.out.println(xtrex.os + "  GPS STARTED");
+        logs.Logger(xtrex.os);
         if (gpsEnabled == true) {
             if (xtrex.os.startsWith("Windows")) {
                 System.err.close();
@@ -78,6 +79,7 @@ public class GPSparser implements Runnable {
         } 
         else {
             System.out.println("Demo Mode Active - spoofing GPS reading");
+            logs.Logger("Demo Mode Active - spoofing GPS reading");
         }
         logs.Logging(false, "");
     }
@@ -187,12 +189,12 @@ public class GPSparser implements Runnable {
             gpsLost = true;
             gpsAquired = false;
             status.satelliteAvailable(false);
-            Speech.playAudio(new File("audio/GPSConnectionLost.wav"));
+            Speech.playAudioNotification(Speech.NotificationsEnum.GPSConnectionLost);
         }
         if (gpsLost == false && gpsAquired == false){
             gpsAquired = true;
             status.satelliteAvailable(true);
-            Speech.playAudio(new File("audio/GPSAcquired.wav"));
+            Speech.playAudioNotification(Speech.NotificationsEnum.GPSAcquired);
         }
         
 
@@ -216,7 +218,7 @@ public class GPSparser implements Runnable {
             } else { 
                 gpsLost = false;
                 gPStime = Float.parseFloat(tokens[0]);
-                // System.out.println("-----   GPS GGA ACQUIRED " + aGPS + "   -----");
+                System.out.println("-----   GPS GGA ACQUIRED " + aGPS + "   -----");
                 logs.Logger("GPS GGA LOCATION: ");
                 logs.Logger( "    GPS aquired at: " + tokens[0] );
                 if (tokens[1].length() > 0 && tokens[3].length() > 0){            
@@ -259,7 +261,7 @@ public class GPSparser implements Runnable {
             if ( tokenV.length >= 8 && tokenV[1].contains("A") ){
                 gpsLost = false;
                 gPStime = Float.parseFloat(tokenV[0]);
-                // System.out.println("-----   GPS RMC ACQUIRED " + aGPS + "   -----");
+                System.out.println("-----   GPS RMC ACQUIRED " + aGPS + "   -----");
                 logs.Logger("GPS RMC LOCATION: ");
                 logs.Logger( "    GPS aquired at: " + tokenV[0] );
                             

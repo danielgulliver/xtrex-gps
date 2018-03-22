@@ -8,8 +8,9 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-
 import teamk.xtrex.SpeechModel.LanguageEnum;
+
+
 
 /**
  * Used as the API for all speech related components. 
@@ -26,6 +27,28 @@ public class Speech {
     private static SpeechController controller;
     private static SpeechView view;
     private static boolean SpeechAvailability = true;
+
+    public enum NotificationsEnum {
+        SpeechUnavailable("SpeechUnavailable"),
+        SpeechOnline("SpeechOnline"),
+        Recalculating("Recalculating"),
+        InvalidDestination("InvalidDestination"),
+        InternetOffline("InternetOffline"),
+        InternetEstablished("InternetEstablished"),
+        GPSConnectionLost("GPSConnectionLost"),
+        GPSAcquired("GPSAcquired"),
+        DestinationReached("DestinationReached");
+
+        private String name;
+
+        private NotificationsEnum(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
+    }
 
     /**
      * Instantiate the Speech class which in turn instantiates each part of the 
@@ -105,7 +128,8 @@ public class Speech {
 	 * 
 	 * @param File is the file name of the audio file to play
 	 */
-	public static void playAudio(File file) {
+	public static void playAudio(String fileName) {
+        File file = new File("audio/" + fileName + ".wav");
         if (model.getLanguage() != LanguageEnum.OFF) {
             try {
                 final AudioInputStream audioIn = AudioSystem.getAudioInputStream(file);
@@ -113,19 +137,16 @@ public class Speech {
                     public void run() { 
                         Clip clip;
                         try {
-                            clip = AudioSystem.getClip();
+                            clip = AudioSystem.getClip(null);
                             clip.open(audioIn);
                             clip.start();
                             Thread.sleep(clip.getMicrosecondLength()/MICROSECONDS_IN_MILISECOND);
                         } catch (LineUnavailableException e) {
-                            Speech.playAudio(new File("audio/SpeechUnavailable.wav"));
                             Speech.setSpeechAvailability(false);
                         } catch (InterruptedException e) {
-                            Speech.playAudio(new File("audio/SpeechUnavailable.wav"));
                             Speech.setSpeechAvailability(false);
                         }
                         catch (IOException e) {
-                            Speech.playAudio(new File("audio/SpeechUnavailable.wav"));
                             Speech.setSpeechAvailability(false);
                         }
                     }
@@ -133,13 +154,20 @@ public class Speech {
                 thread.start();
             } catch (UnsupportedAudioFileException e) {
                 System.out.println("Unsupported audio file");
-                Speech.playAudio(new File("audio/SpeechUnavailable.wav"));
                 Speech.setSpeechAvailability(false);
             } catch (IOException e) {
-                Speech.playAudio(new File("audio/SpeechUnavailable.wav"));
                 Speech.setSpeechAvailability(false);
             }
         }
+    }
+
+    /**
+     * play audio notifications
+     * 
+     * @param NotificationsEnum notification to be played
+     */
+    public static void playAudioNotification(NotificationsEnum notification) {
+        playAudio(notification.getName() + model.getLanguage().getName());
     }
 
     /**

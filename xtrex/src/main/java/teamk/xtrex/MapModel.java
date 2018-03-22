@@ -4,6 +4,7 @@ import java.io.File;
 import org.json.simple.*;
 import org.json.simple.parser.JSONParser;
 
+import teamk.xtrex.Speech.NotificationsEnum;
 import teamk.xtrex.SpeechModel.LanguageEnum;
 
 /**
@@ -81,16 +82,31 @@ public class MapModel {
             this.zoom = zoom;
     }
 
+    public void resetDirections() {
+        this.dirPane.setVisible(false);
+        this.directionLats = null;
+        this.directionLongs = null;
+        this.directions = null;
+        this.directionIndex = 0;
+    }
+
+    public void reset() {
+        this.resetDirections();
+        this.zoom = 18;
+        MapModel.internetAvailable = true;
+    }
+
     public void setInternetAvailability(boolean available) {
 
-        if (available != this.internetAvailable) {
+        if (available != MapModel.internetAvailable) {
 
-            this.internetAvailable = available;
+            MapModel.internetAvailable = available;
 
-            if (this.internetAvailable)
-                Speech.playAudio(new File("audio/InternetEstablished.wav"));
-            else
-                Speech.playAudio(new File("audio/InternetOffline.wav"));
+            if (MapModel.internetAvailable)
+                Speech.playAudioNotification(NotificationsEnum.InternetEstablished);
+            else 
+                Speech.playAudioNotification(NotificationsEnum.InternetOffline);
+            
         }
     }
 
@@ -149,26 +165,24 @@ public class MapModel {
         //If we are moving away from the next point in the journey we are lost and need to recalculate the journey
         if (!gpsUtil.approaching(directionLats[directionIndex], directionLongs[directionIndex])) {
             this.getDirections(whereTo.getDestination());
-            Speech.playAudio(new File("audio/Recalculating.wav"));
+            Speech.playAudioNotification(NotificationsEnum.Recalculating);
             return;
         } 
+
 
         int offsetDistance = GPSutil.latLongToDistance(this.directionLats[directionIndex], this.directionLongs[directionIndex], gps.Latitude(), gps.Longitude()) - 25;
         dirPane.setDistance(offsetDistance);
 
-        //If the distance to the next point is less than 10 meters its time to play the audio for the next direction
+        /* If the distance to the next point is less than 25 meters its time to play the audio for the next direction#
+           (Since the distance has already been offset by 25 we just check to see if it is 0 or less) */
         if (offsetDistance < 1) {
             if (speech.getLanguage() != LanguageEnum.OFF) {
-                Speech.playAudio(new File(Integer.toString(this.directionIndex).toString()+".wav"));
+                Speech.playAudio(Integer.toString(this.directionIndex).toString());
                 this.directionIndex++;
 
                 // If the index is the size of the array we've reached the end of the journey and need to reset everything
                 if (this.directionIndex == this.directionLats.length) {
-                    dirPane.setVisible(false);
-                    this.directionLats = null;
-                    this.directionLongs = null;
-                    this.directions = null;
-                    this.directionIndex = 0;
+                    this.resetDirections();
                 } else
                     dirPane.setDirectionPhrase(this.directions[directionIndex]);
                     
@@ -257,7 +271,7 @@ public class MapModel {
             obj = (JSONObject) parser.parse(json);
         } catch (Exception e) {
             // speech offline
-            Speech.playAudio(new File("audio/SpeechUnavailable.wav"));
+            Speech.playAudioNotification(NotificationsEnum.SpeechUnavailable);
             Speech.setSpeechAvailability(false);
             return null;
         }
@@ -276,7 +290,7 @@ public class MapModel {
                     }, 
                     5000 
             );
-            Speech.playAudio(new File("audio/InvalidDestination.wav"));
+            Speech.playAudioNotification(NotificationsEnum.InvalidDestination);
             return null;
         }
 

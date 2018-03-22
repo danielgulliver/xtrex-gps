@@ -79,4 +79,8 @@ package teamk.xtrex;
         this.running = false;
     }
 
+    public static void startThread() {
+        new Thread(UpdateThread.getInstance()).start();
+    }
+
  }

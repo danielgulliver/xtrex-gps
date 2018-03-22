@@ -10,8 +10,9 @@ public class xtrex {
 
 
     public static void main( String[] argv ) {
+       
         if (argv.length > 0){
-            if (argv[0] == "false"){
+            if (argv[0].contains("false")){
                 gpsEnabled = false;
             } else {
                 gpsEnabled = true;
@@ -37,7 +38,7 @@ public class xtrex {
         xtrex.gpsThread = new Thread(GPS, "GPS thread");
 
         // Start threads.
-        new Thread(UpdateThread.getInstance()).start();
+        UpdateThread.startThread();
         xtrex.gpsThread.run();
     }
 

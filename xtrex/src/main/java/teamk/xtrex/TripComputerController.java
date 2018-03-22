@@ -41,4 +41,11 @@ public class TripComputerController {
         view.setTime(model.getMovingTime());
     }
 
+    public void reset() {
+        model.resetTripComputer();
+        updateSpeed();
+        updateDistance();
+        updateTime();
+    }
+
 }
