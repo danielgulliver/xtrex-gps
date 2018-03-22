@@ -21,7 +21,7 @@ public class MapModel {
     private final static String STATIC_API_KEY = "AIzaSyDv8abU01v40-krRiApS1w-zr5Kkcxb0zI";
     private final static String DIRECTIONS_API_KEY = "AIzaSyB_Xb021JnC9W3SwpD8tqD2ZBcAdxAuP9M";
     private final static String IMG_SIZE = "540x540";
-    private final static int AUDIO_TOLERANCE = 10;
+    private final static int AUDIO_TOLERANCE = 25;
     
     private GPSparser gps;
     private Speech speech;
@@ -135,13 +135,13 @@ public class MapModel {
      */
     public byte[] getMapData() {
 
-        // If we have no lat and long data then we return null
-        if (gps.Latitude() == null && gps.Longitude() == null) {
+        // If the lat and long are 200 (out of the range of the world) we know we have no gps data
+        if (gps.Latitude() == 200.0d && gps.Longitude() == 200.0d) {
             return null;
         }
             
-        String latStr  = gps.Latitude().toString();
-        String longStr = gps.Longitude().toString();
+        String latStr  = Double.toString(gps.Latitude());
+        String longStr = Double.toString(gps.Longitude());
              
         
         final String method = "GET";
@@ -194,7 +194,7 @@ public class MapModel {
         int offsetDistance = GPSutil.latLongToDistance(this.directionLats[directionIndex], this.directionLongs[directionIndex], gps.Latitude(), gps.Longitude()) - MapModel.AUDIO_TOLERANCE;
         
         //We display the distance to the next point
-        dirPane.setDistance(offsetDistance + (MapModel.AUDIO_TOLERANCE/2));
+        dirPane.setDistance(offsetDistance);
 
         /* If the distance to the next point is less than 25 meters its time to play the audio for the next direction
            (Since the distance has already been offset by 25 we just check to see if it is 0 or less) */
