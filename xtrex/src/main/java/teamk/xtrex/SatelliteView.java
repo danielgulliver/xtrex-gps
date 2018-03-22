@@ -79,9 +79,9 @@ public class SatelliteView extends Screen {
             g2d.drawString((Double.toString(latitude) + " S"), 50, 125 + textSize + textMargin); 
         } 
         if ( longitude > 0 ) {     
-            g2d.drawString((Double.toString(longitude)+ " E"), 50, 125 + textSize + textMargin);   
+            g2d.drawString((Double.toString(longitude)+ " E"), 50, 200 + textSize + textMargin);   
         } else { 
-            g2d.drawString((Double.toString(longitude) + " W"), 50, 125 + textSize + textMargin); 
+            g2d.drawString((Double.toString(longitude) + " W"), 50, 200 + textSize + textMargin); 
         }                 
         String satView = "Satellites in View: " + Integer.toString(nGPS);        
         g2d.drawString(satView, 50, 300);

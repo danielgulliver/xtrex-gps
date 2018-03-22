@@ -1,6 +1,7 @@
 package teamk.xtrex;
 
 import java.time.LocalTime;
+import java.time.Instant;
 import java.io.File;
 import java.lang.Math;
 
@@ -20,19 +21,19 @@ public class GPSparser implements Runnable {
     final String GSV_PRE = "$GPGSV,";
     final float CONVERT_RATE = 1.852f; // Convertion factor for Knots to Km/h
     private LocalTime localTime;
-    private LocalTime lastGPSTime = LocalTime.now();;
+    private long lastGPSTime = Instant.now().toEpochMilli();
     private static Boolean gpsEnabled = false;
     private GPSspoofer spoof = GPSspoofer.getInstance();
     private StatusPane status;
     static LogWriter logs = new LogWriter();
     private Boolean gpsLost = true;
     private Boolean gpsAquired = false;
-    private int gpsTimeOut = 5;
+    private int gpsTimeOut = 5000;
     private int aGPS = 0;
     private int nGPS = 0;
     private float gPStime = 0.0f;
-    private double latitude = 50.737730d;
-    private double longitude = -3.532626d;
+    private Double latitude = null;
+    private Double longitude = null;
     private float altitude = 0.0f;
     private float velocity = 0.0f;
     private float trueTrackAngle = 0.0f;
@@ -184,10 +185,10 @@ public class GPSparser implements Runnable {
         String[] tokenSat;
         int nGSV;
         localTime = LocalTime.now();
-        float lTime = Float.parseFloat(localTime.toString().replaceAll("[:]", ""));
-        float lGPS = Float.parseFloat(lastGPSTime.toString().replaceAll("[:]", ""));
+        
+        long lTime = Instant.now().toEpochMilli();
 
-		if (lTime - lGPS > gpsTimeOut && gpsLost == false){
+		if (lTime - lastGPSTime > gpsTimeOut && gpsLost == false && gpsAquired == true){
             gpsLost = true;
             gpsAquired = false;
             status.satelliteAvailable(false);
@@ -291,7 +292,7 @@ public class GPSparser implements Runnable {
                 }
 
                 synchronized(UpdateThread.getInstance()){
-                    lastGPSTime = LocalTime.now();
+                    lastGPSTime = Instant.now().toEpochMilli();
                     UpdateThread.getInstance().notify(); // Notifys the update thread new Data is availiable 
                 }
             }
