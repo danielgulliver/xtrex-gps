@@ -75,8 +75,6 @@ public class StatusPane extends JPanel{
         add(speech);
         add(maps);
 
-        speech.online(false);
-
     }
 
     public void satelliteAvailable(boolean status){
