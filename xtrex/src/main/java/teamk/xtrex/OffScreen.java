@@ -8,7 +8,7 @@ public class OffScreen extends Screen{
     public void onMenuButtonPressed(){}
     @Override
     public void onPowerButtonPressed(){
-        new Thread(UpdateThread.getInstance()).start();
+        UpdateThread.startThread();
         XTrexDisplay.getInstance().setScreen(MainMenu.getInstance());
     }
 

@@ -37,7 +37,7 @@ public class xtrex {
         xtrex.gpsThread = new Thread(GPS, "GPS thread");
 
         // Start threads.
-        new Thread(UpdateThread.getInstance()).start();
+        UpdateThread.startThread();
         xtrex.gpsThread.run();
     }
 

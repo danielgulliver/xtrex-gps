@@ -92,16 +92,16 @@ public class MapModel {
     public void reset() {
         this.resetDirections();
         this.zoom = 18;
-        this.internetAvailable = true;
+        MapModel.internetAvailable = true;
     }
 
     public void setInternetAvailability(boolean available) {
 
-        if (available != this.internetAvailable) {
+        if (available != MapModel.internetAvailable) {
 
-            this.internetAvailable = available;
+            MapModel.internetAvailable = available;
 
-            if (this.internetAvailable)
+            if (MapModel.internetAvailable)
                 Speech.playAudio(new File("audio/InternetEstablished.wav"));
             else
                 Speech.playAudio(new File("audio/InternetOffline.wav"));
@@ -171,7 +171,8 @@ public class MapModel {
         int offsetDistance = GPSutil.latLongToDistance(this.directionLats[directionIndex], this.directionLongs[directionIndex], gps.Latitude(), gps.Longitude()) - 25;
         dirPane.setDistance(offsetDistance);
 
-        //If the distance to the next point is less than 10 meters its time to play the audio for the next direction
+        /* If the distance to the next point is less than 25 meters its time to play the audio for the next direction#
+           (Since the distance has already been offset by 25 we just check to see if it is 0 or less) */
         if (offsetDistance < 1) {
             if (speech.getLanguage() != LanguageEnum.OFF) {
                 Speech.playAudio(new File(Integer.toString(this.directionIndex).toString()+".wav"));
