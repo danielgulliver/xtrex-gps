@@ -266,4 +266,11 @@ public class SpeechModel {
 	public String getCountryCode() {
 		return language.getCountryCode();
 	}
+
+	/**
+	 * Reset local variables
+	 */
+	public void reset() {
+		language = LanguageEnum.ENGLISH;
+	}
 }

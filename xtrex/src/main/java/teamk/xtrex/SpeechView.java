@@ -109,4 +109,11 @@ public class SpeechView extends Screen {
     public void onSelectButtonPressed() {
         Selector.click();
     }
+
+    /**
+     * reset the selector position to its default position
+     */
+    public void reset() {
+        Selector.reset();
+    }
 }
