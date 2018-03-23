@@ -7,14 +7,23 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 
+/**
+ * Custom Jpanel used as a notification popup. Message is configurable.
+ * 
+ * @author Laurence Jones
+ */
 public class NotificationPopup extends JPanel{
 
-    private JLabel notificationContent;
-    private String message;
-    private final int px = Style.SCREEN_SIZE.width - 200;
+    private static final long serialVersionUID = -7356540919824947036L;
+	private JLabel notificationContent;
 
+
+    /**
+     * Constructor for NotificationPopup, configures a panel for use in the device UI.
+     * 
+     * @param inputMessage String use to set the initial message for the popup.
+     */
     NotificationPopup(String inputMessage){
         notificationContent = new JLabel();
         notificationContent.setText(inputMessage);
@@ -32,6 +41,11 @@ public class NotificationPopup extends JPanel{
         add(notificationContent, BorderLayout.CENTER);
     }
 
+    /**
+     * Sets the text of the popup.
+     * 
+     * @param inputMessage String taken in to use for the popup message.
+     */
     public void setText(String inputMessage){
         notificationContent.setText(inputMessage);
     }

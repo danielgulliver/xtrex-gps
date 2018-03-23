@@ -4,6 +4,11 @@ import java.awt.GridLayout;
 import java.util.Arrays;
 import java.util.ArrayList;
 
+/**
+ * Main menu screen, facilitates navigation between screens inside the device.
+ * 
+ * @author Laurence Jones
+ */
 public class MainMenu extends Screen {
 
     private static final long serialVersionUID = -562687649523447264L;
@@ -13,16 +18,30 @@ public class MainMenu extends Screen {
     
     XTrexDisplay ScreenController = XTrexDisplay.getInstance();
 
+    /**
+     * Custom IconButton type, implements funcitonality to switch screens when "clicked".
+     */
     class MenuButton extends IconButton {
         private static final long serialVersionUID = -4866035506036719922L;
         
 		private Screen targetScreen;
 
+        /**
+         * Constructor, takes in a screen object which it will then switch the screen to when "clicked".
+         * 
+         * @param displayString String the button will display.
+         * @param inputScreen the screen object used for switching.
+         * @param iconName String of the icon filename.
+         * @param selectedIconName String of the "selected" icon filename.
+         */
         public MenuButton(String displayString, Screen inputScreen, String iconName, String selectedIconName){
             super(displayString, ICON_SCALE, IconButton.iconPosition.ICON_TOP, iconName, selectedIconName);
             targetScreen = inputScreen;
         }
 
+        /**
+         * Overrides the action() method in PrefabButton to enable the screen switching.
+         */
         @Override
         public void action() {
             super.action();
@@ -40,6 +59,9 @@ public class MainMenu extends Screen {
 
     private SelectionController Selector;
 
+    /**
+     * Constructor for the Main Menu. Configures the menu buttons into the correct layout for the screen.
+     */
     private MainMenu(){
         setLayout(new GridLayout(3,2));
         WhereToButton = new MenuButton("Where To?", WhereTo.getInstance().getView(), "icons/whereTo.png", "icons/whereToSelected.png");
@@ -70,6 +92,12 @@ public class MainMenu extends Screen {
         this.add(AboutButton);
     }
 
+    /**
+     * Returns MainMenu instance for lazy instantiation.
+     * Instantiates MainMenu instance if it is not already set.
+     * 
+     * @return mainMenu object reference.
+     */
     public static MainMenu getInstance() {
         if (mainMenu == null) {
             mainMenu = new MainMenu();
@@ -77,6 +105,9 @@ public class MainMenu extends Screen {
         return mainMenu;
     }
     
+    /**
+     * Functionality methods to specify the behaviour of the on-device buttons.
+     */
     public void onMinusButtonPressed() {
         Selector.back();
     }
@@ -89,6 +120,9 @@ public class MainMenu extends Screen {
         Selector.click();
     }
 
+    /**
+     * Reset method, reverts all stored information in the MainMenu to defaults.
+     */
     public void reset() {
         Selector.reset();
     }

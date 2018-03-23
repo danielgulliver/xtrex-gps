@@ -4,13 +4,19 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 
+
+/**
+ * Style formatting, created to provide convenient reference to standardised colour
+ * schemes across the device.
+ * 
+ * @author Laurence Jones
+ */
 public class Style {
 
     public static boolean undecorated = true;
 
     public static final int FONT_SIZE = 20;
     public static final Font uiFont = new Font("Arial", Font.PLAIN, FONT_SIZE);
-    //public static final Dimension DEVICE_SIZE = new Dimension(460,886);
     public static final Dimension DEVICE_SIZE = new Dimension(491,886);
     public static final int SCREEN_WIDTH = 342;
     public static final Dimension SCREEN_SIZE = new Dimension(SCREEN_WIDTH, 418);

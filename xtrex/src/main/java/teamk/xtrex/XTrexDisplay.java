@@ -13,6 +13,7 @@ import javax.swing.UnsupportedLookAndFeelException;
  * The XTrexDisplay class displays a window on the screen in which the current screen is shown.
  * 
  * @author Daniel Gulliver
+ * @author Laurence Jones
  */
 public class XTrexDisplay extends JFrame {
 

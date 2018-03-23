@@ -7,17 +7,16 @@ import java.awt.event.ActionListener;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.MappedByteBuffer;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
 /**
+ * The main wrapper for the device, creates all content layers for displaying the screen, notifications and direction overlays.
+ * 
  * @author Laurence Jones
  * @version Sprint 3.0
  */
-
-
 public class XTrexFrame extends JLayeredPane implements ActionListener {
 
     private static final long serialVersionUID = 913883001958811801L;
@@ -25,7 +24,6 @@ public class XTrexFrame extends JLayeredPane implements ActionListener {
 	private Screen currentScreen;
     private JLabel label = new JLabel();
     private JPanel buttonOverlayPane;
-    private JPanel paletteOverlayPane;
     private JPanel mapScreenOverlayPane;
     private JPanel popupOverlayPane;
     private JPanel notificationOverlayPane;
@@ -36,10 +34,16 @@ public class XTrexFrame extends JLayeredPane implements ActionListener {
     private JPanel statusContainer;
     private final int buttonSize = 80;
 
-    private final Dimension powerBtnPos = new Dimension(0,0);
 
+    /**
+     * Custom transparent buttons to position over the "virtual" xtrex background.
+     * 
+     * @author Laurence Jones
+     */
     private class SystemButton extends JButton{
-        public SystemButton(){
+        private static final long serialVersionUID = -5694339216324835648L;
+
+		public SystemButton(){
             setPreferredSize(new Dimension(buttonSize, buttonSize));
             setOpaque(false);
             setContentAreaFilled(false);
@@ -57,7 +61,12 @@ public class XTrexFrame extends JLayeredPane implements ActionListener {
 
     private boolean directionsEnabled = true;
 
-
+    /**
+     * Simple configuration function, used to create and configure a JPanel to serve as a positioning container,
+     * the size of the entire device.
+     * 
+     * @return configured JPanel. 
+     */
     private JPanel deviceOverlay(JPanel screenPositioner){
         JPanel devicePositioner;
 
@@ -69,6 +78,12 @@ public class XTrexFrame extends JLayeredPane implements ActionListener {
         return devicePositioner;
     }
 
+    /**
+     * Simple configuration function, used to create and configure a JPanel to serve as a positioning container,
+     * the size of the on-device screen.
+     * 
+     * @return configured JPanel. 
+     */
     private JPanel screenOverlay(){
         JPanel screenPositioner = new JPanel(new BorderLayout());
         screenPositioner.setPreferredSize(Style.SCREEN_SIZE);
@@ -77,6 +92,9 @@ public class XTrexFrame extends JLayeredPane implements ActionListener {
         return screenPositioner;
     }
 
+    /**
+     * Constructor, contains all initialisation and configuration of panels and UI elements.
+     */
     public XTrexFrame() {
         this.setPreferredSize(Style.DEVICE_SIZE);
         constraints.insets = new Insets(40, 0, 0, 3); // Offsets to position the display correctly in the xtrex frame.
@@ -105,6 +123,8 @@ public class XTrexFrame extends JLayeredPane implements ActionListener {
         buttonOverlayPane.setLayout(null);
         buttonOverlayPane.setOpaque(false);
 
+        //Large amounts of configuration for the five on-display buttons.
+
         powerBtn = new SystemButton();
         menuBtn = new SystemButton();
         minusBtn = new SystemButton();
@@ -131,6 +151,9 @@ public class XTrexFrame extends JLayeredPane implements ActionListener {
 
         add(buttonOverlayPane, JLayeredPane.MODAL_LAYER);
 
+        //Configuring the containers and positioning panels for the screen overlays,
+        //such as the notification popups, direction panel and status icons.
+
         statusContainer = new JPanel(new BorderLayout());
         statusContainer.setOpaque(false);
         status = new StatusPane();
@@ -153,41 +176,81 @@ public class XTrexFrame extends JLayeredPane implements ActionListener {
 
         popupOverlayPane = deviceOverlay(notificationOverlayPane);
         add (popupOverlayPane, JLayeredPane.POPUP_LAYER);
-
-        dirPane.setDirectionPhrase("This is a thing that I wans to owahdwioajdawd");
-
         
     }
 
+    /**
+     * Used to simultaneously control the message displayed and the visibility of the notification popup.
+     * 
+     * @param enabled boolean used to control the visibility of the popup.
+     * @param message the string that the popup will display.
+     */
     public void notificationState(boolean enabled, String message) {
         notificationState(message);
         notificationState(enabled);
     }
 
+    /**
+     * Used to set the visibility of the popup.
+     * 
+     * @param enabled boolean used to control the visibility of the popup.
+     */
     public void notificationState(boolean enabled) {
         notification.setVisible(enabled);
     }
 
+    /**
+     * Used to set the message of the notificatoin popup.
+     * 
+     * @param message string which will be displayed in the popup.
+     */
     public void notificationState(String message) {
         notification.setText(message);
     }
 
+    /**
+     * Instance fetcher for the direction panel.
+     *
+     * @return the direction pane.
+     */
     public DirectionPane getDirectionPane() {
         return dirPane;
     }
 
+    /**
+     * Instance fetcher for the status panel.
+     *
+     * @return the status pane.
+     */
     public StatusPane getStatusPane(){
         return status;
     }
 
+    
+    /**
+     * Instance fetcher for the currently displayed screen.
+     *
+     * @return the current Screen's instance.
+     */
     public Screen getCurrentScreen() {
         return currentScreen;
     }
 
+
+    
+    /**
+     * Repaint function for updating the UI.
+     */
     public void refreshDisplay() {
         repaint();
     }
 
+    /**
+     * Switches current screen on display to provided screen.
+     * Switches the overlay panes on and off to match the appropriate screens.
+     * 
+     * @param screen the screen object instance which will be displayed.
+     */
     public void setScreen(Screen screen) {
         if (currentScreen != null)
             label.remove(currentScreen);
@@ -206,6 +269,11 @@ public class XTrexFrame extends JLayeredPane implements ActionListener {
         this.repaint();
     }
 
+    /**
+     * Configures the behaviour when the on-device buttons are pressed.
+     * 
+     * @param e action event that triggers behaviour.
+     */
     public void actionPerformed(ActionEvent e) {
 		Screen currentScreen = XTrexDisplay.getInstance().getCurrentScreen();
 

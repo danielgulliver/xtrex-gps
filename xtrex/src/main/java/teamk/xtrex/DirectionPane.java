@@ -3,22 +3,35 @@ package teamk.xtrex;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+
+/**
+ * Custom panel, displays two content panes to show the upcoming direction phrase and the distance to the next node.
+ * Provides ability to update the direction phrase and the distance to node.
+ * 
+ * @author Laurence Jones
+ */
 public class DirectionPane extends JPanel{
-    private JPanel container;
+    private static final long serialVersionUID = 6313613211796159252L;
+	private JPanel container;
     
+    /**
+     * Custom JLabel definition for use in the direction pane. Configures the labels to match the UI aesthetic and
+     * implements logic to text-wrap the text contextually.
+     * 
+     * @param label String that will be displayed in the label
+     * @param size Int the font size that the label will be displayed at.
+     */
     private class DirectionLabel extends JLabel{
-        DirectionLabel(String label, int size){
+        private static final long serialVersionUID = -7173025080827683931L;
+
+		DirectionLabel(String label, int size){
             super(label);
             setFont(new Font(Style.uiFont.getFamily(), Style.uiFont.getStyle(), size));
             setForeground(Style.ColorScheme.FONT);
@@ -27,6 +40,12 @@ public class DirectionPane extends JPanel{
             setVerticalAlignment(CENTER);
         }
 
+        /**
+         * Setter function used to set the label phrase. Includes logic to wrap the text to multiple lines,
+         * automatically adjusts the alignment mode of the text box to accomodate.
+         * 
+         * @param message String to be used for the label.
+         */
         public void setPhrase(String message){
             if (message.length() > 75){
                 setVerticalAlignment(TOP);
@@ -38,9 +57,12 @@ public class DirectionPane extends JPanel{
             
         }
 
+        /**
+         * Used specifically for the direction phrase, sets the width to 
+         * fit the remaining space left after the distance box resizes.
+         */
         public void resize(){
             setPreferredSize(new Dimension(Style.SCREEN_SIZE.width - distancePhrase.getPreferredSize().width - 10, 75));
-            //setPreferredSize(distancePhrase.getPreferredSize());
         }
 
     }
@@ -48,9 +70,9 @@ public class DirectionPane extends JPanel{
     private DirectionLabel directionPhrase;
     private DirectionLabel distancePhrase;
 
-    private JButton testbutton1 = new JButton("test1");
-    private JButton testbutton2 = new JButton("test2");
-
+    /**
+     * Constructor for the direction pane. Configures the labels and components for use in the UI.
+     */
     DirectionPane(){
         setLayout(new BorderLayout());
         setBorder(new EmptyBorder(5,5,5,5));
@@ -60,18 +82,8 @@ public class DirectionPane extends JPanel{
         directionPhrase = new DirectionLabel("", 15);
         distancePhrase = new DirectionLabel("0m", 30);
 
-        //container = new JPanel(new GridBagLayout());
         container = new JPanel(new BorderLayout());
         container.setBackground(Style.ColorScheme.CONTENT_BACK);
-        GridBagConstraints c = new GridBagConstraints();
-        // c.fill = GridBagConstraints.BOTH;
-        // c.gridwidth = 1;
-        // c.weighty = 1;
-        // c.weightx = 0.5;
-        // container.add(distancePhrase, c);
-        // c.weightx = 1;
-        //c.gridwidth = GridBagConstraints.REMAINDER;
-        //container.add(directionPhrase,c);
         
         directionPhrase.resize();
 
@@ -81,15 +93,30 @@ public class DirectionPane extends JPanel{
         add(container);
     }
 
+    /**
+     * Sets the phrase of the direction component.
+     * 
+     * @param direction String used to display in the component.
+     */
     public void setDirectionPhrase(String direction){
         directionPhrase.setPhrase(direction);
     }
 
+    /**
+     * Sets the distance in the panel, adds a meter unit "m" to the end of the int.
+     * 
+     * @param distance integer used to set the distance.
+     */
     public void setDistance(int distance){
         distancePhrase.setPhrase(Integer.toString(distance)+"m");
         directionPhrase.resize();
     }
 
+    /**
+     * Sets the visibility of the direction panel.
+     * 
+     * @param enabled boolean used to specify visibility.
+     */
     public void visible(boolean enabled){
         setVisible(enabled);
     }

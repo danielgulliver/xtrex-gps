@@ -12,19 +12,36 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.ImageIcon;
 
+
+/**
+ * Custom panel, displays three icons to provide connectivity to GPS, Speech and Map services.
+ * Provides ability to change the icons between green and red (available and unavailable).
+ * 
+ * @author Laurence Jones
+ */
 public class StatusPane extends JPanel{
-    
-    private boolean satCon;
-    private boolean speechCon;
-    private boolean mapCon;
 
-    private final int ICON_SIZE = 20;
+    private static final long serialVersionUID = 5046182138777298365L;
 
+	private final int ICON_SIZE = 20;
+
+    /**
+     * Custom JLabel, stores two icons and includes a custom method to switch between them.
+     */
     private class StatusIcon extends JLabel{
 
-        private ImageIcon icon;
+        private static final long serialVersionUID = -5098623875356784838L;
+		private ImageIcon icon;
         private ImageIcon errorIcon;
 
+        /**
+         * Constructor for StatusIcon, takes in the two icon names and a 
+         * resolution scale at which it will display them in the panel.
+         * 
+         * @param iconName primary "active" icon filename.
+         * @param altIconName secondary "disabled" icon filename.
+         * @param iconScale integer value used for height and width of the icon.
+         */
         public StatusIcon(String iconName, String altIconName, int iconScale){
             try{
 
@@ -43,6 +60,11 @@ public class StatusPane extends JPanel{
             }
         }
 
+        /**
+         * Switching function, used to switch between the two icons.
+         * 
+         * @param status boolean value, true sets it to the "active" icon, false sets it to "disabled".
+         */
         public void online(boolean status){
             if (status){
                 setIcon(icon);
@@ -57,8 +79,11 @@ public class StatusPane extends JPanel{
     private StatusIcon speech;
     private StatusIcon maps;
 
-    private JPanel container;
+    private JPanel container; //Positioning container for the icons.
 
+    /**
+     * Constructor for the StatusPane, configures the panel to display the icons correctly.
+     */
     public StatusPane(){
         container = new JPanel();
         container.setLayout(new GridLayout(1,0,5,5));
@@ -77,14 +102,29 @@ public class StatusPane extends JPanel{
 
     }
 
+    /**
+     * Switcher method for the satellite icon.
+     * 
+     * @param status boolean value to control the icon.
+     */
     public void satelliteAvailable(boolean status){
         satellite.online(status);
     }
 
+    /**
+     * Switcher method for the maps icon.
+     * 
+     * @param status boolean value to control the icon.
+     */
     public void mapsAvailable(boolean status){
         maps.online(status);
     }
 
+    /**
+     * Switcher method for the speech icon.
+     * 
+     * @param status boolean value to control the icon.
+     */
     public void speechAvailable(boolean status){
         speech.online(status);
     }

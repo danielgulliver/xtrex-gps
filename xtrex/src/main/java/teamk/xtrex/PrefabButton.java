@@ -4,21 +4,22 @@ import javax.swing.JButton;
 
 import javax.swing.BorderFactory;
 
+/**
+ * Custom extension from JButton, adds custom styling to match the aesthetic of the device, 
+ * adds the action() and selected() functions for use in the SelectionController system.
+ */
 public class PrefabButton extends JButton {
 
     private static final long serialVersionUID = -5302854073581656523L;
     
 	public String displayedString = "";
-
-    /*public PrefabButton(String displayString, int x, int y, int width, int height){
-        displayString = displayString == null ? "" : displayString;
-        width = width == 0 ? 40 : width;
-        height = height == 0 ? 40 : height;
-
-        setBounds(x,y,width,height);
-        displayedString = displayString;
-    }*/
     
+    /**
+     * Constructor for the PrefabButtons. Configures the aesthetic of the button and sets the
+     * text to the provided string.
+     * 
+     * @param displayString the string the button label will be set to.
+     */
     public PrefabButton(String displayString) {
     	this.displayedString = displayString;
     	setText(displayedString);
@@ -30,6 +31,11 @@ public class PrefabButton extends JButton {
         setBorder(BorderFactory.createCompoundBorder(getBorder(), BorderFactory.createLineBorder(Style.ColorScheme.CONTENT_BORDER, 2)));
     }
 
+    /**
+     * Alters the aesthetic of the button when the button's "selected" value is true.
+     * 
+     * @param isSelected boolean used to chcoose the "selected" status.
+     */
     public void selected(boolean isSelected) {
         if (isSelected) {
             setBackground(Style.ColorScheme.ACCENT);
@@ -40,6 +46,10 @@ public class PrefabButton extends JButton {
         }
     }
 
+    /**
+     * Stub function, to be extended by all extensions of PrefabButtons to add their own functionality to it.
+     * Called by the SelectionController system when a button is "clicked".
+     */
     public void action() {
         
     }
