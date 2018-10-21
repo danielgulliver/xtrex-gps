@@ -141,7 +141,7 @@ Then, in order to run the program, you'll need to run `teamk/xtrex/xtrex` from
 the `Xtrex/xtrex/target/classes/` directory:
 
 ```bash
-daniel@laptop ~/XTrex/xtrex cd daniel@laptop ~/XTrex/xtrex
+daniel@laptop ~/XTrex/xtrex cd /target/classes
 daniel@laptop ~/XTrex/xtrex/target/classes java teamk.xtrex.xtrex
 ```
 
