@@ -2,8 +2,8 @@
 
 The XTrex is a software simulation of a GPS tracking device that looks
 suspiciously like a product previously sold by Garmin. The user is able to
-enter a destination and be provided with all of the information they need to be
-able to find and reach their destination.
+enter a destination and is then provided with all of the information they
+need to be able to find and reach their destination.
 
 The software was written in Java and runs on Windows, Mac, and Linux. It
 requires an internet connection in order to run. For full functionality, a
@@ -145,7 +145,7 @@ daniel@laptop ~/XTrex/xtrex cd /target/classes
 daniel@laptop ~/XTrex/xtrex/target/classes java teamk.xtrex.xtrex
 ```
 
-If the GPS dongle, is not plugged in, you will need to pass the parameter
+If the GPS dongle is not plugged in, you will need to pass the parameter
 `false` to the program:
 
 ```bash
